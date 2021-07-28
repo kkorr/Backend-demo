@@ -36,3 +36,6 @@ build/
 ### log ###
 *.log
 *.gz
+
+### properties ###
+!**/main/resources/application.properties
