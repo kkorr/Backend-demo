@@ -1,5 +1,7 @@
 package com.amr.project.webapp.rest_controller;
 
+import com.amr.project.converter.ItemMapper;
+import com.amr.project.converter.ShopMapper;
 import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.entity.Item;
@@ -35,11 +37,11 @@ public class SellerRestController {
     }
 
     @GetMapping("/{shopIdOrName}/settings")
-    public ResponseEntity<Shop> getShop(@PathVariable("shopIdOrName") String shopIdOrName) {
+    public ResponseEntity<ShopDto> getShop(@PathVariable("shopIdOrName") String shopIdOrName) {
         if (isNumeric(shopIdOrName)) {
-            return new ResponseEntity<>(shopService.findShopById(Long.parseLong(shopIdOrName)), HttpStatus.OK);
+            return new ResponseEntity<>(ShopMapper.INSTANCE.shopToShopDto(shopService.findShopById(Long.parseLong(shopIdOrName))), HttpStatus.OK);
         }
-        return new ResponseEntity<>(shopService.findShopByName(shopIdOrName), HttpStatus.OK);
+        return new ResponseEntity<>(ShopMapper.INSTANCE.shopToShopDto(shopService.findShopByName(shopIdOrName)), HttpStatus.OK);
     }
 
     @PatchMapping(value = "/{shopIdOrName}/settings")
@@ -64,11 +66,11 @@ public class SellerRestController {
     }
 
     @GetMapping(value = "/{shopIdOrName}/product/{productIdOrName}/edit")
-    public ResponseEntity<Item> getProduct(@PathVariable String productIdOrName, @PathVariable String shopIdOrName) {
+    public ResponseEntity<ItemDto> getProduct(@PathVariable String productIdOrName, @PathVariable String shopIdOrName) {
         Shop shop = isNumeric(shopIdOrName) ? shopService.findShopById(Long.parseLong(shopIdOrName)) : shopService.findShopByName(shopIdOrName);
         Item item = isNumeric(productIdOrName) ? itemService.findItemById(Long.parseLong(productIdOrName)) : itemService.findItemByName(productIdOrName);
         boolean isShopItem = shop.getItems().contains(item);
-        return isShopItem ? new ResponseEntity<>(item, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return isShopItem ? new ResponseEntity<>(ItemMapper.INSTANCE.itemToItemDto(item), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PatchMapping(value = "/{shopIdOrName}/product/{productIdOrName}/edit")
@@ -88,8 +90,7 @@ public class SellerRestController {
         Item item = isNumeric(productIdOrName) ? itemService.findItemById(Long.parseLong(productIdOrName)) : itemService.findItemByName(productIdOrName);
         boolean isShopItem = shop.getItems().contains(item);
         if (isShopItem) {
-            shop.getItems().remove(item);
-            itemService.delete(item.getId());
+            item.setPretendentToBeDeleted(true);
             shopService.save(shop);
         }
         return isShopItem ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);

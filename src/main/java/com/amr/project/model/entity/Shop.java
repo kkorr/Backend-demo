@@ -98,6 +98,9 @@ public class Shop {
     @Transient
     private MultipartFile file;
 
+    @Column
+    private boolean isPretendentToBeDeleted = false;
+
     public Shop(String name, String email, String phone, String description) {
         this.name = name;
         this.email = email;

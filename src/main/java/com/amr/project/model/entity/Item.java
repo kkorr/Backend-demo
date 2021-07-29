@@ -89,23 +89,6 @@ public class Item {
     @Column(name = "moderated_reject_reason")
     private String moderatedRejectReason;
 
-    @Override
-    public String toString() {
-        return "Item{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", categories=" + categories +
-                ", images=" + images +
-                ", reviews=" + reviews +
-                ", count=" + count +
-                ", rating=" + rating +
-                ", description='" + description + '\'' +
-                ", discount=" + discount +
-                ", shop=" + (shop == null ? "NO SHOP" : shop.getId()) +
-                ", isModerated=" + isModerated +
-                ", isModerateAccept=" + isModerateAccept +
-                ", moderatedRejectReason='" + moderatedRejectReason + '\'' +
-                '}';
-    }
+    @Column(name = "is_pretendent_to_be_deleted")
+    private boolean isPretendentToBeDeleted = false;
 }
