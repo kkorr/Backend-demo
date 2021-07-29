@@ -27,6 +27,13 @@ import java.util.Collection;
 @NoArgsConstructor
 @ApiIgnore
 public class Item {
+    public Item(String name, BigDecimal price, int count, double rating, String description) {
+        this.name = name;
+        this.price = price;
+        this.count = count;
+        this.rating = rating;
+        this.description = description;
+    }
 
     @Id
     @Column(name = "id")
@@ -81,4 +88,24 @@ public class Item {
 
     @Column(name = "moderated_reject_reason")
     private String moderatedRejectReason;
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", categories=" + categories +
+                ", images=" + images +
+                ", reviews=" + reviews +
+                ", count=" + count +
+                ", rating=" + rating +
+                ", description='" + description + '\'' +
+                ", discount=" + discount +
+                ", shop=" + (shop == null ? "NO SHOP" : shop.getId()) +
+                ", isModerated=" + isModerated +
+                ", isModerateAccept=" + isModerateAccept +
+                ", moderatedRejectReason='" + moderatedRejectReason + '\'' +
+                '}';
+    }
 }

@@ -1,5 +1,6 @@
 package com.amr.project.model.dto;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @ApiIgnore
+@Data
 public class ItemDto {
 
     private Long id;

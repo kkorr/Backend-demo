@@ -3,6 +3,7 @@ package com.amr.project.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -96,4 +97,11 @@ public class Shop {
 
     @Transient
     private MultipartFile file;
+
+    public Shop(String name, String email, String phone, String description) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.description = description;
+    }
 }
