@@ -25,31 +25,26 @@ public abstract class ReadWriteDAOImpl<E,K> implements ReadWriteDAO<E,K> {
 
 
     @Override
-    @Transactional
     public void persist(E e) {
         entityManager.persist(e);
     }
 
     @Override
-    @Transactional
     public void update(E e) {
         entityManager.merge(e);
     }
 
     @Override
-    @Transactional
     public void delete(E e) {
         entityManager.remove(e);
     }
 
     @Override
-    @Transactional
     public void deleteByKeyCascadeEnable(K id) {
         entityManager.remove(entityManager.find(clazz, id));
     }
 
     @Override
-    @Transactional
     public void deleteByKeyCascadeIgnore(K id) {
         Query query = entityManager.createQuery(
                 "DELETE FROM " + clazz.getName() + " e WHERE e.id = :id");
