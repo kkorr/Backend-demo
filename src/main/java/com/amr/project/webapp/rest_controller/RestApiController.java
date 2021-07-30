@@ -17,22 +17,28 @@ import java.util.Set;
 @RestController("/api")
 public class RestApiController {
 
-    private UserService userService;
-    private RoleService roleService;
+    private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
-    public RestApiController(UserService userService) {
+    public RestApiController(UserService userService,
+                             RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @PostMapping("/save")
     public User registerUser(@RequestBody UserDto userDto) {
-        if(userDto.getUsername().equals(userService.findByUsername(userDto.getUsername()))) {
+
+        //TODO как можно сравнивать имя пользователя и Optional объект? у тебя всегда будет false
+        if (userDto.getUsername().equals(userService.findByUsername(userDto.getUsername()))) {
             throw new IllegalArgumentException("Пользователь с таким именем уже существует");
         }
-        User user = UserMapper.INSTANCE.dtoToUser(userDto);
-        // Вытащить роль Юзера с БД
-        Role role = roleService.getByKey(1L);
+
+        //TODO проверь постманом чтобы мапились все поля юзера
+        var user = UserMapper.INSTANCE.dtoToUser(userDto);
+        //TODO это хрень, мы не знаем под каким id будет юзер в БД, нужно искать по имени!
+        var role = roleService.getByKey(1L);
         Set<Role> roles = new HashSet<>();
         roles.add(role);
         user.setRoles(roles);
