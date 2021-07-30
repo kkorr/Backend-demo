@@ -1,15 +1,14 @@
 package com.amr.project.service.impl;
 
-import com.amr.project.dao.abstracts.RoleDao;
-import com.amr.project.dao.abstracts.UserDao;
+import com.amr.project.dao.abstracts.ReadWriteDAO;
 import com.amr.project.model.entity.Role;
-import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.RoleService;
-import com.amr.project.service.abstracts.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
+@Service
 public class RoleServiceImpl extends ReadWriteServiceImpl<Role, Long> implements RoleService {
 
+    public RoleServiceImpl(ReadWriteDAO<Role, Long> readWriteDAO) {
+        super(readWriteDAO);
+    }
 }
