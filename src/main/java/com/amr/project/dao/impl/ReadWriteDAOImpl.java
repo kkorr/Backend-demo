@@ -14,7 +14,7 @@ import java.util.List;
 public abstract class ReadWriteDAOImpl<E,K> implements ReadWriteDAO<E,K> {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     private Class<E> clazz;
 
