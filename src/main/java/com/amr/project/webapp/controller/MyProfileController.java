@@ -1,5 +1,7 @@
 package com.amr.project.webapp.controller;
 
+import com.amr.project.converter.UserConverter;
+import com.amr.project.model.dto.UserDto;
 import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.UserService;
 import org.springframework.stereotype.Controller;
@@ -11,19 +13,23 @@ import org.springframework.web.bind.annotation.*;
 public class MyProfileController {
 
     private final UserService userService;
+    private final UserConverter userConverter;
 
-    public MyProfileController(UserService userService) {
+    public MyProfileController(UserService userService, UserConverter userConverter) {
         this.userService = userService;
+        this.userConverter = userConverter;
     }
 
-    @GetMapping()
-    public String getProfile(Model model) {
-        model.addAttribute("user", userService.getUser());
+    @GetMapping("/{id}")
+    public String getProfile(@PathVariable("id") long id, Model model) {
+        UserDto userDto = userConverter.toDto(userService.getUser(id));
+        model.addAttribute("user", userDto);
         return "myProfile";
     }
 
     @PatchMapping("/edit")
-    public String editProfile(@ModelAttribute User user) {
+    public String editProfile(@ModelAttribute UserDto userDto) {
+        User user = userConverter.toEntity(userDto);
         userService.editUser(user);
         return "redirect:/myprofile";
     }
