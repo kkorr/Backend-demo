@@ -22,7 +22,7 @@ public class MyProfileController {
 
     @GetMapping("/{id}")
     public String getProfile(@PathVariable("id") long id, Model model) {
-        UserDto userDto = userConverter.toDto(userService.getUser(id));
+        UserDto userDto = userConverter.toDto(userService.getByKey(id));
         model.addAttribute("user", userDto);
         return "myProfile";
     }
@@ -30,13 +30,7 @@ public class MyProfileController {
     @PatchMapping("/edit")
     public String editProfile(@ModelAttribute UserDto userDto) {
         User user = userConverter.toEntity(userDto);
-        userService.editUser(user);
-        return "redirect:/myprofile";
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public String deleteProfile(@PathVariable("id") long id) {
-        userService.deleteUser(id);
+        userService.update(user);
         return "redirect:/myprofile";
     }
 }
