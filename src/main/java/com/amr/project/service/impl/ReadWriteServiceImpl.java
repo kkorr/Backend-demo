@@ -8,11 +8,11 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public abstract class ReadWriteServiceImpl<E,K> implements ReadWriteService<E,K> {
+public abstract class ReadWriteServiceImpl<E, K> implements ReadWriteService<E, K> {
 
-    private final ReadWriteDAO<E,K> readWriteDAO;
+    private final ReadWriteDAO<E, K> readWriteDAO;
 
-    public ReadWriteServiceImpl(ReadWriteDAO<E,K> readWriteDAO) {
+    protected ReadWriteServiceImpl(ReadWriteDAO<E, K> readWriteDAO) {
         this.readWriteDAO = readWriteDAO;
     }
 
