@@ -19,7 +19,6 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
         this.userDao = userDao;
     }
 
-
     public Optional<User> findByUsername(String username) {
         return  userDao.findByUsername(username);
     };
