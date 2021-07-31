@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Registration form</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+  <script type="text/javascript" src="http://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=tfDol-KK5KwGeA2qaK2ExD3dCOE4Zk5sji0wIcNEBUJg356w10R8S0v54MhaY8Ri" charset="UTF-8"></script>
+</head>
+<body>
+<div class="container">
+  <h1>Ваша корзина товаров:</h1>
+  <br>
+  <div class="row" id="cardItems">
+    <div class="col-9">
+      <div class="row border rounded" id="cartItem">
+        <div class="col-2">
+          <div>1</div>
+          <div><a href=""><img src="https://static.thenounproject.com/png/147529-200.png" class="img-fluid"
+          width="25" height="25"/></a></div>
+        </div>
+        <div class="col-3">
+          <img src="http://i1.adis.ws/i/canon/eos-r6-rf24-105mm-f4_7.1_is_stm_front-on_square_6412568cc0e7484b96bd55e43069a56c" class="img-fluid" />
+        </div>
+        <div class="col-7">
+          <p id="itemName">name</p>
+          <p id="itemDescription">description</p>
+          <div><input type="number" id="cartItemQuantity" value=""class="form-control" /></div>
+          <div>
+            <span>X</span>
+            <span id="itemPrice">$100.00</span>
+          </div>
+          <p><span>= </span><span id="itemTotalPrice">$200.00</span></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <h2>Итоговая сумма:</h2>
+      <h2>$1.900</h2>
+      <input type="submit" class="btn btn-primary" value="Перейти к оплате"/>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" th:src="@{js/cart.js}" src="../static/js/cart.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+</body>
+</html>

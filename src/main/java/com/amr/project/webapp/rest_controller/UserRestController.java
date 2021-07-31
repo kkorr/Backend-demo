@@ -17,14 +17,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 @RestController
-@RequestMapping(("/api"))
-public class RestUserController {
+@RequestMapping("/api")
+public class UserRestController {
 
     private final UserService userService;
     private final RoleService roleService;
 
     @Autowired
-    public RestUserController(UserService userService,
+    public UserRestController(UserService userService,
                               RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
