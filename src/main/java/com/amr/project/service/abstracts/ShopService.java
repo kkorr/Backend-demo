@@ -10,17 +10,10 @@ import java.util.List;
  * @author denisqaa on 28.07.2021.
  * @project platform
  */
-@Service
-public interface ShopService {
+
+
+public interface ShopService extends ReadWriteService<Shop, Long>{
     Shop findShopById(Long id);
 
     Shop findShopByName(String name);
-
-    void save(Shop shop);
-
-    void delete(Shop shop);
-
-    void update(Shop shop);
-
-    List<Shop> findAll();
 }

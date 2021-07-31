@@ -16,10 +16,12 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
-public class ItemServiceImpl implements ItemService {
+public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long>
+        implements ItemService {
     private final ItemDao itemDao;
 
     public ItemServiceImpl(ItemDao itemDao) {
+        super(itemDao);
         this.itemDao = itemDao;
     }
 
@@ -33,23 +35,4 @@ public class ItemServiceImpl implements ItemService {
         return itemDao.findItemByName(name);
     }
 
-    @Override
-    public void save(Item item) {
-        itemDao.save(item);
-    }
-
-    @Override
-    public void delete(Long id) {
-        itemDao.delete(itemDao.findItemById(id));
-    }
-
-    @Override
-    public void update(Item item) {
-        itemDao.save(item);
-    }
-
-    @Override
-    public List<Item> findAll() {
-        return itemDao.findAll();
-    }
 }

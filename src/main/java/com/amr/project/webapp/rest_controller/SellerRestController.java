@@ -58,10 +58,10 @@ public class SellerRestController {
         if (items == null) {
             items = new ArrayList<>();
         }
-        itemService.save(item);
+        itemService.persist(item);
         items.add(item);
         shop.setItems(items);
-        shopService.save(shop);
+        shopService.update(shop);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -80,7 +80,7 @@ public class SellerRestController {
         item = itemBody;
         item.setShop(shop);
         itemService.update(item);
-        shopService.save(shop);
+        shopService.update(shop);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -91,7 +91,7 @@ public class SellerRestController {
         boolean isShopItem = shop.getItems().contains(item);
         if (isShopItem) {
             item.setPretendentToBeDeleted(true);
-            shopService.save(shop);
+            shopService.persist(shop);
         }
         return isShopItem ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

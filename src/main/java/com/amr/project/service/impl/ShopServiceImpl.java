@@ -15,12 +15,13 @@ import java.util.stream.Collectors;
  * @project platform
  */
 @Service
-@Transactional
-public class ShopServiceImpl implements ShopService {
+public class ShopServiceImpl extends ReadWriteServiceImpl<Shop, Long>
+        implements ShopService  {
 
     private final ShopDao shopDao;
 
     public ShopServiceImpl(ShopDao shopDao) {
+        super(shopDao);
         this.shopDao = shopDao;
     }
 
@@ -32,25 +33,5 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public Shop findShopByName(String name) {
         return shopDao.findShopByName(name);
-    }
-
-    @Override
-    public void save(Shop shop) {
-        shopDao.save(shop);
-    }
-
-    @Override
-    public void delete(Shop shop) {
-        shopDao.delete(shop);
-    }
-
-    @Override
-    public void update(Shop shop) {
-        shopDao.save(shop);
-    }
-
-    @Override
-    public List<Shop> findAll() {
-        return shopDao.findAll();
     }
 }
