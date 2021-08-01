@@ -1,8 +1,12 @@
 package com.amr.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.CascadeType;
@@ -25,7 +29,9 @@ import java.util.Collection;
 @Table(name = "item")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @ApiIgnore
+@Builder
 public class Item {
 
     @Id
@@ -70,7 +76,7 @@ public class Item {
     private int discount;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Shop shop;
 
     @Column(name = "is_moderated")
