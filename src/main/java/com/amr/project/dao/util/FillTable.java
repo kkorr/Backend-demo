@@ -1,11 +1,9 @@
 package com.amr.project.dao.util;
 
-import com.amr.project.dao.abstracts.ShopDao;
 import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.service.abstracts.ItemService;
 import com.amr.project.service.abstracts.ShopService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;

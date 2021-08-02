@@ -1,12 +1,10 @@
 package com.amr.project.converter;
 
-import com.amr.project.model.entity.Category;
 import com.amr.project.model.entity.Image;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 
 /**
  * @author denisqaa on 29.07.2021.

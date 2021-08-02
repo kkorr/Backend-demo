@@ -1,14 +1,10 @@
 package com.amr.project.service.impl;
 
 import com.amr.project.dao.abstracts.ItemDao;
-import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.entity.Item;
 import com.amr.project.service.abstracts.ItemService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author denisqaa on 28.07.2021.

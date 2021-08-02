@@ -1,6 +1,5 @@
 package com.amr.project.converter;
 
-import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.Review;
 import com.amr.project.model.entity.Shop;
 import org.mapstruct.Mapper;

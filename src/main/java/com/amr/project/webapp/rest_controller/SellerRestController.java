@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author denisqaa on 28.07.2021.
@@ -24,16 +23,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/seller/api")
 public class SellerRestController {
 
-    private static boolean isNumeric(String str) {
-        return str.chars().allMatch(Character::isDigit);
-    }
-
     private final ShopService shopService;
     private final ItemService itemService;
-
     public SellerRestController(ShopService shopService, ItemService itemService) {
         this.shopService = shopService;
         this.itemService = itemService;
+    }
+
+    private static boolean isNumeric(String str) {
+        return str.chars().allMatch(Character::isDigit);
     }
 
     @GetMapping("/{shopIdOrName}/settings")

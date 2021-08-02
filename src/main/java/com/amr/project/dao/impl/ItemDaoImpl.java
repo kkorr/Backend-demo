@@ -5,7 +5,7 @@ import com.amr.project.model.entity.Item;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ItemDAOImpl extends ReadWriteDAOImpl<Item, Long> implements ItemDao {
+public class ItemDaoImpl extends ReadWriteDAOImpl<Item, Long> implements ItemDao {
     @Override
     public Item findItemById(Long id) {
         return entityManager.createQuery("SELECT i from Item i where i.id = :id", Item.class)
