@@ -1,6 +1,8 @@
 package com.amr.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import springfox.documentation.annotations.ApiIgnore;
@@ -25,7 +27,9 @@ import java.util.Collection;
 @Table(name = "item")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @ApiIgnore
+@Builder
 public class Item {
 
     @Id
@@ -51,7 +55,7 @@ public class Item {
             inverseJoinColumns = {@JoinColumn(name = "image_id")})
     private Collection<Image> images;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "item_review",
             joinColumns = {@JoinColumn(name = "item_id")},
             inverseJoinColumns = {@JoinColumn(name = "review_id")})
@@ -70,7 +74,10 @@ public class Item {
     private int discount;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "shop_item",
+            joinColumns = {@JoinColumn(name = "item_id")},
+            inverseJoinColumns = {@JoinColumn(name = "shop_id")})
     private Shop shop;
 
     @Column(name = "is_moderated")
