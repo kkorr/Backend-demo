@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Registration form</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+    <script type="text/javascript" src="http://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=tfDol-KK5KwGeA2qaK2ExD3dCOE4Zk5sji0wIcNEBUJg356w10R8S0v54MhaY8Ri" charset="UTF-8"></script>
+</head>
+<body>
+<div class="container text-center fw-bold">
+    <h1>Форма регистрации</h1>
+    <form onsubmit="saveUser()">
+        <div class="row justify-content-center">
+            <div class="form-group col-6">
+                <label class="form-label" for="first_nameSave">Имя пользователя</label>
+                <input class="form-control" type="text" value="" id="usernameSave" required minlength="4" placeholder="Введите имя пользователя">
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="form-group col-6">
+                <label class="form-label" for="emailSave">Адрес электронной почты</label>
+                <input class="form-control" type="email" value="" id="emailSave" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" title="в формате user@example.com" required placeholder="Введите адрес электронной почты">
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="form-group col-6">
+                <label class="form-label" for="passwordSave">Пароль</label>
+                <input class="form-control" type="password" value="" id="passwordSave" required minlength="6"  placeholder="Введите пароль">
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="form-group col-6">
+                <label class="form-label" for="phoneSave">Номер телефона</label>
+                <input class="form-control" type="text" value="" id="phoneSave" required minlength="11" pattern="[0-9]+" title="указать цифрами" placeholder="Введите номер телефона">
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="form-group col-6">
+                <label class="form-label" for="first_nameSave">Имя</label>
+                <input class="form-control" type="text" value="" id="first_nameSave" placeholder="Введите имя">
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="form-group col-6">
+                <label class="form-label" for="last_nameSave">Фамилия</label>
+                <input class="form-control" type="text" value="" id="last_nameSave" placeholder="Введите фамилию">
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="form-group col-6">
+                <label class="form-label" for="ageSave">Возраст</label>
+                <input class="form-control" type="number" value="" id="ageSave" placeholder="Введите возраст">
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="form-group col-2">
+                <label class="form-label" for="countrySave">Страна</label>
+                <input class="form-control" type="text" value="" id="countrySave" placeholder="Введите страну">
+            </div>
+            <div class="form-group col-2">
+                <label class="form-label" for="citySave">Город</label>
+                <input class="form-control" type="text" value="" id="citySave" placeholder="Введите город">
+            </div>
+            <div class="form-group col-2">
+                <label class="form-label" for="cityIndexSave">Индекс города</label>
+                <input class="form-control" type="text" value="" id="cityIndexSave" placeholder="Введите индекс города">
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="form-group col-2">
+                <label class="form-label" for="streetSave">Улица</label>
+                <input class="form-control" type="text" value="" id="streetSave" placeholder="Введите улицу">
+            </div>
+            <div class="form-group col-2">
+                <label class="form-label" for="houseSave">Номер дома</label>
+                <input class="form-control" type="text" value="" id="houseSave" placeholder="Введите номер дома">
+            </div>
+            <div class="form-group col-2">
+                <label class="form-label" for="birthdaySave">Дата рождения</label>
+                <input class="form-control" type="date" value="" id="birthdaySave">
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="form-group col-6">
+                <label class="form-label" for="genderSave">Выберите пол:</label>
+                <br>
+                <select class="form-select" size="3" id="genderSave" name="gender" required>
+                    <option id="ManSave" value="MALE">Мужчина</option>
+                    <option id="WomanSave" value="FEMALE">Женщина</option>
+                    <option id="NoGenderSave" value="UNKNOWN">Не определен</option>
+                </select>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="form-group col-6">
+                <input type="submit" class="btn btn-primary" value="Зарегистрироваться"/>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" th:src="@{js/main.js}" src="../static/js/main.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+</body>
+</html>
