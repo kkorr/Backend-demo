@@ -74,7 +74,10 @@ public class Item {
     private int discount;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "shop_item",
+            joinColumns = {@JoinColumn(name = "item_id")},
+            inverseJoinColumns = {@JoinColumn(name = "shop_id")})
     private Shop shop;
 
     @Column(name = "is_moderated")

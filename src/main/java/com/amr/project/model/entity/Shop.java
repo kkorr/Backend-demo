@@ -77,6 +77,9 @@ public class Shop {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_shop",
+            joinColumns = {@JoinColumn(name = "shop_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")})
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

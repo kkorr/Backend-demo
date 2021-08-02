@@ -3,6 +3,7 @@ package com.amr.project.service.impl;
 import com.amr.project.model.entity.*;
 import com.amr.project.model.enums.Gender;
 import com.amr.project.service.abstracts.*;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,12 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Files;
 import java.util.*;
 
 @Service
@@ -54,303 +52,50 @@ public class TestDataEntityService {
         createAddressEntity();
         createUserEntity();
         createCategoryEntity();
-        createItemEntity();
         createShopEntity();
+        createItemEntity();
     }
 
+
+    @SneakyThrows
     private void createImageEntity() {
+        URL[] urls = new URL[24];
         //shops
-        URL imageURL = null;
-        try {
-            imageURL = new URL("https://epicris.ru/wp-content/uploads/blackfriday/beru.jpg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image);
-
-        try {
-            imageURL = new URL("https://epicris.ru/wp-content/uploads/blackfriday/lamoda.jpg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image1 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image1);
-
-        try {
-            imageURL = new URL("https://cdn.toy.ru/bitrix/templates/toy_2018/img/logo_forever.png");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image2 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image2);
-
-        try {
-            imageURL = new URL("https://epicris.ru/wp-content/uploads/blackfriday/aliexpress.jpg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image3 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image3);
-
+        urls[0] = new URL("https://epicris.ru/wp-content/uploads/blackfriday/beru.jpg");
+        urls[1] = new URL("https://epicris.ru/wp-content/uploads/blackfriday/lamoda.jpg");
+        urls[2] = new URL("https://cdn.toy.ru/bitrix/templates/toy_2018/img/logo_forever.png");
+        urls[3] = new URL("https://epicris.ru/wp-content/uploads/blackfriday/aliexpress.jpg");
         //items
-        try {
-            imageURL = new URL("https://electrozon.ru/upload/resize/a2/a29cfb05d60445f0a31697029fe1be33_620x500.jpg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image4 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image4);
+        urls[4] = new URL("https://electrozon.ru/upload/resize/a2/a29cfb05d60445f0a31697029fe1be33_620x500.jpg");
+        urls[5] = new URL("https://uk.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-transparent-3d-monogram-raincoat-ready-to-wear--FFCO16HSL900_PM2_Front%20view.jpg");
+        urls[6] = new URL("https://img1.wbstatic.net/big/new/9760000/9765957-1.jpg");
+        urls[7] = new URL("https://www.opticmall.ru/assets/images/products/3908/2132-622-17.jpg");
+        urls[8] = new URL("https://pe-shop.ru/pictures/product/big/6045_big.jpg");
+        urls[9] = new URL("https://cdn-images.farfetch-contents.com/13/29/99/20/13299920_14933337_480.jpg");
+        urls[10] = new URL("https://cdn.rbt.ru/images/gen/item_image/image/8507/23/850668_r7634.jpg");
+        urls[11] = new URL("https://www.ikea.com/ru/ru/images/products/friheten-ugl-div-krov-s-otd-d-hran-shiftebu-bezhevyy__0175606_pe328882_s5.jpg");
+        urls[12] = new URL("https://www.ikea.com/ru/ru/images/products/vedbo-vedbu-stul-bereza-gunnared-klassicheskiy-seryy__0766041_pe753693_s5.jpg");
+        urls[13] = new URL("https://www.ikea.com/ru/ru/images/products/klappa-myagkaya-igrushka-myach-raznocvetnyy__0873096_pe682670_s5.jpg?f=xxs");
+        urls[14] = new URL("https://www.ikea.com/ru/ru/images/products/gulligast-gulligest-mobil__0923957_pe788456_s5.jpg");
+        urls[15] = new URL("https://img.mvideo.ru/Pdb/20064335b.jpg");
+        urls[16] = new URL("https://img.mvideo.ru/Pdb/20057032b1.jpg");
+        urls[17] = new URL("https://static.onlinetrade.ru/img/items/s/blender_braun_mq_535_pogrugnoy_1.jpg");
+        urls[18] = new URL("https://cdn1.ozone.ru/s3/multimedia-e/6004415198.jpg");
+        urls[19] = new URL("https://static.onlinetrade.ru/img/items/m/samsung_galaxy_s21_ultra_5g_512gb_chernyy_fantom_1590946_5.jpg");
+        urls[20] = new URL("https://drive-boom.ru/gallery/kia/photo/kia-ceed-2012-19008sm.jpeg");
+        urls[21] = new URL("https://hundaj.ru/im/hendaj-solyaris-hetchbek/hendaj-solyaris-hetchbek-1.jpeg");
+        urls[22] = new URL("https://static.onlinetrade.ru/img/items/b/botinki_timberland_tbla2eduw_zhenskie_tsvet_korichnevyy_razmer_6_1527950_2.jpg");
+        urls[23] = new URL("https://i.pinimg.com/originals/a8/f8/53/a8f853e94e56ed8da0e7b766a2202408.jpg");
 
-        try {
-            imageURL = new URL("https://uk.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-transparent-3d-monogram-raincoat-ready-to-wear--FFCO16HSL900_PM2_Front%20view.jpg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image5 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image5);
-
-        try {
-            imageURL = new URL("https://img1.wbstatic.net/big/new/9760000/9765957-1.jpg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image6 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image6);
-
-        try {
-            imageURL = new URL("https://www.opticmall.ru/assets/images/products/3908/2132-622-17.jpg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image7 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image7);
-
-        try {
-            imageURL = new URL("https://pe-shop.ru/pictures/product/big/6045_big.jpg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image8 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image8);
-
-        try {
-            imageURL = new URL("https://cdn-images.farfetch-contents.com/13/29/99/20/13299920_14933337_480.jpg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image9 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image9);
-
-        try {
-            imageURL = new URL("https://cdn.rbt.ru/images/gen/item_image/image/8507/23/850668_r7634.jpg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image10 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image10);
-
-        try {
-            imageURL = new URL("https://www.ikea.com/ru/ru/images/products/friheten-ugl-div-krov-s-otd-d-hran-shiftebu-bezhevyy__0175606_pe328882_s5.jpg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image11 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image11);
-
-        try {
-            imageURL = new URL("https://www.ikea.com/ru/ru/images/products/vedbo-vedbu-stul-bereza-gunnared-klassicheskiy-seryy__0766041_pe753693_s5.jpg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image12 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image12);
-
-        try {
-            imageURL = new URL("https://www.ikea.com/ru/ru/images/products/klappa-myagkaya-igrushka-myach-raznocvetnyy__0873096_pe682670_s5.jpg?f=xxs");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image13 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image13);
-
-        try {
-            imageURL = new URL("https://www.ikea.com/ru/ru/images/products/gulligast-gulligest-mobil__0923957_pe788456_s5.jpg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image14 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image14);
-
-        try {
-            imageURL = new URL("https://img.mvideo.ru/Pdb/20064335b.jpg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image15 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image15);
-
-        try {
-            imageURL = new URL("https://img.mvideo.ru/Pdb/20057032b1.jpg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image16 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image16);
-
-        try {
-            imageURL = new URL("https://static.onlinetrade.ru/img/items/s/blender_braun_mq_535_pogrugnoy_1.jpg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image17 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image17);
-
-        try {
-            imageURL = new URL("https://cdn1.ozone.ru/s3/multimedia-e/6004415198.jpg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image18 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image18);
-
-        try {
-            imageURL = new URL("https://static.onlinetrade.ru/img/items/m/samsung_galaxy_s21_ultra_5g_512gb_chernyy_fantom_1590946_5.jpg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image19 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image19);
-
-        try {
-            imageURL = new URL("https://drive-boom.ru/gallery/kia/photo/kia-ceed-2012-19008sm.jpeg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image20 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image20);
-
-        try {
-            imageURL = new URL("https://hundaj.ru/im/hendaj-solyaris-hetchbek/hendaj-solyaris-hetchbek-1.jpeg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image21 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image21);
-
-        try {
-            imageURL = new URL("https://static.onlinetrade.ru/img/items/b/botinki_timberland_tbla2eduw_zhenskie_tsvet_korichnevyy_razmer_6_1527950_2.jpg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image22 = Image.builder()
-                .url(imageURL.toString())
-                .picture(downloadImage(imageURL))
-                .isMain(true)
-                .build();
-        imageService.persist(image22);
-
-
-        try {
-            imageURL = new URL("https://i.pinimg.com/originals/a8/f8/53/a8f853e94e56ed8da0e7b766a2202408.jpg");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Image image23 = Image.builder()
-                    .url(imageURL.toString())
-                    .picture(downloadImage(imageURL))
+        for (URL url:
+             urls) {
+            Image image = Image.builder()
+                    .url(url.toString())
+                    .picture(downloadImage(url))
                     .isMain(true)
                     .build();
-            imageService.persist(image23);
-
+            imageService.persist(image);
+        }
 
     }
 
@@ -368,71 +113,28 @@ public class TestDataEntityService {
     }
 
     private void createCityEntity() {
-        City city = City.builder()
-                .name("Moscow")
-                .build();
-        cityService.persist(city);
+        Set<String> cities = new HashSet<>();
+        cities.add("Moscow");
+        cities.add("Rostov");
+        cities.add("Tver");
+        cities.add("Minsk");
+        cities.add("Gomel");
+        cities.add("Brest");
+        cities.add("Kiev");
+        cities.add("Zaporozhye");
+        cities.add("Odessa");
+        cities.add("London");
+        cities.add("Liverpool");
+        cities.add("Birmingham");
+        cities.add("HongKong");
 
-        City city1 = City.builder()
-                .name("Rostov")
-                .build();
-        cityService.persist(city1);
-
-        City city2 = City.builder()
-                .name("Tver")
-                .build();
-        cityService.persist(city2);
-
-        City city3 = City.builder()
-                .name("Minsk")
-                .build();
-        cityService.persist(city3);
-
-        City city4 = City.builder()
-                .name("Gomel")
-                .build();
-        cityService.persist(city4);
-
-        City city5 = City.builder()
-                .name("Brest")
-                .build();
-        cityService.persist(city5);
-
-        City city6 = City.builder()
-                .name("Kiev")
-                .build();
-        cityService.persist(city6);
-
-        City city7 = City.builder()
-                .name("Zaporozhye")
-                .build();
-        cityService.persist(city7);
-
-        City city8 = City.builder()
-                .name("Odessa")
-                .build();
-        cityService.persist(city8);
-
-        City city9 = City.builder()
-                .name("London")
-                .build();
-        cityService.persist(city9);
-
-        City city10 = City.builder()
-                .name("Liverpool")
-                .build();
-        cityService.persist(city10);
-
-        City city11 = City.builder()
-                .name("Birmingham")
-                .build();
-        cityService.persist(city11);
-
-        City city12 = City.builder()
-                .name("HongKong")
-                .build();
-        cityService.persist(city12);
-
+        for (String c:
+             cities) {
+            City city = City.builder()
+                    .name(c)
+                    .build();
+            cityService.persist(city);
+        }
     }
 
     private void createCountryEntity() {
@@ -613,50 +315,124 @@ public class TestDataEntityService {
     }
 
     private void createCategoryEntity() {
-        Category category = Category.builder()
-                .name("Одежда")
-                .build();
-        categoryService.persist(category);
+        List<String> categories = new ArrayList<>();
+        categories.add("Одежда");
+        categories.add("Обувь");
+        categories.add("Аксессуары");
+        categories.add("Мебель");
+        categories.add("Бытовая техника");
+        categories.add("Детские товары");
+        categories.add("Компьютеры");
+        categories.add("Мобильные телефоны");
+        categories.add("Автомобили");
 
-        Category category1 = Category.builder()
-                .name("Обувь")
-                .build();
-        categoryService.persist(category1);
+        for (String s:
+             categories) {
+            Category category = Category.builder()
+                    .name(s)
+                    .build();
+            categoryService.persist(category);
+        }
+    }
 
-        Category category2 = Category.builder()
-                .name("Аксессуары")
-                .build();
-        categoryService.persist(category2);
+    private void createShopEntity() {
 
-        Category category3 = Category.builder()
-                .name("Мебель")
-                .build();
-        categoryService.persist(category3);
+     /*   List<Item> items = new ArrayList<>();
+        items.add(itemService.getByKey(1L));
+        items.add(itemService.getByKey(3L));
+        items.add(itemService.getByKey(5L));
+        items.add(itemService.getByKey(7L));
+        items.add(itemService.getByKey(15L));
+        items.add(itemService.getByKey(19L));*/
 
-        Category category4 = Category.builder()
-                .name("Бытовая техника")
+        Shop shop = Shop.builder()
+                .name("Яндекс Маркет")
+                .email("info@yandex.ru")
+                .phone("789-464-55-55")
+                .description("Одежда, обувь, бытовая техника")
+                .location(countryService.getByName("Russia"))
+               // .items(items)
+                .logo(imageService.getByKey(1L))
+                .count(1)
+                .rating(1)
+                .user(userService.getByKey(2L))
+                .isModerated(true)
+                .isModerateAccept(true)
+                .activity(1)
                 .build();
-        categoryService.persist(category4);
+        shopService.persist(shop);
 
-        Category category5 = Category.builder()
-                .name("Детские товары")
-                .build();
-        categoryService.persist(category5);
+      /*  List<Item> items1 = new ArrayList<>();
+        items1.add(itemService.getByKey(2L));
+        items1.add(itemService.getByKey(4L));
+        items1.add(itemService.getByKey(6L));
+        items1.add(itemService.getByKey(8L));
+        items1.add(itemService.getByKey(10L));*/
 
-        Category category6 = Category.builder()
-                .name("Компьютеры")
+        Shop shop1 = Shop.builder()
+                .name("Lamoda")
+                .email("info@lamoda.ru")
+                .phone("1535-156-4454")
+                .description("Одежда, обувь, аксессуары")
+                .location(countryService.getByName("Russia"))
+                //.items(items1)
+                .logo(imageService.getByKey(2L))
+                .count(1)
+                .rating(2)
+                .user(userService.getByKey(2L))
+                .isModerated(true)
+                .isModerateAccept(true)
+                .activity(1)
                 .build();
-        categoryService.persist(category6);
+        shopService.persist(shop1);
 
-        Category category7 = Category.builder()
-                .name("Мобильные телефоны")
-                .build();
-        categoryService.persist(category7);
 
-        Category category8 = Category.builder()
-                .name("Автомобили")
+     /*   List<Item> items2 = new ArrayList<>();
+        items2.add(itemService.getByKey(9L));
+        items2.add(itemService.getByKey(11L));
+        items2.add(itemService.getByKey(13L));
+        items2.add(itemService.getByKey(17L));
+        items2.add(itemService.getByKey(18L));*/
+
+        Shop shop2 = Shop.builder()
+                .name("Toy.ru")
+                .email("info@toy.ru")
+                .phone("1564-561-44")
+                .description("Игрушки")
+                .location(countryService.getByName("Belarus"))
+                //.items(items2)
+                .logo(imageService.getByKey(3L))
+                .count(1)
+                .rating(3)
+                .user(userService.getByKey(3L))
+                .isModerated(true)
+                .isModerateAccept(true)
+                .activity(1)
                 .build();
-        categoryService.persist(category8);
+        shopService.persist(shop2);
+
+     /*   List<Item> items3 = new ArrayList<>();
+        items3.add(itemService.getByKey(12L));
+        items3.add(itemService.getByKey(14L));
+        items3.add(itemService.getByKey(16L));
+        items3.add(itemService.getByKey(20L));*/
+
+        Shop shop3 = Shop.builder()
+                .name("AliExpress")
+                .email("info@aliexpress.ru")
+                .phone("54-454654-45645")
+                .description("Любые товары")
+                .location(countryService.getByName("China"))
+                //.items(items3)
+                .logo(imageService.getByKey(4L))
+                .count(1)
+                .rating(4)
+                .user(userService.getByKey(3L))
+                .isModerated(true)
+                .isModerateAccept(true)
+                .activity(1)
+                .build();
+        shopService.persist(shop3);
     }
 
     private void createItemEntity() {
@@ -666,6 +442,11 @@ public class TestDataEntityService {
         Set<Image> images = new HashSet<>();
         images.add(imageService.getByKey(5L));
 
+        Shop[] shops = new Shop[4];
+        for (int i = 0; i < 4; i++) {
+            shops[i] = shopService.getByKey(Long.valueOf(i+1));
+        }
+
         Item item = Item.builder()
                 .name("Маска медицинская")
                 .price(BigDecimal.valueOf(30))
@@ -674,6 +455,7 @@ public class TestDataEntityService {
                 .count(100)
                 .rating(1)
                 .description("Маска медицинская")
+                .shop(shops[0])
                 .isModerated(true)
                 .isModerateAccept(true)
                 .build();
@@ -689,6 +471,7 @@ public class TestDataEntityService {
                 .count(10)
                 .rating(4)
                 .description("Плащ Louis Vuitton")
+                .shop(shops[1])
                 .isModerated(true)
                 .isModerateAccept(true)
                 .build();
@@ -708,6 +491,7 @@ public class TestDataEntityService {
                 .count(19)
                 .rating(19)
                 .description("Зонт 3 слона")
+                .shop(shops[3])
                 .isModerated(true)
                 .isModerateAccept(true)
                 .build();
@@ -723,6 +507,7 @@ public class TestDataEntityService {
                 .count(30)
                 .rating(20)
                 .description("Очки RAY BAN")
+                .shop(shops[1])
                 .isModerated(true)
                 .isModerateAccept(true)
                 .build();
@@ -738,6 +523,7 @@ public class TestDataEntityService {
                 .count(100)
                 .rating(2)
                 .description("Антисептик для рук")
+                .shop(shops[0])
                 .isModerated(true)
                 .isModerateAccept(true)
                 .build();
@@ -753,6 +539,7 @@ public class TestDataEntityService {
                 .count(2)
                 .rating(5)
                 .description("Сумка Birkin")
+                .shop(shops[1])
                 .isModerated(true)
                 .isModerateAccept(true)
                 .build();
@@ -772,6 +559,7 @@ public class TestDataEntityService {
                 .count(27)
                 .rating(3)
                 .description("Ноутбук Lenovo")
+                .shop(shops[3])
                 .isModerated(true)
                 .isModerateAccept(true)
                 .build();
@@ -791,6 +579,7 @@ public class TestDataEntityService {
                 .count(8)
                 .rating(6)
                 .description("Диван ФРИХЕТЭН")
+                .shop(shops[1])
                 .isModerated(true)
                 .isModerateAccept(true)
                 .build();
@@ -806,6 +595,7 @@ public class TestDataEntityService {
                 .count(4)
                 .rating(7)
                 .description("Кресло Ведбу")
+                .shop(shops[2])
                 .isModerated(true)
                 .isModerateAccept(true)
                 .build();
@@ -825,6 +615,7 @@ public class TestDataEntityService {
                 .count(99)
                 .rating(8)
                 .description("Мягкая игрушка")
+                .shop(shops[1])
                 .isModerated(true)
                 .isModerateAccept(true)
                 .build();
@@ -841,6 +632,7 @@ public class TestDataEntityService {
                 .count(40)
                 .rating(9)
                 .description("Мобиль")
+                .shop(shops[2])
                 .isModerated(true)
                 .isModerateAccept(true)
                 .build();
@@ -860,6 +652,7 @@ public class TestDataEntityService {
                 .count(9)
                 .rating(10)
                 .description("Стиральная машина Bosch")
+                .shop(shops[2])
                 .isModerated(true)
                 .isModerateAccept(true)
                 .build();
@@ -875,6 +668,7 @@ public class TestDataEntityService {
                 .count(3)
                 .rating(11)
                 .description("Кофемашина Philips")
+                .shop(shops[2])
                 .isModerated(true)
                 .isModerateAccept(true)
                 .build();
@@ -890,6 +684,7 @@ public class TestDataEntityService {
                 .count(15)
                 .rating(12)
                 .description("Блендер Braun")
+                .shop(shops[0])
                 .isModerated(true)
                 .isModerateAccept(true)
                 .build();
@@ -909,6 +704,7 @@ public class TestDataEntityService {
                 .count(25)
                 .rating(13)
                 .description("Телефон Nokia")
+                .shop(shops[3])
                 .isModerated(true)
                 .isModerateAccept(true)
                 .build();
@@ -925,6 +721,7 @@ public class TestDataEntityService {
                 .count(10)
                 .rating(14)
                 .description("Телефон Samsung")
+                .shop(shops[3])
                 .isModerated(true)
                 .isModerateAccept(true)
                 .build();
@@ -943,6 +740,7 @@ public class TestDataEntityService {
                 .count(1)
                 .rating(15)
                 .description("Автомобиль Kia Ceed")
+                .shop(shops[0])
                 .isModerated(true)
                 .isModerateAccept(true)
                 .build();
@@ -959,6 +757,7 @@ public class TestDataEntityService {
                 .count(1)
                 .rating(16)
                 .description("Автомобиль Hundai Solaris")
+                .shop(shops[0])
                 .isModerated(true)
                 .isModerateAccept(true)
                 .build();
@@ -978,6 +777,7 @@ public class TestDataEntityService {
                 .count(4)
                 .rating(17)
                 .description("Ботинки Timberland")
+                .shop(shops[0])
                 .isModerated(true)
                 .isModerateAccept(true)
                 .build();
@@ -993,112 +793,12 @@ public class TestDataEntityService {
                 .count(7)
                 .rating(18)
                 .description("Ботинки Dr.Martens")
+                .shop(shops[3])
                 .isModerated(true)
                 .isModerateAccept(true)
                 .build();
         itemService.persist(item17);
     }
-
-    private void createShopEntity() {
-
-        List<Item> items = new ArrayList<>();
-        items.add(itemService.getByKey(1L));
-        items.add(itemService.getByKey(3L));
-        items.add(itemService.getByKey(5L));
-        items.add(itemService.getByKey(7L));
-        items.add(itemService.getByKey(15L));
-        items.add(itemService.getByKey(19L));
-
-        Shop shop = Shop.builder()
-                .name("Яндекс Маркет")
-                .email("info@yandex.ru")
-                .phone("789-464-55-55")
-                .description("Одежда, обувь, бытовая техника")
-                .location(countryService.getByName("Russia"))
-                .items(items)
-                .logo(imageService.getByKey(1L))
-                .count(1)
-                .rating(1)
-                .user(userService.getByKey(2L))
-                .isModerated(true)
-                .isModerateAccept(true)
-                .activity(1)
-                .build();
-        shopService.persist(shop);
-
-        List<Item> items1 = new ArrayList<>();
-        items1.add(itemService.getByKey(2L));
-        items1.add(itemService.getByKey(4L));
-        items1.add(itemService.getByKey(6L));
-        items1.add(itemService.getByKey(8L));
-        items1.add(itemService.getByKey(10L));
-
-        Shop shop1 = Shop.builder()
-                .name("Lamoda")
-                .email("info@lamoda.ru")
-                .phone("1535-156-4454")
-                .description("Одежда, обувь, аксессуары")
-                .location(countryService.getByName("Russia"))
-                .items(items1)
-                .logo(imageService.getByKey(2L))
-                .count(1)
-                .rating(2)
-                .user(userService.getByKey(2L))
-                .isModerated(true)
-                .isModerateAccept(true)
-                .activity(1)
-                .build();
-        shopService.persist(shop1);
-
-
-        List<Item> items2 = new ArrayList<>();
-        items2.add(itemService.getByKey(9L));
-        items2.add(itemService.getByKey(11L));
-        items2.add(itemService.getByKey(13L));
-        items2.add(itemService.getByKey(17L));
-        items2.add(itemService.getByKey(18L));
-
-        Shop shop2 = Shop.builder()
-                .name("Toy.ru")
-                .email("info@toy.ru")
-                .phone("1564-561-44")
-                .description("Игрушки")
-                .location(countryService.getByName("Belarus"))
-                .items(items2)
-                .logo(imageService.getByKey(3L))
-                .count(1)
-                .rating(3)
-                .user(userService.getByKey(3L))
-                .isModerated(true)
-                .isModerateAccept(true)
-                .activity(1)
-                .build();
-        shopService.persist(shop2);
-
-        List<Item> items3 = new ArrayList<>();
-        items3.add(itemService.getByKey(12L));
-        items3.add(itemService.getByKey(14L));
-        items3.add(itemService.getByKey(16L));
-        items3.add(itemService.getByKey(20L));
-
-        Shop shop3 = Shop.builder()
-                .name("AliExpress")
-                .email("info@aliexpress.ru")
-                .phone("54-454654-45645")
-                .description("Любые товары")
-                .location(countryService.getByName("China"))
-                .items(items3)
-                .logo(imageService.getByKey(4L))
-                .count(1)
-                .rating(4)
-                .user(userService.getByKey(3L))
-                .isModerated(true)
-                .isModerateAccept(true)
-                .activity(1)
-                .build();
-        shopService.persist(shop3);
-    }
-
 
 
 }
