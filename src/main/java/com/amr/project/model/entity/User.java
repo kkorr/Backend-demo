@@ -153,4 +153,10 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public User(Long id, String email, String username) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+    }
 }
