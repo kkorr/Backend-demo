@@ -60,4 +60,9 @@ public abstract class ReadWriteServiceImpl<E, K> implements ReadWriteService<E, 
     public List<E> getAll() {
         return readWriteDAO.getAll();
     }
+
+    @Override
+    public E getByName(String name) {
+        return readWriteDAO.getByName(name);
+    }
 }

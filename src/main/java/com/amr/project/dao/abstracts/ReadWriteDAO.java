@@ -12,5 +12,5 @@ public interface ReadWriteDAO<E,K> {
     boolean existsById(K id);
     E getByKey(K id);
     List<E> getAll();
-
+    E getByName(String name);
 }
