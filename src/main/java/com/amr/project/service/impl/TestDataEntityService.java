@@ -337,21 +337,12 @@ public class TestDataEntityService {
 
     private void createShopEntity() {
 
-     /*   List<Item> items = new ArrayList<>();
-        items.add(itemService.getByKey(1L));
-        items.add(itemService.getByKey(3L));
-        items.add(itemService.getByKey(5L));
-        items.add(itemService.getByKey(7L));
-        items.add(itemService.getByKey(15L));
-        items.add(itemService.getByKey(19L));*/
-
         Shop shop = Shop.builder()
                 .name("Яндекс Маркет")
                 .email("info@yandex.ru")
                 .phone("789-464-55-55")
                 .description("Одежда, обувь, бытовая техника")
                 .location(countryService.getByName("Russia"))
-               // .items(items)
                 .logo(imageService.getByKey(1L))
                 .count(1)
                 .rating(1)
@@ -362,20 +353,12 @@ public class TestDataEntityService {
                 .build();
         shopService.persist(shop);
 
-      /*  List<Item> items1 = new ArrayList<>();
-        items1.add(itemService.getByKey(2L));
-        items1.add(itemService.getByKey(4L));
-        items1.add(itemService.getByKey(6L));
-        items1.add(itemService.getByKey(8L));
-        items1.add(itemService.getByKey(10L));*/
-
         Shop shop1 = Shop.builder()
                 .name("Lamoda")
                 .email("info@lamoda.ru")
                 .phone("1535-156-4454")
                 .description("Одежда, обувь, аксессуары")
                 .location(countryService.getByName("Russia"))
-                //.items(items1)
                 .logo(imageService.getByKey(2L))
                 .count(1)
                 .rating(2)
@@ -386,21 +369,12 @@ public class TestDataEntityService {
                 .build();
         shopService.persist(shop1);
 
-
-     /*   List<Item> items2 = new ArrayList<>();
-        items2.add(itemService.getByKey(9L));
-        items2.add(itemService.getByKey(11L));
-        items2.add(itemService.getByKey(13L));
-        items2.add(itemService.getByKey(17L));
-        items2.add(itemService.getByKey(18L));*/
-
         Shop shop2 = Shop.builder()
                 .name("Toy.ru")
                 .email("info@toy.ru")
                 .phone("1564-561-44")
                 .description("Игрушки")
                 .location(countryService.getByName("Belarus"))
-                //.items(items2)
                 .logo(imageService.getByKey(3L))
                 .count(1)
                 .rating(3)
@@ -411,19 +385,12 @@ public class TestDataEntityService {
                 .build();
         shopService.persist(shop2);
 
-     /*   List<Item> items3 = new ArrayList<>();
-        items3.add(itemService.getByKey(12L));
-        items3.add(itemService.getByKey(14L));
-        items3.add(itemService.getByKey(16L));
-        items3.add(itemService.getByKey(20L));*/
-
         Shop shop3 = Shop.builder()
                 .name("AliExpress")
                 .email("info@aliexpress.ru")
                 .phone("54-454654-45645")
                 .description("Любые товары")
                 .location(countryService.getByName("China"))
-                //.items(items3)
                 .logo(imageService.getByKey(4L))
                 .count(1)
                 .rating(4)
