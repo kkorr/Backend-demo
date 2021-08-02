@@ -8,10 +8,12 @@ import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
+@Transactional
 public class RoleServiceImpl extends ReadWriteServiceImpl<Role, Long> implements RoleService {
 
     private final RoleDao roleDao;

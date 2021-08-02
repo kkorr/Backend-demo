@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface UserService extends ReadWriteService<User, Long> {
     Optional<User> findByUsername(String username);
+    Optional<User> findByEmail(String email);
 }

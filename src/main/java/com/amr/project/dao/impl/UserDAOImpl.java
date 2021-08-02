@@ -17,5 +17,12 @@ public class UserDAOImpl extends ReadWriteDAOImpl<User, Long> implements UserDao
                 .findAny();
 
     }
+    @Override
+    public Optional<User> findByEmail(String email){
+        return entityManager.createQuery("SELECT u from User u where u.email = :email", User.class)
+                .setParameter("email", email).getResultList()
+                .stream()
+                .findAny();
+    }
 
 }
