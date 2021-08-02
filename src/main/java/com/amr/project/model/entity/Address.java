@@ -1,6 +1,8 @@
 package com.amr.project.model.entity;
 
 import io.swagger.v3.oas.annotations.Hidden;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,8 +11,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "address")
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Hidden
+@Builder
 public class Address {
 
     @Id

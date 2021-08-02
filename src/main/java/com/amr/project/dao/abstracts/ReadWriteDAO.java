@@ -19,5 +19,5 @@ public interface ReadWriteDAO<E, K> {
     E getByKey(K id);
 
     List<E> getAll();
-
+    E getByName(String name);
 }

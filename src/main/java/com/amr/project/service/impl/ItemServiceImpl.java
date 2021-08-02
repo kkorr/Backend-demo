@@ -1,5 +1,6 @@
 package com.amr.project.service.impl;
 
+<<<<<<< HEAD
 import com.amr.project.dao.abstracts.ItemDao;
 import com.amr.project.model.entity.Item;
 import com.amr.project.service.abstracts.ItemService;
@@ -30,5 +31,7 @@ public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long>
     public Item findItemByName(String name) {
         return itemDao.findItemByName(name);
     }
-
 }
+=======
+>>>>>>> main
+

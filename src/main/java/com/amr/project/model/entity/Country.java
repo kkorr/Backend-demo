@@ -1,5 +1,7 @@
 package com.amr.project.model.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import springfox.documentation.annotations.ApiIgnore;
@@ -11,7 +13,9 @@ import java.util.Collection;
 @Table(name = "country")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @ApiIgnore
+@Builder
 public class Country {
 
     @Id

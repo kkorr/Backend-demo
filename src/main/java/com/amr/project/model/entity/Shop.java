@@ -1,6 +1,8 @@
 package com.amr.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,7 +16,9 @@ import java.util.List;
 @Table(name = "shop")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @ApiIgnore
+@Builder
 public class Shop {
 
     @Id
@@ -60,6 +64,9 @@ public class Shop {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_shop",
+            joinColumns = {@JoinColumn(name = "shop_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")})
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

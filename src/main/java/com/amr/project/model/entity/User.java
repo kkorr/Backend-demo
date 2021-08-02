@@ -1,9 +1,7 @@
 package com.amr.project.model.entity;
 
 import com.amr.project.model.enums.Gender;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -18,9 +16,11 @@ import java.util.Collection;
 @Entity
 @Table(name = "user")
 @NoArgsConstructor
+@AllArgsConstructor
 @ApiIgnore
 @Getter
 @Setter
+@Builder
 public class User implements UserDetails {
 
     @Id
@@ -67,10 +67,11 @@ public class User implements UserDetails {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Address address;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = Role.class, cascade = CascadeType.PERSIST)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+            inverseJoinColumns = {@JoinColumn(name = "role_id")}
+            )
     private Collection<Role> roles;
 
     @Column
