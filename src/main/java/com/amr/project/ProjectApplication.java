@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.session.SessionAutoConfiguration;
 
-@SpringBootApplication(exclude = {SessionAutoConfiguration.class })
+@SpringBootApplication(exclude = {SessionAutoConfiguration.class})
 public class ProjectApplication {
 
     public static void main(String[] args) {

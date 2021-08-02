@@ -39,10 +39,10 @@ public class UserRestController {
                 throw new IllegalArgumentException("Пользователь с таким именем уже существует");
             }
         }
-//        Role role = roleService.findByName("USER");
-//        Set<Role> roles = new HashSet<>();
-//        roles.add(role);
-//        user.setRoles(roles);
+        Role role = roleService.findByName("USER");
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        user.setRoles(roles);
         userService.persist(user);
         return user;
     }

@@ -1,6 +1,5 @@
 package com.amr.project.service.impl;
-
-import com.amr.project.dao.abstracts.UserDAO;
+import com.amr.project.dao.abstracts.UserDao;
 import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +12,10 @@ import java.util.Optional;
 @Transactional
 public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements UserService {
 
-    private final UserDAO userDao;
+    private final UserDao userDao;
 
     @Autowired
-    public UserServiceImpl(UserDAO userDao) {
+    public UserServiceImpl(UserDao userDao) {
         super(userDao);
         this.userDao = userDao;
     }
