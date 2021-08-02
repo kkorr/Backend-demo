@@ -1,6 +1,7 @@
 package com.amr.project.dao.impl;
 
 import com.amr.project.dao.abstracts.ReadWriteDAO;
+import com.amr.project.model.entity.Country;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -69,5 +70,11 @@ public abstract class ReadWriteDAOImpl<T, K> implements ReadWriteDAO<T, K> {
     @SuppressWarnings("unchecked")
     public List<T> getAll() {
         return entityManager.createQuery("from " + clazz.getName()).getResultList();
+    }
+
+    @Override
+    public T getByName(String name) {
+        return (T) entityManager.createQuery("SELECT c from "+ clazz.getName()+" c where c.name = :name")
+                .setParameter("name", name).getSingleResult();
     }
 }
