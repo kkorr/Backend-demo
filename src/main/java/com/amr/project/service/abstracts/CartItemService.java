@@ -10,7 +10,7 @@ public interface CartItemService extends ReadWriteService<CartItem, Long> {
 
     List<CartItem> findByUser(User user);
 
-    void deleteByUserAndItem(User user, Item item);
+    void deleteByUserAndItem(Long userId, Long itemId);
 
-    void updateQuantity(int quantity, User user, Item item);
+    void updateQuantity(int quantity, Long userId, Long itemId);
 }

@@ -30,12 +30,12 @@ public class CartItemServiceImpl extends ReadWriteServiceImpl<CartItem, Long> im
     }
 
     @Override
-    public void deleteByUserAndItem(User user, Item item) {
-        cartItemDao.deleteByUserAndItem(user, item);
+    public void deleteByUserAndItem(Long userId, Long itemId) {
+        cartItemDao.deleteByUserAndItem(userId, itemId);
     }
 
     @Override
-    public void updateQuantity(int quantity, User user, Item item) {
-        cartItemDao.updateQuantity(quantity, user, item);
+    public void updateQuantity(int quantity, Long userId, Long itemId) {
+        cartItemDao.updateQuantity(quantity, userId, itemId);
     }
 }

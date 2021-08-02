@@ -1,5 +1,5 @@
 async function saveUser() {
-    let url = new URL("http://localhost:8888/api/save")
+    let url = new URL("http://localhost:8890/api/save")
     const response = await fetch(url, {
         method: 'POST',
         headers: {
