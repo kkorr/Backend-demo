@@ -18,13 +18,13 @@ import java.util.Set;
 
 @RestController
 @RequestMapping(("/api"))
-public class RestUserController {
+public class UserRestController {
 
     private final UserService userService;
     private final RoleService roleService;
 
     @Autowired
-    public RestUserController(UserService userService,
+    public UserRestController(UserService userService,
                               RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
@@ -39,10 +39,10 @@ public class RestUserController {
                 throw new IllegalArgumentException("Пользователь с таким именем уже существует");
             }
         }
-        Role role = roleService.findByName("USER");
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-        user.setRoles(roles);
+//        Role role = roleService.findByName("USER");
+//        Set<Role> roles = new HashSet<>();
+//        roles.add(role);
+//        user.setRoles(roles);
         userService.persist(user);
         return user;
     }

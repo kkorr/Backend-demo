@@ -2,9 +2,11 @@ package com.amr.project.converter;
 
 import com.amr.project.model.dto.AddressDto;
 import com.amr.project.model.entity.Address;
+import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+@Mapper
 public interface AddressMapper {
 
     AddressMapper INSTANCE = Mappers.getMapper( AddressMapper.class );
