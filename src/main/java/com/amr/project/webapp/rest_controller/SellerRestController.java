@@ -34,6 +34,7 @@ public class SellerRestController {
         return str.chars().allMatch(Character::isDigit);
     }
 
+    // TODO: 02.08.2021 ПЕРЕПИСАТЬ ПОД RESPONSEENTRITY VOID, PATCH ВОЗВРАЩАЕТ ОБНОВЛЕННЫЙ ИТЕМ, С ФРОНТА ПРИХОДИТ ДТО -- DONE
     @GetMapping("/{shopIdOrName}/settings")
     public ResponseEntity<ShopDto> getShop(@PathVariable("shopIdOrName") String shopIdOrName) {
         if (isNumeric(shopIdOrName)) {
@@ -43,15 +44,17 @@ public class SellerRestController {
     }
 
     @PatchMapping(value = "/{shopIdOrName}/settings")
-    public ResponseEntity<?> updateShop(@RequestBody Shop shop) {
-        shopService.update(shop);
+    public ResponseEntity<Void> updateShop(@RequestBody ShopDto shopDto) {
+        shopService.update(ShopMapper.INSTANCE.shopDtoToShop(shopDto));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(value = "/{shopIdOrName}/product/{productIdOrName}/newProduct")
-    public ResponseEntity<?> addProduct(@RequestBody Item item, @PathVariable String productIdOrName, @PathVariable String shopIdOrName) {
+    public ResponseEntity<Void> addProduct(@RequestBody ItemDto itemDto,
+                                           @PathVariable String productIdOrName, @PathVariable String shopIdOrName) {
         Shop shop = isNumeric(shopIdOrName) ? shopService.findShopById(Long.parseLong(shopIdOrName)) : shopService.findShopByName(shopIdOrName);
         List<Item> items = shop.getItems();
+        Item item = ItemMapper.INSTANCE.itemDtoToItem(itemDto);
         item.setShop(shop);
         if (items == null) {
             items = new ArrayList<>();
@@ -72,18 +75,19 @@ public class SellerRestController {
     }
 
     @PatchMapping(value = "/{shopIdOrName}/product/{productIdOrName}/edit")
-    public ResponseEntity<?> updateProduct(@RequestBody Item itemBody, @PathVariable String productIdOrName, @PathVariable String shopIdOrName) {
+    public ResponseEntity<ItemDto> updateProduct(@RequestBody ItemDto itemDto,
+                                                 @PathVariable String productIdOrName, @PathVariable String shopIdOrName) {
         Shop shop = isNumeric(shopIdOrName) ? shopService.findShopById(Long.parseLong(shopIdOrName)) : shopService.findShopByName(shopIdOrName);
-        Item item = isNumeric(productIdOrName) ? itemService.findItemById(Long.parseLong(productIdOrName)) : itemService.findItemByName(productIdOrName);
-        item = itemBody;
+        Item item = ItemMapper.INSTANCE.itemDtoToItem(itemDto);
         item.setShop(shop);
         itemService.update(item);
         shopService.update(shop);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(ItemMapper.INSTANCE.itemToItemDto
+                (itemService.findItemByName(productIdOrName)), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{shopIdOrName}/product/{productIdOrName}/edit")
-    public ResponseEntity<?> deleteProduct(@PathVariable String shopIdOrName, @PathVariable String productIdOrName) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable String shopIdOrName, @PathVariable String productIdOrName) {
         Shop shop = isNumeric(shopIdOrName) ? shopService.findShopById(Long.parseLong(shopIdOrName)) : shopService.findShopByName(shopIdOrName);
         Item item = isNumeric(productIdOrName) ? itemService.findItemById(Long.parseLong(productIdOrName)) : itemService.findItemByName(productIdOrName);
         boolean isShopItem = shop.getItems().contains(item);
