@@ -33,4 +33,5 @@ public class Image {
 
     @Column(name = "is_main")
     private Boolean isMain = false;
+
 }

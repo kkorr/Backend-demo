@@ -42,4 +42,5 @@ public class ItemDto {
     private String moderatedRejectReason;
 
     private Long shopId;
+
 }

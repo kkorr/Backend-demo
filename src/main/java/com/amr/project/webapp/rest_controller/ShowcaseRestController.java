@@ -1,8 +1,11 @@
 package com.amr.project.webapp.rest_controller;
 
 import com.amr.project.model.dto.ItemDto;
+import com.amr.project.model.entity.Item;
 import com.amr.project.service.abstracts.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,9 +23,15 @@ public class ShowcaseRestController {
     }
     public ShowcaseRestController() {}
 
-    @GetMapping("/popularItems")
+    @GetMapping("/popular")
     @ResponseBody
-    public List<ItemDto> getPopularItems(@PathVariable Long marketId) {
+    public ResponseEntity<List<Item>> getPopularItems(@PathVariable("id") Long marketId) {
         return null;
     }
+    @GetMapping("/items")
+    @ResponseBody
+    public ResponseEntity<List<Item>> getItems(@PathVariable("id") Long marketId) {
+        return null;
+    }
+
 }

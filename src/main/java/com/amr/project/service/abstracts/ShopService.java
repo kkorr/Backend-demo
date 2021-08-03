@@ -7,7 +7,5 @@ import com.amr.project.model.entity.Shop;
 import java.util.List;
 
 public interface ShopService extends ReadWriteService<Shop, Long> {
-    List<ItemDto> getPopularItemsByMarketId(Long id);
-    List<ItemDto> getItemsByMarketId(Long id);
-    String getDescriptionByMarketId(Long id);
+
 }

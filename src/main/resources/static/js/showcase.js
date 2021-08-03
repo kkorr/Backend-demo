@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    const SHOP_ID = $("shop_id").attr("value");
+    const SHOP_ID = $('#shop_id').attr("value");
     $('#popular_product_btn').on('click', function (e) {
         e.preventDefault();
         toggleNavBar($(this));
