@@ -40,7 +40,7 @@
                                 </font></font></a>
                             </li>
                         </ul>
-                        <input type="hidden" th:value="${market_id}">
+                        <input type="hidden" th:value="${market_id}" id="shop_id">
                     </div>
                 </div>
             </div>
@@ -49,13 +49,13 @@
         <!--Main Body-->
         <div class="container-fluid" style="padding-top: 30px; padding-left: 35px;">
             <div class="row">
-                <div class="col-12" style="margin-left: 15px">
+                <div class="col-12">
                     <h3 id="main_title">
                         Популярные товары:
                     </h3>
                 </div>
                 <div class="col-12 d-flex flex-wrap mt-3" id="product_container">
-                    <div class="card" style="width: 18rem; margin-left: 15px; margin-top: 20px;">
+                    <div class="card" style="width: 18rem; margin-right: 15px; margin-top: 20px;">
                         <img src="..." class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">Заголовок товара</h5>

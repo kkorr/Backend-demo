@@ -11,7 +11,7 @@ public interface UserMapper {
 
     UserMapper INSTANCE = Mappers.getMapper( UserMapper.class );
 
-    public UserDto userToDto(User car);
+    UserDto userToDto(User car);
 
-    public User dtoToUser(UserDto car);
+    User dtoToUser(UserDto car);
 }
