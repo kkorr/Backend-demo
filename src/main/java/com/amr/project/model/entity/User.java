@@ -154,4 +154,16 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public UserDetails getUserDetails() {
+        return new org.springframework.security.core.userdetails.User(
+                username,
+                password,
+                isEnabled(),
+                isAccountNonExpired(),
+                isCredentialsNonExpired(),
+                isAccountNonLocked(),
+                roles
+        );
+    }
 }
