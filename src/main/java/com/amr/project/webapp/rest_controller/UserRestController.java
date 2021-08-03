@@ -35,7 +35,7 @@ public class UserRestController {
 
         User user = UserMapper.INSTANCE.dtoToUser(userDto);
         if(user != null) {
-            if (userService.findByUsername(user.getUsername()).isPresent()) {
+            if (userService.findByUsername(user.getUsername()).isPresent() & userService.findByEmail(user.getEmail()).isPresent()) {
                 throw new IllegalArgumentException("Пользователь с таким именем уже существует");
             }
         }

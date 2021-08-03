@@ -26,7 +26,7 @@ public class CartRestController {
         this.cartItemService = cartItemService;
         this.userService = userService;
     }
-
+    @Transactional
     @GetMapping
     public List<CartItem> getAllCartItemsByUser() {
 
@@ -43,16 +43,14 @@ public class CartRestController {
 //        List<CartItemDto> cartItemsDto = cartItems.stream().map(c -> CartItemMapper.INSTANCE.cartItemToDto(c)).collect(Collectors.toList());
         return cartItems;
     }
-
+    @Transactional
     @PatchMapping("/update/{id}")
     public void updateCartItemQuantity(@PathVariable("id") Long id, @RequestBody CartItem cartItem) {
 //            @RequestParam int quantity, @RequestParam(name = "user") Long userId,
 //                                       @RequestParam(name = "item") Long itemId) {
-        cartItemService.updateQuantity(cartItem.getQuantity(), cartItem.getUser().getId(),
-                cartItem.getItem().getId());
-        cartItem.setId(id);
+        cartItemService.getByKey(id).setQuantity(cartItem.getQuantity());
     }
-
+    @Transactional
     @DeleteMapping("/delete/{id}")
     public void updateCartItemQuantity(@PathVariable Long id) {
         cartItemService.deleteByKeyCascadeIgnore(id);

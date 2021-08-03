@@ -35,7 +35,7 @@ function insertCartItemRow(cartItem) {
               <label for="cartItemQuantity">Количество:</label>
               <input type="number" id="cartItemQuantity${ci.id}" value="${ci.quantity}" class="form-control" min="1">
               <button type="submit" class="btn btn-secondary btn-sm mt-2" id="changeQuantity" onclick=
-              "sumForCartItem(${ci.id}, ${ci.item.price}); updateQuantity(${ci});">Пересчитать сумму</button>
+              "sumForCartItem(${ci.id}, ${ci.item.price}); updateQuantity(${ci.id}); subtotalForCartItems();">Пересчитать сумму</button>
             </div>
           </div>
           <div>
@@ -44,17 +44,18 @@ function insertCartItemRow(cartItem) {
           </div>
           <div>
             <span>= </span>
-            <h5><span id="itemTotalPrice${ci.id}"></span></h5>
+            <h5><span id="itemTotalPrice${ci.id}" name="itemTotalPrice"></span></h5>
           </div>
         </div>
     </div> 
     <div class="row m-1">&nbsp;</div>
     `)
     sumForCartItem(ci.id, ci.item.price);
+    subtotalForCartItems();
 }
 
 async function deleteCartItem(id) {
-    let url = new URL("http://localhost:8890/api/cart/delete/"+id)
+    let url = new URL("http://localhost:8888/api/cart/delete/"+id)
 
     const response = await fetch(url, {
         headers: { "Content-Type": "application/json; charset=utf-8" },
@@ -67,19 +68,12 @@ function collapseRow(id) {
     document.getElementById(idHTML).remove();
 }
 
-async function updateQuantity(cartItem) {
-    let ci = {
-        id: cartItem.id,
-        quantity: cartItem.quantity,
-        item: cartItem.item,
-        shop: cartItem.shop,
-        user: cartItem.user
-    };
+async function updateQuantity(id) {
 
-    let quantHTML = "cartItemQuantity"+ci.id;
+    let quantHTML = "cartItemQuantity"+id;
     let newQuant = document.getElementById(quantHTML).value;
 
-    const response = await fetch("http://localhost:8890/api/cart/update/"+ci.id, {
+    const response = await fetch("http://localhost:8888/api/cart/update/"+id, {
         headers: { "Content-Type": "application/json; charset=utf-8" },
         method: 'PATCH',
         body: JSON.stringify({
@@ -99,5 +93,11 @@ function sumForCartItem(id, price) {
 
 
 function subtotalForCartItems() {
-
+    let result = 0;
+    let elems = document.getElementsByName("itemTotalPrice");
+    for (let j = 0; j < elems.length; j++) {
+        let el = elems[j].innerText;
+        result = result + parseFloat(el);
+    }
+    document.getElementById("itemSubtotal").innerHTML = `<span>${result}</span>`;
 }
