@@ -3,5 +3,9 @@ package com.amr.project.service.abstracts;
 
 import com.amr.project.model.entity.Item;
 
-public interface ItemService extends ReadWriteService<Item, Long>{
+import java.util.List;
+
+public interface ItemService extends ReadWriteService<Item, Long> {
+    List<Item> getItemsByShopId(Long shopId);
+    List<Item> getPopularItemsByShopId(Long shopId);
 }
