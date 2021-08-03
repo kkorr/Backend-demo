@@ -1,5 +1,7 @@
 package com.amr.project.model.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import springfox.documentation.annotations.ApiIgnore;
@@ -16,7 +18,9 @@ import javax.persistence.Table;
 @Table(name = "image")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @ApiIgnore
+@Builder
 public class Image {
 
     @Id
