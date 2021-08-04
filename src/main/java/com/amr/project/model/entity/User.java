@@ -90,8 +90,8 @@ public class User implements UserDetails {
             inverseJoinColumns = {@JoinColumn(name = "coupon_id")})
     private Collection<Coupon> coupons;
 
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    private Collection<Item> cart;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Collection<Item> cart;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "user_orders")
@@ -141,5 +141,11 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User(Long id, String email, String username) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
     }
 }
