@@ -172,7 +172,7 @@ public class Mail {
     }
 
     private String changeMainFiledUserMessage(User originalUser, User changeUser, Address address) {
-        StringBuilder message = new StringBuilder("");
+        StringBuilder message = new StringBuilder();
         boolean wereChanges = false;
         message.append(this.changeMainFiledUserMessage(originalUser, changeUser));
         if (message.toString() != "") {

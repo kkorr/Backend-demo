@@ -8,7 +8,6 @@ import com.amr.project.service.abstracts.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,9 +16,18 @@ public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long> implements
     private final ItemDao itemDao;
 
     @Autowired
-    public ItemServiceImpl(ReadWriteDAO<Item, Long> readWriteDAO, ItemDao itemDao) {
-        super(readWriteDAO);
+    public ItemServiceImpl(ItemDao itemDao) {
+        super(itemDao);
         this.itemDao = itemDao;
+    }
+    @Override
+    public Item findItemById(Long id) {
+        return itemDao.findItemById(id);
+    }
+
+    @Override
+    public Item findItemByName(String name) {
+        return itemDao.findItemByName(name);
     }
 
     @Override
