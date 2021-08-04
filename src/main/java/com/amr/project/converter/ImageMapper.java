@@ -26,8 +26,4 @@ public interface ImageMapper {
         }
         return strings;
     }
-
-    default String map(Image image) {
-        return image != null ? image.getUrl() : "No image!";
-    }
 }

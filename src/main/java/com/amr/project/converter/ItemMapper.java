@@ -15,43 +15,18 @@ import java.util.List;
  * @project platform
  */
 
-@Mapper(uses = {CategoryMapper.class, ImageMapper.class, ShopMapper.class,
-        ReferenceShopMapper.class, ReferenceCategoryMapper.class,
-        ReferenceImageMapper.class})
+@Mapper(uses = {CategoryMapper.class, ImageMapper.class,
+        ReferenceCategoryMapper.class,
+        ReferenceImageMapper.class, ReferenceReviewMapper.class, ReviewMapper.class})
 public interface ItemMapper {
     ItemMapper INSTANCE = Mappers.getMapper(ItemMapper.class);
-
     @Mappings({
-            @Mapping(source = "id", target = "id"),
-            @Mapping(source = "name", target = "name"),
-            @Mapping(source = "count", target = "count"),
-            @Mapping(source = "rating", target = "rating"),
-            @Mapping(source = "categories", target = "categories"),
-            @Mapping(source = "images", target = "images"),
-            @Mapping(source = "description", target = "description"),
-            @Mapping(source = "discount", target = "discount"),
-            @Mapping(source = "moderated", target = "moderated"),
-            @Mapping(source = "moderateAccept", target = "moderateAccept"),
-            @Mapping(source = "moderatedRejectReason", target = "moderatedRejectReason"),
-            @Mapping(source = "shop", target = "shopId"),
-            @Mapping(source = "pretendentToBeDeleted", target = "pretendentToBeDeleted")
+            @Mapping(source = "shop.id", target = "shopId"),
     })
     ItemDto itemToItemDto(Item item);
 
     @Mappings({
-            @Mapping(source = "id", target = "id"),
-            @Mapping(source = "name", target = "name"),
-            @Mapping(source = "count", target = "count"),
-            @Mapping(source = "rating", target = "rating"),
-            @Mapping(source = "categories", target = "categories"),
-            @Mapping(source = "images", target = "images"),
-            @Mapping(source = "description", target = "description"),
-            @Mapping(source = "discount", target = "discount"),
-            @Mapping(source = "moderated", target = "moderated"),
-            @Mapping(source = "moderateAccept", target = "moderateAccept"),
-            @Mapping(source = "moderatedRejectReason", target = "moderatedRejectReason"),
-            @Mapping(source = "shopId", target = "shop"),
-            @Mapping(source = "pretendentToBeDeleted", target = "pretendentToBeDeleted")
+            @Mapping(source = "shopId", target = "shop.id"),
     })
     Item itemDtoToItem(ItemDto itemDto);
 

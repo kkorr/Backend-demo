@@ -2,20 +2,18 @@ package com.amr.project.converter;
 
 import com.amr.project.model.entity.Image;
 import com.amr.project.service.abstracts.ImageService;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-@Component
-public class ReferenceImageMapper {
-    private final
-    ImageService imageService;
-
-    public ReferenceImageMapper(ImageService imageService) {
-        this.imageService = imageService;
-    }
+@Mapper(unmappedTargetPolicy = org.mapstruct.ReportingPolicy.IGNORE,
+        componentModel = "spring")
+public abstract class ReferenceImageMapper {
+    @Autowired
+    private ImageService imageService;
 
     public Image map(String name) {
         return imageService.getByName(name);
