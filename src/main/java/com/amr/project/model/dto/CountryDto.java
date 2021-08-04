@@ -11,7 +11,7 @@ import java.util.Collection;
 @Getter
 @Setter
 public class CountryDto {
-   private Long id;
-   private String name;
-   private Collection<City> cities;
+    private Long id;
+    private String name;
+    private Collection<City> cities;
 }

@@ -32,4 +32,5 @@ public class ShopDto {
     private boolean isModerated;
     private boolean isModerateAccept;
     private String moderatedRejectReason;
+    private boolean isPretendentToBeDeleted;
 }
