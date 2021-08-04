@@ -21,6 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessUserHandler successUserHandler;
 
     // userDetailsServiceImpl - его еще нет, нужен ли он будет?
+    @Autowired
     public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, SuccessUserHandler successUserHandler) {
         this.userDetailsService = userDetailsService;
         this.successUserHandler = successUserHandler;
@@ -37,7 +38,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/**").permitAll()
-                .and().formLogin().successHandler(successUserHandler);
+                .and().formLogin().successHandler(successUserHandler)
+                .loginPage("/login") .loginProcessingUrl("/login")
+                // Указываем параметры логина и пароля с формы логина
+                .usernameParameter("j_username")
+                .passwordParameter("j_password")
+                .and().rememberMe();
     }
 
     @Bean
