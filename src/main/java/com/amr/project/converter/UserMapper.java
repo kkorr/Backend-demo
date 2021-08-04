@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper(uses = AddressMapper.class)
 public interface UserMapper {
 
-    UserMapper INSTANCE = Mappers.getMapper( UserMapper.class );
+    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     @Mapping(source = "address", target = "address")
     UserDto userToDto(User user);
