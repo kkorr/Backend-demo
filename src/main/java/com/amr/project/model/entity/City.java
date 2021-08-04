@@ -1,17 +1,16 @@
 package com.amr.project.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "city")
@@ -37,4 +36,15 @@ public class City {
                 ", name='" + name + '\'' +
                 '}';
     }
+
+
+    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @JoinTable(name = "country_city",
+            joinColumns = {@JoinColumn(name = "city_id")},
+            inverseJoinColumns = {@JoinColumn(name = "country_id")})
+    private Collection<Country> countries;
+
+
+    @OneToMany(mappedBy = "city",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Address> addresses;
 }

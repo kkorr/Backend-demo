@@ -76,7 +76,7 @@ public class Shop {
     private double rating;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @JoinTable(name = "user_shop",
             joinColumns = {@JoinColumn(name = "shop_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")})
@@ -103,4 +103,5 @@ public class Shop {
 
     @Transient
     private MultipartFile file;
+
 }
