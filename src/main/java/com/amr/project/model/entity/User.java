@@ -90,8 +90,8 @@ public class User implements UserDetails {
             inverseJoinColumns = {@JoinColumn(name = "coupon_id")})
     private Collection<Coupon> coupons;
 
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    private Collection<Item> cart;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Collection<Item> cart;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "user_orders")
@@ -143,15 +143,9 @@ public class User implements UserDetails {
         return true;
     }
 
-    public UserDetails getUserDetails() {
-        return new org.springframework.security.core.userdetails.User(
-                username,
-                password,
-                isEnabled(),
-                isAccountNonExpired(),
-                isCredentialsNonExpired(),
-                isAccountNonLocked(),
-                roles
-        );
+    public User(Long id, String email, String username) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
     }
 }
