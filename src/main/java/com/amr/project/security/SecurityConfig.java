@@ -37,7 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/**").permitAll()
-                .and().formLogin().successHandler(successUserHandler);
+                .and().formLogin().successHandler(successUserHandler)
+        ;
     }
 
     @Bean
