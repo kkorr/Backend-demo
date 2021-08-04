@@ -6,6 +6,8 @@ import com.amr.project.model.entity.CartItem;
 import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.*;
 import org.mapstruct.control.MappingControl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,6 +32,8 @@ public class CartRestController {
     private final CartItemService cartItemService;
     private final UserService userService;
     private final ItemService itemService;
+    //ДОБАВИТЬ ЛОГГЕР
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     public CartRestController(CartItemService cartItemService, UserService userService,

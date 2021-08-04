@@ -13,8 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-@Qualifier("userDetailsServiceImpl")
-public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements UserService, UserDetailsService {
+public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements UserService {
 
     private final UserDao userDao;
 
@@ -32,9 +31,4 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
         return userDao.findByEmail(email);
     }
 
-
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return findByUsername(s).get();
-    }
 }
