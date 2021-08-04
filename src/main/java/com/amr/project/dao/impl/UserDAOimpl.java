@@ -16,6 +16,4 @@ public class UserDAOImpl extends ReadWriteDAOImpl<User, Long> implements UserDao
                 .findAny();
 
     }
-
-
 }
