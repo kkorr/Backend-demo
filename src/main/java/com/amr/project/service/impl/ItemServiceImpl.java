@@ -1,13 +1,16 @@
 package com.amr.project.service.impl;
 
 
+import com.amr.project.converter.ItemMapper;
 import com.amr.project.dao.abstracts.ItemDao;
 import com.amr.project.dao.abstracts.ReadWriteDAO;
+import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.entity.Item;
 import com.amr.project.service.abstracts.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,17 +34,21 @@ public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long> implements
     }
 
     @Override
-    public List<Item> getItemsByShopId(Long shopId) {
-        return itemDao.getItemsByShopId(shopId);
+    public List<ItemDto> getItemsByShopId(Long shopId) {
+        List<ItemDto> itemsDto = new ArrayList<>();
+        for(Item i : itemDao.getItemsByShopId(shopId)) {
+            itemsDto.add(ItemMapper.INSTANCE.itemToItemDto(i));
+        }
+        return itemsDto;
     }
 
     @Override
-    public List<Item> getPopularItemsByShopId(Long shopId) {
-        List<Item> listItems = getItemsByShopId(shopId);
+    public List<ItemDto> getPopularItemsByShopId(Long shopId) {
+        List<ItemDto> listItems = getItemsByShopId(shopId);
 
-
+        /*сортировка Item по полю count*/
         boolean isSorted = false;
-        Item buf;
+        ItemDto buf;
         while(!isSorted) {
             isSorted = true;
             for (int i = 0; i < listItems.size() - 1; i++) {
