@@ -58,7 +58,6 @@ async function deleteCartItem(id) {
     let url = new URL("http://localhost:8888/api/cart/delete/"+id)
 
     const response = await fetch(url, {
-        // credentials:'include',
         headers: { "Content-Type": "application/json; charset=utf-8" },
         method: 'DELETE'
     })

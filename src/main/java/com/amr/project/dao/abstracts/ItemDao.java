@@ -2,7 +2,8 @@ package com.amr.project.dao.abstracts;
 
 import com.amr.project.model.entity.Item;
 
-import java.util.Optional;
+public interface ItemDao extends ReadWriteDAO<Item, Long> {
+    Item findItemById(Long id);
 
-public interface ItemDao extends ReadWriteDAO<Item, Long>  {
+    Item findItemByName(String name);
 }
