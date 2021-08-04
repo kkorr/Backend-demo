@@ -1,17 +1,20 @@
 package com.amr.project.converter;
 
-
 import com.amr.project.model.dto.UserDto;
 import com.amr.project.model.entity.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(uses = AddressMapper.class)
 public interface UserMapper {
 
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    UserDto userToDto(User car);
+    @Mapping(source = "address", target = "address")
+    UserDto userToDto(User user);
 
-    User dtoToUser(UserDto car);
+    @Mapping(source = "address", target = "address")
+    User dtoToUser(UserDto userDto);
+
 }
