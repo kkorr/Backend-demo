@@ -58,19 +58,15 @@ public class CartRestController {
     }
     @Transactional
     @PatchMapping("/update/{id}")
-    public void updateCartItemQuantity(@PathVariable("id") Long id, @RequestBody CartItem cartItem, Principal principal) {
-        if(principal == null || principal instanceof AnonymousAuthenticationToken){
-            throw new IllegalStateException("Вам нужно авторизоваться для доступа к корзине");
-        }
+    public ResponseEntity<Void> updateCartItemQuantity(@PathVariable("id") Long id, @RequestBody CartItem cartItem) {
         cartItemService.getByKey(id).setQuantity(cartItem.getQuantity());
+        return ResponseEntity.ok().body(null);
     }
     @Transactional
     @DeleteMapping("/delete/{id}")
-    public void updateCartItemQuantity(@PathVariable Long id, Principal principal) {
-        if(principal == null || principal instanceof AnonymousAuthenticationToken){
-            throw new IllegalStateException("Вам нужно авторизоваться для доступа к корзине");
-        }
+    public ResponseEntity<Void> updateCartItemQuantity(@PathVariable Long id) {
         cartItemService.deleteByKeyCascadeIgnore(id);
+        return ResponseEntity.ok().body(null);
     }
 
 }

@@ -39,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/**").permitAll()
                 .and().formLogin().successHandler(successUserHandler);
+        http.csrf().disable();
     }
 
     @Bean
