@@ -25,7 +25,7 @@ function insertCartItemRow(cartItem) {
           width="25" height="25"/></button></div>
         </div>
         <div class="col-3">
-          <img src="http://i1.adis.ws/i/canon/eos-r6-rf24-105mm-f4_7.1_is_stm_front-on_square_6412568cc0e7484b96bd55e43069a56c" class="img-fluid" />
+          <img src="${ci.item.images[0].url}" class="img-fluid" />
         </div>
         <div class="col-7">
           <p id="itemName">${ci.item.name}</p>
@@ -58,6 +58,7 @@ async function deleteCartItem(id) {
     let url = new URL("http://localhost:8888/api/cart/delete/"+id)
 
     const response = await fetch(url, {
+        // credentials:'include',
         headers: { "Content-Type": "application/json; charset=utf-8" },
         method: 'DELETE'
     })

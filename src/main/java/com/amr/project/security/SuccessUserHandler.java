@@ -10,14 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
-//@Component
-//public class SuccessUserHandler implements AuthenticationSuccessHandler {
-//
-//    @Override
-//    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
-//                                        HttpServletResponse httpServletResponse,
-//                                        Authentication authentication) throws IOException {
-//        Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-//        // здесь будет редирект на страницы в зависимости от юзера, админа или модератора, если понадобится.
-//    }
-//}
+@Component
+public class SuccessUserHandler implements AuthenticationSuccessHandler {
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
+                                        HttpServletResponse httpServletResponse,
+                                        Authentication authentication) throws IOException {
+        Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+        // здесь будет редирект на страницы в зависимости от юзера, админа или модератора, если понадобится.
+    }
+}
