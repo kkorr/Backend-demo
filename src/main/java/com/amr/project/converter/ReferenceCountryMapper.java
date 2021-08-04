@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
         componentModel = "spring")
 public abstract class ReferenceCountryMapper {
     @Autowired
-    private CountryService countryService;
+    protected CountryService countryService;
 
 
     public Country map(String name) {

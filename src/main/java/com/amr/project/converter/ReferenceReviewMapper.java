@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
         componentModel = "spring")
 public abstract class ReferenceReviewMapper {
     @Autowired
-    private ReviewService reviewService;
+    protected ReviewService reviewService;
 
     public Collection<Review> map(String[] reviews) {
         return Arrays.stream(reviews)

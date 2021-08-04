@@ -6,7 +6,6 @@ import com.amr.project.model.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
-import org.mapstruct.factory.Mappers;
 
 /**
  * @author denisqaa on 29.07.2021.
@@ -14,10 +13,8 @@ import org.mapstruct.factory.Mappers;
  */
 
 @Mapper(uses = {ReviewMapper.class,
-        ImageMapper.class})
+        ImageMapper.class}, componentModel = "spring")
 public interface ShopMapper {
-
-    ShopMapper INSTANCE = Mappers.getMapper(ShopMapper.class);
 
     @Mappings({
             @Mapping(source = "user.username", target = "username"),

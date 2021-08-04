@@ -6,7 +6,6 @@ import com.amr.project.model.entity.Shop;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
-import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
@@ -17,9 +16,9 @@ import java.util.List;
 
 @Mapper(uses = {CategoryMapper.class, ImageMapper.class,
         ReferenceCategoryMapper.class,
-        ReferenceImageMapper.class, ReferenceReviewMapper.class, ReviewMapper.class})
+        ReferenceImageMapper.class, ReferenceReviewMapper.class, ReviewMapper.class},
+        componentModel = "spring")
 public interface ItemMapper {
-    ItemMapper INSTANCE = Mappers.getMapper(ItemMapper.class);
     @Mappings({
             @Mapping(source = "shop.id", target = "shopId"),
     })

@@ -13,7 +13,7 @@ import java.util.List;
  * @project platform
  */
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ReviewMapper {
     default List<Review> map(Shop shop) {
         return shop.getReviews();

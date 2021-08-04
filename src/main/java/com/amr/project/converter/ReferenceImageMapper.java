@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
         componentModel = "spring")
 public abstract class ReferenceImageMapper {
     @Autowired
-    private ImageService imageService;
+    protected ImageService imageService;
 
     public Image map(String name) {
         return imageService.getByName(name);
@@ -21,7 +21,7 @@ public abstract class ReferenceImageMapper {
 
     public Collection<Image> map(String[] images) {
         return Arrays.stream(images)
-                .map(imageService::getByName)
+                .map(imageService::getByUrl)
                 .collect(Collectors.toList());
     }
 }
