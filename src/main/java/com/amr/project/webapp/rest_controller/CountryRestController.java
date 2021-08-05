@@ -1,7 +1,9 @@
 package com.amr.project.webapp.rest_controller;
 
+import com.amr.project.converter.CategoryMapper;
 import com.amr.project.converter.CityMapper;
 import com.amr.project.converter.CountryMapper;
+import com.amr.project.model.dto.CategoryDto;
 import com.amr.project.model.dto.CityDto;
 import com.amr.project.model.dto.CountryDto;
 import com.amr.project.model.entity.City;
@@ -26,6 +28,20 @@ public class CountryRestController {
     @GetMapping("/{id}")
     public ResponseEntity<CountryDto> getAddress(@PathVariable("id") Long id) {
         return new ResponseEntity<>(CountryMapper.INSTANCE.countryToDto(countryService.getByKey(id)), HttpStatus.OK);
+    }
+
+    @PutMapping("/save")
+    public ResponseEntity<Long> saveCountry(@RequestBody CountryDto countryDto) {
+        countryDto.setCities(countryService.getByKey(countryDto.getId()).getCities());
+        countryService.update(CountryMapper.INSTANCE.dtoToCountry(countryDto));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @PostMapping("/add")
+    public ResponseEntity<Long> addCountry(@RequestBody CountryDto countryDto) {
+        countryService.persist(CountryMapper.INSTANCE.dtoToCountry(countryDto));
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

@@ -6,8 +6,10 @@ import org.mapstruct.Mapper;
 import java.util.ArrayList;
 import java.util.Collection;
 
+
 @Mapper
 public interface ImageMapper {
+
 
     default String[] map(Collection<Image> images) {
         if (images == null) {

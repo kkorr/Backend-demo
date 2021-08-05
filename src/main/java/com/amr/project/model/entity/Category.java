@@ -2,10 +2,7 @@ package com.amr.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.Api;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -14,6 +11,8 @@ import java.util.Collection;
 @Table(name = "сategory")
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
+@Getter
 @Data
 @Api(hidden = true)
 @Builder
@@ -27,10 +26,4 @@ public class Category {
     @Column(unique = true)
     private String name;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
-    @JoinTable(name = "item_category",
-            joinColumns = {@JoinColumn(name = "category_id")},
-            inverseJoinColumns = {@JoinColumn(name = "item_id")})
-    private Collection<City> cities;
 }

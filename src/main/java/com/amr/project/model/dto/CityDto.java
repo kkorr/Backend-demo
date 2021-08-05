@@ -1,7 +1,10 @@
 package com.amr.project.model.dto;
 
+import com.amr.project.model.entity.Address;
 import lombok.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.List;
 
 //@Data
 //@AllArgsConstructor
@@ -12,5 +15,6 @@ import springfox.documentation.annotations.ApiIgnore;
 public class CityDto {
     private Long id;
     private String name;
-    private String[] countries;
+    private String country;
+    private List<Address> addresses;
 }

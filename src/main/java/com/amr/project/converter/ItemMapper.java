@@ -11,22 +11,32 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 
-@Mapper(uses = {CategoryMapper.class, ImageMapper.class, ShopMapper.class, CategoryMapper.class})
+@Mapper(uses = {CategoryMapper.class, ImageMapper.class, ShopMapper.class,
+        ReferenceImageMapper.class, ReviewMapper.class})
 public interface ItemMapper {
 
     ItemMapper INSTANCE = Mappers.getMapper(ItemMapper.class);
 
     @Mappings({
             @Mapping(source = "shop.id", target = "shopId"),
-            @Mapping(source = "images", target = "images"),
-            @Mapping(source = "moderated", target = "moderated"),
-            @Mapping(source = "moderateAccept", target = "moderateAccept"),
-            @Mapping(source = "categories", target = "categories")
+        //    @Mapping(source = "images", target = "images"),
+         //   @Mapping(source = "moderated", target = "moderated"),
+         //   @Mapping(source = "moderateAccept", target = "moderateAccept"),
+         //   @Mapping(source = "categories", target = "categories")
     })
-    public ItemDto itemToDto(Item item);
+    public ItemDto itemToItemDto(Item item);
 
-    //@InheritInverseConfiguration
-    //public Item dtoToItem(ItemDto itemDto);
+    @Mappings({
+         //   @Mapping(source = "categories", target = "categories"),
+         //   @Mapping(source = "images", target = "images"),
+           // @Mapping(source = "moderated", target = "moderated"),
+          //  @Mapping(source = "moderateAccept", target = "moderateAccept"),
+          //  @Mapping(source = "moderatedRejectReason", target = "moderatedRejectReason"),
+            @Mapping(source = "shopId", target = "shop.id"),
+           // @Mapping(source = "pretendentToBeDeleted", target = "pretendentToBeDeleted")
+    })
+    Item itemDtoToItem(ItemDto itemDto);
+
 
 
     default List<Item> map(Shop shop) {

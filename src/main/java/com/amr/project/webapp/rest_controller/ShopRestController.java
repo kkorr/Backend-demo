@@ -21,7 +21,7 @@ public class ShopRestController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ShopDto> getAddress(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(ShopMapper.INSTANCE.shopToDto(shopService.getByKey(id)), HttpStatus.OK);
+        return new ResponseEntity<>(ShopMapper.INSTANCE.shopToShopDto(shopService.getByKey(id)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

@@ -7,6 +7,245 @@ $(document).ready(function () {
     updateAddresses();
     updateCategories();
 
+    //add new item
+    $('.itemInsertModal .itemInsertButton').on('click', function (event) {
+        let item = {
+            name:$(".itemInsertModal #name").val(),
+            price:$(".itemInsertModal #price").val(),
+            count:$(".itemInsertModal #count").val(),
+            categories:$(".itemInsertModal ins_item_categories").val(),
+            description:$(".itemInsertModal #description").val(),
+            discount:$(".itemInsertModal #discount").val(),
+            shop:$(".itemInsertModal #ins_item_shops").val()
+        }
+
+        console.log(item)
+
+        fetch("api/item/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(item)
+        }) .then(() => {$('.itemInsertModal #addressInsertModal').modal('hide');$('input').val(''); updateItems()})
+    })
+
+    //save item
+    $('.itemEditModal .itemSaveButton').on('click', function (event) {
+        let item = {
+            name:$(".itemEditModal #name").val(),
+            price:$(".itemEditModal #price").val(),
+            count:$(".itemEditModal #count").val(),
+            categories:$(".itemEditModal edit_item_categories").val(),
+            description:$(".itemEditModal #description").val(),
+            discount:$(".itemEditModal #discount").val(),
+            shop:$(".itemEditModal #edit_item_shops").val()
+        }
+
+        fetch("api/item/save", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(item)
+        }) .then(() => {$('.itemEditModal #itemEditModal').modal('hide'); $('input').val('');
+            updateItems();})
+    })
+
+
+    //add new address
+    $('.addressInsertModal .addressInsertButton').on('click', function (event) {
+        let address = {
+            city:$(".addressInsertModal #ins_address_cities").val(),
+            cityIndex: $(".addressInsertModal #index").val(),
+            street: $(".addressInsertModal #street").val(),
+            house: $(".addressInsertModal #house").val(),
+        }
+
+        console.log(address)
+
+        fetch("api/address/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(address)
+        }) .then(() => {$('.addressInsertModal #addressInsertModal').modal('hide');$('input').val(''); updateAddresses()})
+    })
+
+    //save address
+    $('.addressEditModal .addressSaveButton').on('click', function (event) {
+        let address = {
+            id: $(".addressEditModal #id").val(),
+            city:$(".addressEditModal #edit_address_cities").val(),
+            cityIndex: $(".addressEditModal #index").val(),
+            street: $(".addressEditModal #street").val(),
+            house: $(".addressEditModal #house").val(),
+        }
+
+        fetch("api/address/save", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(address)
+        }) .then(() => {$('.addressEditModal #addressEditModal').modal('hide'); $('input').val('');
+            updateAddresses(); updateUsers()})
+    })
+
+    //add new city
+    $('.cityInsertModal .cityInsertButton').on('click', function (event) {
+        let city = {
+            name: $(".cityInsertModal #name").val(),
+            country:$(".cityInsertModal #ins_city_countries").val()
+        }
+
+        console.log(city)
+
+        fetch("api/city/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(city)
+        }) .then(() => {$('.cityInsertModal #cityInsertModal').modal('hide');$('input').val(''); updateCities()})
+    })
+
+    //save city
+    $('.cityEditModal .citySaveButton').on('click', function (event) {
+        let city = {
+            id: $(".cityEditModal #id").val(),
+            name: $(".cityEditModal #name").val(),
+            country:$(".cityEditModal #edit_city_countries").val()
+        }
+
+        fetch("api/city/save", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(city)
+        }) .then(() => {$('.cityEditModal #cityEditModal').modal('hide'); $('input').val('');
+            updateCities(); updateAddresses();})
+    })
+
+
+    //add new country
+    $('.countryInsertModal .countryInsertButton').on('click', function (event) {
+        let country = {
+            name: $(".countryInsertModal #name").val(),
+        }
+
+        fetch("api/country/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(country)
+        }) .then(() => {$('.countryInsertModal #countryInsertModal').modal('hide');$('input').val(''); updateCountries()})
+    })
+
+    //save country
+    $('.countryEditModal .countrySaveButton').on('click', function (event) {
+        let country = {
+            id: $(".countryEditModal #id").val(),
+            name: $(".countryEditModal #name").val()
+        }
+
+        fetch("api/country/save", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(country)
+        }) .then(() => {$('.countryEditModal #countryEditModal').modal('hide'); $('input').val('');
+            updateCountries(); updateCities(); updateAddresses(); updateShops()})
+    })
+
+    //add new category
+    $('.categoryInsertModal .catInsertButton').on('click', function (event) {
+        let category = {
+            name: $(".categoryInsertModal #name").val(),
+        }
+
+        fetch("api/category/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(category)
+        }) .then(() => {$('.categoryInsertModal #catInsertModal').modal('hide');$('input').val(''); updateCategories()})
+    })
+
+    //save category
+    $('.categoryEditModal .catSaveButton').on('click', function (event) {
+        let category = {
+            id: $(".categoryEditModal #id").val(),
+            name: $(".categoryEditModal #name").val()
+        }
+
+        fetch("api/category/save", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(category)
+        }) .then(() => {$('.categoryEditModal #catEditModal').modal('hide'); $('input').val(''); updateCategories(); updateItems()})
+    })
+
+    //add new user
+    $('.userInsertModal .userInsertButton').on('click', function (event) {
+        let user = {
+            email: $(".userInsertModal #email").val(),
+            username: $(".userInsertModal #username").val(),
+            password: $(".userInsertModal #password").val(),
+            gender: $(".userInsertModal #ins_user_gender").val(),
+            birthday: $(".userInsertModal #birthday").val(),
+
+            phone: $(".userInsertModal #phone").val(),
+            firstName: $(".userInsertModal #firstName").val(),
+            lastName: $(".userInsertModal #lastName").val(),
+            roles:getRole("#ins_user_roles")
+        }
+
+        console.log(user)
+
+        fetch("api/user/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(user)
+        }) .then(() => {$('.userInsertModal #insertModal').modal('hide');$('input').val(''); updateUsers()})
+    })
+
+    //save user
+    $('.userEditModal .userSaveButton').on('click', function (event) {
+        let user = {
+            id: $(".userEditModal #id").val(),
+            email: $(".userEditModal #email").val(),
+            username: $(".userEditModal #username").val(),
+            password: $(".userEditModal #password").val(),
+            gender: $(".userEditModal #edit_user_gender").val(),
+            birthday: $(".userEditModal #birthday").val(),
+
+            phone: $(".userEditModal #phone").val(),
+            firstName: $(".userEditModal #firstName").val(),
+            lastName: $(".userEditModal #lastName").val(),
+            roles:getRole("#edit_user_roles")
+        }
+
+        console.log(user)
+
+        fetch("api/user/save-user", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(user)
+        }) .then(() => {$('.userEditModal #userEditM').modal('hide'); $('input').val(''); updateUsers()})
+    })
+
     $('.logout').on('click', function (event) {
         logout();
     })
@@ -190,7 +429,7 @@ function createTableCity(city) {
     return `<tr id="city_table_row">
             <td>${city.id}</td>
             <td>${city.name}</td>
-            <td>${city.countries}</td>
+            <td>${city.country}</td>
                      
             <td>
             <a href="/api/city/${city.id}" class="btn btn-info cityEditButton">Edit</a>
@@ -275,8 +514,336 @@ function logout() {
     document.location.replace("/logout");
 }
 
+function getRole(address) {
+    let data = [];
+    $(address).find("option:selected").each(function () {
+        data.push({id: $(this).val(),name: $(this).attr("name")
+                /* , authority: $(this).attr("name")*/
+        })
+    });
+    return data;
+}
+
+function getCountry(address) {
+    let data = [];
+    $(address).find("option:selected").each(function () {
+       // data.push({id: $(this).val(),name: $(this).attr("name"),label: $(this).attr("label"), authority: $(this).attr("name")})
+        return $(this).attr("name");
+    });
+}
+
+
+
+
 document.addEventListener('click', function (event) {
     event.preventDefault()
+
+    //open itemInsertModal modal form
+    if ($(event.target).hasClass('addNewItemBtn')) {
+
+        $(".itemInsertModal #ins_item_categories").children().remove();
+        $(".itemInsertModal #ins_item_shops").children().remove();
+
+        fetch("/api/admin/allcategories")
+            .then((response) => {
+                response.json().then(data => data.forEach(function (item, i, data) {
+                    $("#ins_item_categories")
+                        .append("<option name=\""+item.name+"\" value=\""+item.name+"\" "
+                            +" label=\""+item.name+"\" "
+                            +">"+item.name+"</option>");
+                }));
+            }).catch(error => {
+            console.log(error);
+        });
+
+        fetch("/api/admin/allshops")
+            .then((response) => {
+                response.json().then(data => data.forEach(function (item, i, data) {
+                    $("#ins_item_shops")
+                        .append("<option name=\""+item.name+"\" value=\""+item.name+"\" "
+                            +" label=\""+item.name+"\" "
+                            +">"+item.name+"</option>");
+                }));
+            }).catch(error => {
+            console.log(error);
+        });
+
+
+
+        $(".itemInsertModal #itemInsertModal").modal();
+    }
+
+    //open itemEdit modal form
+    if ($(event.target).hasClass('itemEditButton')) {
+
+        $(".itemEditModal #edit_item_categories").children().remove();
+        $(".itemEditModal #ins_item_shops").children().remove();
+
+        fetch("/api/admin/allcategories")
+            .then((response) => {
+                response.json().then(data => data.forEach(function (item, i, data) {
+                    $("#edit_item_categories")
+                        .append("<option name=\""+item.name+"\" value=\""+item.name+"\" "
+                            +" label=\""+item.name+"\" "
+                            +">"+item.name+"</option>");
+                }));
+            }).catch(error => {
+            console.log(error);
+        });
+
+        fetch("/api/admin/allshops")
+            .then((response) => {
+                response.json().then(data => data.forEach(function (item, i, data) {
+                    $("#edit_item_shops")
+                        .append("<option name=\""+item.name+"\" value=\""+item.name+"\" "
+                            +" label=\""+item.name+"\" "
+                            +">"+item.name+"</option>");
+                }));
+            }).catch(error => {
+            console.log(error);
+        });
+
+        let href = $(event.target).attr("href");
+        console.log(href);
+
+        $.get(href, function (item) {
+            $('.itemEditModal #id').val(item.id);
+            $('.itemEditModal #name').val(item.name);
+            $('.itemEditModal #price').val(item.price);
+            $('.itemEditModal #count').val(item.count);
+            $('.itemEditModal #edit_item_categories').val(item.categories);
+            $('.itemEditModal #discount').val(item.discount);
+            $('.itemEditModal #edit_item_shops').val(item.shop);
+
+        });
+
+        $(".itemEditModal #itemEditModal").modal();
+    }
+
+    //open addressInsertModal modal form
+    if ($(event.target).hasClass('addNewAddressBtn')) {
+
+        $(".addressInsertModal #ins_address_cities").children().remove();
+
+        fetch("/api/admin/allcities")
+            .then((response) => {
+                response.json().then(data => data.forEach(function (item, i, data) {
+                    $("#ins_address_cities")
+                        .append("<option name=\""+item.name+"\" value=\""+item.name+"\" "
+                            +" label=\""+item.name+"\" "
+                            +">"+item.name+"</option>");
+                }));
+            }).catch(error => {
+            console.log(error);
+        });
+
+
+        $(".addressInsertModal #addressInsertModal").modal();
+    }
+
+    //open addressEdit modal form
+    if ($(event.target).hasClass('addressEditButton')) {
+
+        $(".addressEditModal #edit_address_cities").children().remove();
+
+        fetch("/api/admin/allcities")
+            .then((response) => {
+                response.json().then(data => data.forEach(function (item, i, data) {
+                    $("#edit_address_cities")
+                        .append("<option name=\""+item.name+"\" value=\""+item.name+"\" "
+                            +" label=\""+item.name+"\" "
+                            +">"+item.name+"</option>");
+                }));
+            }).catch(error => {
+            console.log(error);
+        });
+
+        let href = $(event.target).attr("href");
+        console.log(href);
+
+        $.get(href, function (address) {
+            $('.addressEditModal #id').val(address.id);
+            $('.addressEditModal #edit_address_cities').val(address.city);
+            $('.addressEditModal #index').val(address.cityIndex);
+            $('.addressEditModal #street').val(address.street);
+            $('.addressEditModal #house').val(address.house);
+        });
+
+        $(".addressEditModal #addressEditModal").modal();
+    }
+
+
+    //open cityInsertModal modal form
+    if ($(event.target).hasClass('addNewCityBtn')) {
+
+        $(".cityInsertModal #ins_city_countries").children().remove();
+
+        fetch("/api/admin/allcountries")
+            .then((response) => {
+                response.json().then(data => data.forEach(function (item, i, data) {
+                    $("#ins_city_countries")
+                        .append("<option name=\""+item.name+"\" value=\""+item.name+"\" "
+                            +" label=\""+item.name+"\" "
+                            +">"+item.name+"</option>");
+                }));
+            }).catch(error => {
+            console.log(error);
+        });
+
+
+        $(".cityInsertModal #cityInsertModal").modal();
+    }
+
+    //open cityEdit modal form
+    if ($(event.target).hasClass('cityEditButton')) {
+
+        $(".cityEditModal #edit_city_countries").children().remove();
+
+        fetch("/api/admin/allcountries")
+            .then((response) => {
+                response.json().then(data => data.forEach(function (item, i, data) {
+                    $("#edit_city_countries")
+                        .append("<option name=\""+item.name+"\" value=\""+item.name+"\" "
+                            +" label=\""+item.name+"\" "
+                            +">"+item.name+"</option>");
+                }));
+            }).catch(error => {
+            console.log(error);
+        });
+
+        let href = $(event.target).attr("href");
+        console.log(href);
+
+        $.get(href, function (city) {
+            $('.cityEditModal #id').val(city.id);
+            $('.cityEditModal #name').val(city.name);
+            $('.cityEditModal #edit_city_countries').val(city.country);
+        });
+
+        $(".cityEditModal #cityEditModal").modal();
+    }
+
+
+    //open countryInsertModal modal form
+    if ($(event.target).hasClass('addNewCountryBtn')) {
+        $(".countryInsertModal #countryInsertModal").modal();
+    }
+
+    //open countryEdit modal form
+    if ($(event.target).hasClass('countryEditButton')) {
+
+        let href = $(event.target).attr("href");
+        console.log(href);
+
+        $.get(href, function (country) {
+            $('.countryEditModal #id').val(country.id);
+            $('.countryEditModal #name').val(country.name);
+        });
+
+        $(".countryEditModal #countryEditModal").modal();
+    }
+
+    //open categoryInsertModal modal form
+    if ($(event.target).hasClass('addNewCatBtn')) {
+        $(".categoryInsertModal #catInsertModal").modal();
+    }
+
+    //open categoryEdit modal form
+    if ($(event.target).hasClass('categoryEditButton')) {
+
+        let href = $(event.target).attr("href");
+        console.log(href);
+
+        $.get(href, function (category) {
+            $('.categoryEditModal #id').val(category.id);
+            $('.categoryEditModal #name').val(category.name);
+        });
+
+        $(".categoryEditModal #catEditModal").modal();
+    }
+
+    //open insertUser modal form
+    if ($(event.target).hasClass('addNewUserBtn')) {
+        $(".userInsertModal #ins_user_roles").children().remove();
+
+        fetch("/api/admin/allroles")
+            .then((response) => {
+                response.json().then(data => data.forEach(function (item, i, data) {
+                    $("#ins_user_roles")
+                        .append("<option name=\""+item.name+"\" value=\""+item.id+"\" "
+                            +" label=\""+item.name+"\" "
+                            +">"+item.name+"</option>");
+                }));
+            }).catch(error => {
+            console.log(error);
+        });
+
+        $(".userInsertModal #insertModal").modal();
+    }
+
+    //open editUser modal form
+    if ($(event.target).hasClass('userEditButton')) {
+        $(".userEditModal #edit_user_roles").children().remove();
+
+        fetch("/api/admin/allroles")
+            .then((response) => {
+                response.json().then(data => data.forEach(function (item, i, data) {
+                    $("#edit_user_roles")
+                        .append("<option name=\""+item.name+"\" value=\""+item.id+"\" "
+                            +" label=\""+item.name+"\" "
+                            +">"+item.name+"</option>");
+                }));
+            }).catch(error => {
+            console.log(error);
+        });
+
+        let href = $(event.target).attr("href");
+        console.log(href);
+
+        $.get(href, function (user) {
+
+            console.log(user.id);
+            $('.userEditModal #id').val(user.id);
+            $('.userEditModal #email').val(user.email);
+            $('.userEditModal #username').val(user.username);
+            $('.userEditModal #password').val(user.password);
+            $('.userEditModal #gender').val(user.gender).prop('selected', true);
+            $('.userEditModal #birthday').val(user.birthday);
+
+            $('.userEditModal #phone').val(user.phone);
+            $('.userEditModal #firstName').val(user.firstName);
+            $('.userEditModal #lastName').val(user.lastName);
+
+
+            const user_roles = user.roles;
+
+            $('.userEditModal #edit_user_roles option').each(function (index, item) {
+
+                var option = $(item);
+
+                console.log('get roles ' + option.val());
+
+                var a = 0;
+                for (let i = 0; i < user_roles.length; i++) {
+                    if (option.val() == user_roles[i].id) {
+                        a = 1;
+                    }
+                }
+
+                if (a == 1) {
+                    console.log('option selected ' + option.val());
+                    option.prop('selected', true);
+                } else {
+                    console.log('option not selected ' + option.val());
+                    option.prop('selected', false);
+                }
+            });
+
+        });
+
+
+        $(".userEditModal #userEditM").modal();
+    }
 
     //delete address
     if ($(event.target).hasClass('addressDeleteButton')) {
@@ -371,7 +938,6 @@ document.addEventListener('click', function (event) {
             }).then((response) => {if (response.ok)
             {updateShops()} else {alert('Невозможно удалить магазин')}
             });
-
     }
 
     //delete user
@@ -385,10 +951,11 @@ document.addEventListener('click', function (event) {
                     "Content-Type": "application/json;charset=utf-8"
                 }
             }).then((response) => {if (response.ok)
-            {updateUsers(); updateShops()}  else {alert('Невозможно удалить пользователя')}
+            {updateUsers(); updateShops(); updateAddresses()}  else {alert('Невозможно удалить пользователя')}
             });
 
     }
+
 
 });
 

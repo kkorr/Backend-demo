@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -38,11 +39,11 @@ public class City {
     }
 
 
-    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(name = "country_city",
             joinColumns = {@JoinColumn(name = "city_id")},
             inverseJoinColumns = {@JoinColumn(name = "country_id")})
-    private Collection<Country> countries;
+    private Country country;
 
 
     @OneToMany(mappedBy = "city",fetch = FetchType.LAZY, cascade = CascadeType.ALL)

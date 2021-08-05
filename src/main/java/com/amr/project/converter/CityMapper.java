@@ -13,8 +13,12 @@ public interface CityMapper {
     CityMapper INSTANCE = Mappers.getMapper(CityMapper.class);
 
     @Mappings({
-            @Mapping(source = "countries", target = "countries")
+            @Mapping(source = "country.name", target = "country")
     })
     public CityDto cityToDto(City city);
-    //public City dtoToCity(CityDto cityDto);
+
+    @Mappings({
+            @Mapping(source = "country", target = "country.name")
+    })
+    public City dtoToCity(CityDto cityDto);
 }

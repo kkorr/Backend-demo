@@ -32,6 +32,9 @@ public class AdminRestController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private RoleService roleService;
+
 
     @Autowired
     public AdminRestController(ShopService shopService, UserService userService, ItemService itemService) {
@@ -45,7 +48,7 @@ public class AdminRestController {
     public ResponseEntity<List<ShopDto>> showAllShops() {
         List<ShopDto> shops = shopService.getAll()
                 .stream()
-                .map(x->ShopMapper.INSTANCE.shopToDto(x))
+                .map(x->ShopMapper.INSTANCE.shopToShopDto(x))
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(shops, HttpStatus.OK);
@@ -65,7 +68,7 @@ public class AdminRestController {
     public ResponseEntity<List<ItemDto>> showAllItems() {
         List<ItemDto> items = itemService.getAll()
                 .stream()
-                .map(x-> ItemMapper.INSTANCE.itemToDto(x))
+                .map(x-> ItemMapper.INSTANCE.itemToItemDto(x))
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(items, HttpStatus.OK);
@@ -113,5 +116,15 @@ public class AdminRestController {
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(categories, HttpStatus.OK);
+    }
+
+    @GetMapping("/allroles")
+    public ResponseEntity<List<RoleDto>> showAllRoles() {
+        List<RoleDto> roles = roleService.getAll()
+                .stream()
+                .map(x-> RoleMapper.INSTANCE.roleToDto(x))
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(roles, HttpStatus.OK);
     }
 }

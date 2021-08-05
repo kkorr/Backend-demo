@@ -1,5 +1,6 @@
 package com.amr.project.converter;
 
+
 import com.amr.project.model.dto.CountryDto;
 import com.amr.project.model.entity.Country;
 import org.mapstruct.Mapper;
@@ -30,6 +31,7 @@ public interface CountryMapper {
         }
         return strings;
     }
+
 
     default String map(Country country) {
         return country != null ? country.getName() : "No country!";
