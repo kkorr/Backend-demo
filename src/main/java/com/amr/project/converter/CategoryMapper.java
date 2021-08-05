@@ -13,9 +13,12 @@ import java.util.List;
  * @project platform
  */
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface CategoryMapper {
     default String[] map(Collection<Category> categories) {
+        if (categories == null) {
+            return new String[0];
+        }
         String[] strings = new String[categories.size()];
         int iterCount = 0;
         for (Category category :

@@ -2,24 +2,26 @@ package com.amr.project.converter;
 
 import com.amr.project.model.entity.Category;
 import com.amr.project.service.abstracts.CategoryService;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.NullValueCheckStrategy;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-@Component
-public class ReferenceCategoryMapper {
-    private final
-    CategoryService categoryService;
-
-    public ReferenceCategoryMapper(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
+@Mapper(componentModel = "spring", nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+public abstract class ReferenceCategoryMapper {
+    @Autowired
+    protected CategoryService categoryService;
 
     public Collection<Category> map(String[] categories) {
+        if (categories == null) {
+            return new ArrayList<>();
+        }
         return Arrays.stream(categories)
-                .map(categoryService::getByName)
+                .map(categoryService::getCategoryByName)
                 .collect(Collectors.toList());
     }
 }

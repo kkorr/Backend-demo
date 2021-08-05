@@ -1,6 +1,7 @@
 package com.amr.project.service.impl;
 
 import com.amr.project.dao.abstracts.UserDao;
+import com.amr.project.model.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         if (userDao.findByUsername(s).isPresent()) {
-            UserDetails userDetails = userDao.findByUsername(s).get().getUserDetails();
-            LOGGER.info("Login this user: " + userDetails.getUsername());
-            return userDetails;
+            User user = userDao.findByUsername(s).get();
+            LOGGER.info("Login this user: " + user.getUsername());
+            return user;
         }
         throw new UsernameNotFoundException("User not found");
     }

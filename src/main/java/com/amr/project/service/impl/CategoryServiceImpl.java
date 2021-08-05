@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CategoryServiceImpl extends ReadWriteServiceImpl<Category, Long> implements CategoryService{
+public class CategoryServiceImpl extends ReadWriteServiceImpl<Category, Long> implements CategoryService {
 
     private final CategoryDao categoryDao;
 
@@ -22,6 +22,11 @@ public class CategoryServiceImpl extends ReadWriteServiceImpl<Category, Long> im
         super(readWriteDAO);
         this.categoryDao = categoryDao;
     }
+
+    @Override
+    public Category getCategoryByName(String name) {
+        return categoryDao.getCategoryByName(name);
+    }
     @Override
     public List<CategoryDto> getCategoryDto() {
         List<Category> categories = categoryDao.getAll();
@@ -29,3 +34,4 @@ public class CategoryServiceImpl extends ReadWriteServiceImpl<Category, Long> im
 
     }
 }
+

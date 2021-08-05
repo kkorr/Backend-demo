@@ -18,4 +18,9 @@ public class ImageServiceImpl extends ReadWriteServiceImpl<Image, Long> implemen
         super(readWriteDAO);
         this.imageDao = imageDao;
     }
+
+    @Override
+    public Image getByUrl(String url) {
+        return imageDao.getByUrl(url);
+    }
 }
