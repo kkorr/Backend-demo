@@ -25,9 +25,18 @@ public class SellerRestController {
 
     private final ShopService shopService;
     private final ItemService itemService;
-    public SellerRestController(ShopService shopService, ItemService itemService) {
+    private final ItemMapper itemMapper;
+    private final ShopMapper shopMapper;
+
+    /**
+     * Ругается что не находит бинов сейчас, они появляются после билда
+     * игнорируйте эту ошибук
+     **/
+    public SellerRestController(ShopService shopService, ItemService itemService, ItemMapper itemMapper, ShopMapper shopMapper) {
         this.shopService = shopService;
         this.itemService = itemService;
+        this.itemMapper = itemMapper;
+        this.shopMapper = shopMapper;
     }
 
     private static boolean isNumeric(String str) {
@@ -38,28 +47,29 @@ public class SellerRestController {
     @GetMapping("/{shopIdOrName}/settings")
     public ResponseEntity<ShopDto> getShop(@PathVariable("shopIdOrName") String shopIdOrName) {
         if (isNumeric(shopIdOrName)) {
-            return new ResponseEntity<>(ShopMapper.INSTANCE.shopToShopDto(shopService.findShopById(Long.parseLong(shopIdOrName))), HttpStatus.OK);
+            return new ResponseEntity<>(shopMapper.shopToShopDto(shopService.findShopById(Long.parseLong(shopIdOrName))), HttpStatus.OK);
         }
-        return new ResponseEntity<>(ShopMapper.INSTANCE.shopToShopDto(shopService.findShopByName(shopIdOrName)), HttpStatus.OK);
+        return new ResponseEntity<>(shopMapper.shopToShopDto(shopService.findShopByName(shopIdOrName)), HttpStatus.OK);
     }
 
     @PatchMapping(value = "/{shopIdOrName}/settings")
-    public ResponseEntity<Void> updateShop(@RequestBody ShopDto shopDto) {
-        shopService.update(ShopMapper.INSTANCE.shopDtoToShop(shopDto));
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<ShopDto> updateShop(@RequestBody ShopDto shopDto) {
+        shopService.update(shopMapper.shopDtoToShop(shopDto));
+        return new ResponseEntity<>(shopMapper.shopToShopDto(shopService.findShopByName(shopDto.getName())), HttpStatus.OK);
     }
 
 /*    @PostMapping(value = "/{shopIdOrName}/product/{productIdOrName}/newProduct")
     public ResponseEntity<Void> addProduct(@RequestBody ItemDto itemDto,
                                            @PathVariable String productIdOrName, @PathVariable String shopIdOrName) {
-        Shop shop = isNumeric(shopIdOrName) ? shopService.findShopById(Long.parseLong(shopIdOrName)) : shopService.findShopByName(shopIdOrName);
+        Shop shop = isNumeric(shopIdOrName) ? shopService.getByKey(Long.parseLong(shopIdOrName)) : shopService.getByName(shopIdOrName);
         List<Item> items = shop.getItems();
-        Item item = ItemMapper.INSTANCE.itemDtoToItem(itemDto);
+        itemService.update(itemMapper.itemDtoToItem(itemDto));
+        Item item = itemService.getByName(itemDto.getName());
         item.setShop(shop);
         if (items == null) {
             items = new ArrayList<>();
         }
-        itemService.persist(item);
+        ;
         items.add(item);
         shop.setItems(items);
         shopService.update(shop);
@@ -71,20 +81,20 @@ public class SellerRestController {
         Shop shop = isNumeric(shopIdOrName) ? shopService.findShopById(Long.parseLong(shopIdOrName)) : shopService.findShopByName(shopIdOrName);
         Item item = isNumeric(productIdOrName) ? itemService.findItemById(Long.parseLong(productIdOrName)) : itemService.findItemByName(productIdOrName);
         boolean isShopItem = shop.getItems().contains(item);
-        return isShopItem ? new ResponseEntity<>(ItemMapper.INSTANCE.itemToItemDto(item), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return isShopItem ? new ResponseEntity<>(itemMapper.itemToItemDto(item), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 /*
     @PatchMapping(value = "/{shopIdOrName}/product/{productIdOrName}/edit")
     public ResponseEntity<ItemDto> updateProduct(@RequestBody ItemDto itemDto,
                                                  @PathVariable String productIdOrName, @PathVariable String shopIdOrName) {
-        Shop shop = isNumeric(shopIdOrName) ? shopService.findShopById(Long.parseLong(shopIdOrName)) : shopService.findShopByName(shopIdOrName);
-        Item item = ItemMapper.INSTANCE.itemDtoToItem(itemDto);
+        Shop shop = isNumeric(shopIdOrName) ? shopService.getByKey(Long.parseLong(shopIdOrName)) : shopService.getByName(shopIdOrName);
+        Item item = itemMapper.itemDtoToItem(itemDto);
         item.setShop(shop);
         itemService.update(item);
         shopService.update(shop);
-        return new ResponseEntity<>(ItemMapper.INSTANCE.itemToItemDto
-                (itemService.findItemByName(productIdOrName)), HttpStatus.OK);
+        return new ResponseEntity<>(itemMapper.itemToItemDto
+                (itemService.findItemByName(item.getName())), HttpStatus.OK);
     }
 */
 

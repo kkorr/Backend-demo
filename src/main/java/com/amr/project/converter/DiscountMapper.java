@@ -11,7 +11,7 @@ import java.util.Collection;
  * @project platform
  */
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface DiscountMapper {
     default Collection<Discount> map(Shop shop) {
         return shop.getDiscounts();

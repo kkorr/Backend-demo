@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ImageMapper {
 
 
@@ -23,9 +23,5 @@ public interface ImageMapper {
             iterCount++;
         }
         return strings;
-    }
-
-    default String map(Image image) {
-        return image != null ? image.getUrl() : "No image!";
     }
 }

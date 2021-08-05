@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface CountryMapper {
     CountryMapper INSTANCE = Mappers.getMapper(CountryMapper.class);
 
