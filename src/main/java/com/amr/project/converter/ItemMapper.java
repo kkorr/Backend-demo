@@ -24,11 +24,13 @@ public interface ItemMapper {
 
     @Mappings({
             @Mapping(source = "shop.id", target = "shopId"),
+            @Mapping(source = "categories", target = "categories")
     })
     ItemDto itemToItemDto(Item item);
 
     @Mappings({
             @Mapping(source = "shopId", target = "shop.id"),
+            @Mapping(source = "categories", target = "categories")
     })
     Item itemDtoToItem(ItemDto itemDto);
 

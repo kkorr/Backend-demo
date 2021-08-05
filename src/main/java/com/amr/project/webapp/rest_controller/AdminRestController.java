@@ -2,6 +2,7 @@ package com.amr.project.webapp.rest_controller;
 
 import com.amr.project.converter.*;
 import com.amr.project.model.dto.*;
+import com.amr.project.model.entity.Item;
 import com.amr.project.service.abstracts.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -65,13 +66,14 @@ public class AdminRestController {
     }
 
     @GetMapping("/allitems")
-    public ResponseEntity<List<ItemDto>> showAllItems() {
-        List<ItemDto> items = itemService.getAll()
+    public ResponseEntity<List<Item>> showAllItems() {
+/*        List<ItemDto> items = itemService.getAll()
                 .stream()
                 .map(x-> ItemMapper.INSTANCE.itemToItemDto(x))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
 
-        return new ResponseEntity<>(items, HttpStatus.OK);
+        //return new ResponseEntity<>(ItemMapper.INSTANCE.toItemsDto(itemService.getAll()), HttpStatus.OK);
+        return new ResponseEntity<>(itemService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/allcountries")
@@ -111,7 +113,7 @@ public class AdminRestController {
     public ResponseEntity<List<CategoryDto>> showAllCategories() {
         List<CategoryDto> categories = categoryService.getAll()
                 .stream()
-                .map(x-> CategoryMapper.INSTANCE.categoryTocategoryDto(x))
+                .map(x-> CategoryMapper.INSTANCE.categoryToDto(x))
                 .sorted((x,y)->(x.getId().compareTo(y.getId())))
                 .collect(Collectors.toList());
 

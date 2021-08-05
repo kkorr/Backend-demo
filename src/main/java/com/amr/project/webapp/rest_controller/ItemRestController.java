@@ -13,8 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/item")
@@ -23,15 +25,26 @@ public class ItemRestController {
     ItemService itemService;
     CategoryService categoryService;
     ShopService shopService;
+    private final ItemMapper itemMapper;
 
     @Autowired
-    public ItemRestController(ItemService itemService) {
+    public ItemRestController(ItemService itemService, ItemMapper itemMapper) {
         this.itemService = itemService;
+        this.itemMapper = itemMapper;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ItemDto> getAddress(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(ItemMapper.INSTANCE.itemToItemDto(itemService.getByKey(id)), HttpStatus.OK);
+        ItemDto itemDto = ItemMapper.INSTANCE.itemToItemDto(itemService.getByKey(id));
+        String[] strings = {"Одежда"};
+        itemDto.setCategories(strings);
+
+       // itemService.getByKey(id).getCategories().stream().map(x-> x.getName()).collect(Collectors.toList());
+
+        //itemDto.setCategories(itemService.getByKey(id).getCategories().stream().map(x-> x.getName()).collect(Collectors.toList()));
+      //  return new ResponseEntity<>(ItemMapper.INSTANCE.itemToItemDto(itemService.getByKey(id)), HttpStatus.OK);
+       // return new ResponseEntity<>(itemService.getByKey(id), HttpStatus.OK);
+        return new ResponseEntity<>(itemDto, HttpStatus.OK);
     }
 
     @PutMapping("/save")
