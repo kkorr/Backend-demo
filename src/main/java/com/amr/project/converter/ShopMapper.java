@@ -6,59 +6,27 @@ import com.amr.project.model.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
-import org.mapstruct.factory.Mappers;
 
 /**
  * @author denisqaa on 29.07.2021.
  * @project platform
  */
 
-@Mapper(uses = {ItemMapper.class, ReviewMapper.class, DiscountMapper.class, CountryMapper.class,
-        ImageMapper.class, ReferenceShopMapper.class,
-        ReferenceCountryMapper.class, ReferenceImageMapper.class})
+@Mapper(uses = {ReviewMapper.class,
+        ImageMapper.class}, componentModel = "spring")
 public interface ShopMapper {
 
-    ShopMapper INSTANCE = Mappers.getMapper(ShopMapper.class);
-
     @Mappings({
-            @Mapping(source = "id", target = "id"),
-            @Mapping(source = "name", target = "name"),
-            @Mapping(source = "email", target = "email"),
-            @Mapping(source = "phone", target = "phone"),
-            @Mapping(source = "description", target = "description"),
-            @Mapping(source = "logo", target = "logo"),
-            @Mapping(source = "location", target = "location"),
-            @Mapping(source = "items", target = "items"),
-            @Mapping(source = "reviews", target = "reviews"),
-            @Mapping(source = "rating", target = "rating"),
-            @Mapping(source = "discounts", target = "discounts"),
-            @Mapping(source = "count", target = "count"),
-            @Mapping(source = "user", target = "username"),
-            @Mapping(source = "moderated", target = "moderated"),
-            @Mapping(source = "moderateAccept", target = "moderateAccept"),
-            @Mapping(source = "moderatedRejectReason", target = "moderatedRejectReason"),
-            @Mapping(source = "pretendentToBeDeleted", target = "pretendentToBeDeleted")
+            @Mapping(source = "user.username", target = "username"),
+            @Mapping(source = "logo.url", target = "logo"),
+            @Mapping(source = "location.name", target = "location")
     })
     ShopDto shopToShopDto(Shop shop);
 
     @Mappings({
-            @Mapping(source = "id", target = "id"),
-            @Mapping(source = "name", target = "name"),
-            @Mapping(source = "email", target = "email"),
-            @Mapping(source = "phone", target = "phone"),
-            @Mapping(source = "description", target = "description"),
-            @Mapping(source = "logo", target = "logo"),
-            @Mapping(source = "location", target = "location"),
-            @Mapping(source = "items", target = "items"),
-            @Mapping(source = "reviews", target = "reviews"),
-            @Mapping(source = "rating", target = "rating"),
-            @Mapping(source = "discounts", target = "discounts"),
-            @Mapping(source = "count", target = "count"),
-            @Mapping(source = "username", target = "user"),
-            @Mapping(source = "moderated", target = "moderated"),
-            @Mapping(source = "moderateAccept", target = "moderateAccept"),
-            @Mapping(source = "moderatedRejectReason", target = "moderatedRejectReason"),
-            @Mapping(source = "pretendentToBeDeleted", target = "pretendentToBeDeleted")
+            @Mapping(source = "username", target = "user.username"),
+            @Mapping(source = "location", target = "location.name"),
+            @Mapping(source = "logo", target = "logo.url")
     })
     Shop shopDtoToShop(ShopDto shopDto);
 

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CategoryServiceImpl extends ReadWriteServiceImpl<Category, Long> implements CategoryService{
+public class CategoryServiceImpl extends ReadWriteServiceImpl<Category, Long> implements CategoryService {
 
     private final CategoryDao categoryDao;
 
@@ -17,5 +17,10 @@ public class CategoryServiceImpl extends ReadWriteServiceImpl<Category, Long> im
     public CategoryServiceImpl(ReadWriteDAO<Category, Long> readWriteDAO, CategoryDao categoryDao) {
         super(readWriteDAO);
         this.categoryDao = categoryDao;
+    }
+
+    @Override
+    public Category getCategoryByName(String name) {
+        return categoryDao.getCategoryByName(name);
     }
 }
