@@ -35,4 +35,15 @@ public class CartItemDAOImpl extends ReadWriteDAOImpl<CartItem, Long> implements
                 .setParameter("itemid", itemId)
                 .executeUpdate();
     }
+
+    @Override
+    public Optional<CartItem> findByItemAndShopAndUser(Long itemId, Long userId, Long shopId) {
+        return entityManager.createQuery("select c from CartItem c where c.user.id = :userid and c.item.id = :itemid " +
+                "and c.shop.id= :shopid", CartItem.class)
+                .setParameter("userid", userId)
+                .setParameter("itemid", itemId)
+                .setParameter("shopid", itemId)
+                .getResultStream().findAny();
+    }
+
 }

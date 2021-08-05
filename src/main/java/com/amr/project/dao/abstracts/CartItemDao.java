@@ -4,6 +4,7 @@ import com.amr.project.model.entity.CartItem;
 import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.User;
 import java.util.List;
+import java.util.Optional;
 
 public interface CartItemDao extends ReadWriteDAO<CartItem, Long> {
 
@@ -13,4 +14,5 @@ public interface CartItemDao extends ReadWriteDAO<CartItem, Long> {
 
     void updateQuantity(int quantity, Long userId, Long itemId);
 
+    Optional<CartItem> findByItemAndShopAndUser(Long itemId, Long userId, Long shopId);
 }

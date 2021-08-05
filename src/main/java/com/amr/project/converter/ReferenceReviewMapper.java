@@ -5,6 +5,7 @@ import com.amr.project.service.abstracts.ReviewService;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -16,6 +17,9 @@ public abstract class ReferenceReviewMapper {
     protected ReviewService reviewService;
 
     public Collection<Review> map(String[] reviews) {
+        if (reviews == null) {
+            return new ArrayList<>();
+        }
         return Arrays.stream(reviews)
                 .map(reviewService::getByName)
                 .collect(Collectors.toList());

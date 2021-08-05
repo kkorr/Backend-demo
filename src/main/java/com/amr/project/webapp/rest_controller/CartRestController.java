@@ -1,6 +1,7 @@
 package com.amr.project.webapp.rest_controller;
 
 import com.amr.project.converter.CartItemMapper;
+import com.amr.project.converter.UserMapper;
 import com.amr.project.model.dto.CartItemDto;
 import com.amr.project.model.entity.CartItem;
 import com.amr.project.model.entity.User;
@@ -33,39 +34,39 @@ public class CartRestController {
     private final UserService userService;
     private final ItemService itemService;
     private final CartItemMapper cartItemMapper;
+    private final UserMapper userMapper;
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     public CartRestController(CartItemService cartItemService, UserService userService,
-                              ItemService itemService, CartItemMapper cartItemMapper) {
+                              ItemService itemService, CartItemMapper cartItemMapper, UserMapper userMapper) {
         this.cartItemService = cartItemService;
         this.userService = userService;
         this.itemService = itemService;
         this.cartItemMapper = cartItemMapper;
+        this.userMapper = userMapper;
     }
+
     @Transactional
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CartItemDto>> getAllCartItemsByUser(Principal principal) {
         if(principal == null || principal instanceof AnonymousAuthenticationToken) {
             throw new IllegalStateException("Вам нужно авторизоваться для доступа к корзине");
         }
-        User user;
-        if(userService.findByUsername(principal.getName()).isPresent()) {
-            user = userService.findByUsername(principal.getName()).get();
-        } else {
-            throw new IllegalStateException("Вам нужно авторизоваться для доступа к корзине");
-        }
+        User user = userService.findByUsername(principal.getName()).get();
         List<CartItem> cartItems = cartItemService.findByUser(user);
         List<CartItemDto> cartItemsDto = cartItems.stream().map(c -> cartItemMapper.cartItemToDto(c)).collect(Collectors.toList());
-        LOGGER.info(String.format("Пользователь с id %d успешно открыл корзину покупателя", user.getId()));
+        LOGGER.info(String.format("Пользователь с id %d успешно получил список товаров в корзине", user.getId()));
         return ResponseEntity.ok(cartItemsDto);
     }
+
     @Transactional
     @PatchMapping("/update/{id}")
     public ResponseEntity<Void> updateCartItemQuantity(@PathVariable("id") Long id, @RequestBody CartItemDto cartItem) {
         cartItemService.getByKey(id).setQuantity(cartItem.getQuantity());
         return ResponseEntity.ok().body(null);
     }
+
     @Transactional
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> updateCartItemQuantity(@PathVariable Long id) {
@@ -73,4 +74,27 @@ public class CartRestController {
         return ResponseEntity.ok().body(null);
     }
 
+    @Transactional
+    @PostMapping("/add")
+    public ResponseEntity<Void> addItemToCart(@RequestBody CartItemDto cartItemDto) {
+//        if(principal == null || principal instanceof AnonymousAuthenticationToken) {
+//            throw new IllegalStateException("Вам нужно авторизоваться для доступа к корзине");
+//        }
+//        User user = userService.findByUsername(principal.getName()).get();
+//        cartItemDto.setUser(userMapper.userToDto(user));
+
+        CartItem cartItem;
+        if(cartItemService.findByItemAndShopAndUser(cartItemDto.getItem().getId(), cartItemDto.getUser().getId(),
+                cartItemDto.getShop().getId()).isPresent()) {
+            cartItem = cartItemService.findByItemAndShopAndUser(cartItemDto.getItem().getId(), cartItemDto.getUser().getId(),
+                    cartItemDto.getShop().getId()).get();
+            updateCartItemQuantity(cartItem.getId(), cartItemDto);
+        } else {
+            cartItem = cartItemMapper.dtoToCartItem(cartItemDto);
+            cartItemService.persist(cartItem);
+            LOGGER.info(String.format("Пользователь с id %d успешно добавил товар с id %d в корзину", cartItem.getUser().getId(),
+                    cartItem.getId()));
+        }
+        return ResponseEntity.ok().body(null);
+    }
 }

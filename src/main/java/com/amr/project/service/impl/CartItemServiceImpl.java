@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CartItemServiceImpl extends ReadWriteServiceImpl<CartItem, Long> implements CartItemService {
@@ -38,4 +39,10 @@ public class CartItemServiceImpl extends ReadWriteServiceImpl<CartItem, Long> im
     public void updateQuantity(int quantity, Long userId, Long itemId) {
         cartItemDao.updateQuantity(quantity, userId, itemId);
     }
+
+    @Override
+    public Optional<CartItem> findByItemAndShopAndUser(Long itemId, Long userId, Long shopId) {
+        return cartItemDao.findByItemAndShopAndUser(itemId, userId, shopId);
+    }
+
 }
