@@ -8,11 +8,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(uses = {CategoryMapper.class, ImageMapper.class, ShopMapper.class,
+CountryMapper.class, UserMapper.class})
 public interface CartItemMapper {
-//    CartItemMapper INSTANCE = Mappers.getMapper( CartItemMapper.class );
-//
-//    public CartItemDto cartItemToDto(CartItem cartItem);
-//
-//    public CartItem dtoToCartItem(CartItemDto cartItemDto);
+    CartItemMapper INSTANCE = Mappers.getMapper( CartItemMapper.class );
+
+    public CartItemDto cartItemToDto(CartItem cartItem);
+
+    public CartItem dtoToCartItem(CartItemDto cartItemDto);
 }

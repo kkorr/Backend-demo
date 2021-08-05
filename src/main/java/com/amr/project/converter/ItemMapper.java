@@ -21,38 +21,8 @@ import java.util.List;
 public interface ItemMapper {
     ItemMapper INSTANCE = Mappers.getMapper(ItemMapper.class);
 
-    @Mappings({
-            @Mapping(source = "id", target = "id"),
-            @Mapping(source = "name", target = "name"),
-            @Mapping(source = "count", target = "count"),
-            @Mapping(source = "rating", target = "rating"),
-            @Mapping(source = "categories", target = "categories"),
-            @Mapping(source = "images", target = "images"),
-            @Mapping(source = "description", target = "description"),
-            @Mapping(source = "discount", target = "discount"),
-            @Mapping(source = "moderated", target = "moderated"),
-            @Mapping(source = "moderateAccept", target = "moderateAccept"),
-            @Mapping(source = "moderatedRejectReason", target = "moderatedRejectReason"),
-            @Mapping(source = "shop", target = "shopId"),
-            @Mapping(source = "pretendentToBeDeleted", target = "pretendentToBeDeleted")
-    })
     ItemDto itemToItemDto(Item item);
 
-    @Mappings({
-            @Mapping(source = "id", target = "id"),
-            @Mapping(source = "name", target = "name"),
-            @Mapping(source = "count", target = "count"),
-            @Mapping(source = "rating", target = "rating"),
-            @Mapping(source = "categories", target = "categories"),
-            @Mapping(source = "images", target = "images"),
-            @Mapping(source = "description", target = "description"),
-            @Mapping(source = "discount", target = "discount"),
-            @Mapping(source = "moderated", target = "moderated"),
-            @Mapping(source = "moderateAccept", target = "moderateAccept"),
-            @Mapping(source = "moderatedRejectReason", target = "moderatedRejectReason"),
-            @Mapping(source = "shopId", target = "shop"),
-            @Mapping(source = "pretendentToBeDeleted", target = "pretendentToBeDeleted")
-    })
     Item itemDtoToItem(ItemDto itemDto);
 
     default List<Item> map(Shop shop) {

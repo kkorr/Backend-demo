@@ -20,46 +20,8 @@ public interface ShopMapper {
 
     ShopMapper INSTANCE = Mappers.getMapper(ShopMapper.class);
 
-    @Mappings({
-            @Mapping(source = "id", target = "id"),
-            @Mapping(source = "name", target = "name"),
-            @Mapping(source = "email", target = "email"),
-            @Mapping(source = "phone", target = "phone"),
-            @Mapping(source = "description", target = "description"),
-            @Mapping(source = "logo", target = "logo"),
-            @Mapping(source = "location", target = "location"),
-            @Mapping(source = "items", target = "items"),
-            @Mapping(source = "reviews", target = "reviews"),
-            @Mapping(source = "rating", target = "rating"),
-            @Mapping(source = "discounts", target = "discounts"),
-            @Mapping(source = "count", target = "count"),
-            @Mapping(source = "user", target = "username"),
-            @Mapping(source = "moderated", target = "moderated"),
-            @Mapping(source = "moderateAccept", target = "moderateAccept"),
-            @Mapping(source = "moderatedRejectReason", target = "moderatedRejectReason"),
-            @Mapping(source = "pretendentToBeDeleted", target = "pretendentToBeDeleted")
-    })
     ShopDto shopToShopDto(Shop shop);
 
-    @Mappings({
-            @Mapping(source = "id", target = "id"),
-            @Mapping(source = "name", target = "name"),
-            @Mapping(source = "email", target = "email"),
-            @Mapping(source = "phone", target = "phone"),
-            @Mapping(source = "description", target = "description"),
-            @Mapping(source = "logo", target = "logo"),
-            @Mapping(source = "location", target = "location"),
-            @Mapping(source = "items", target = "items"),
-            @Mapping(source = "reviews", target = "reviews"),
-            @Mapping(source = "rating", target = "rating"),
-            @Mapping(source = "discounts", target = "discounts"),
-            @Mapping(source = "count", target = "count"),
-            @Mapping(source = "username", target = "user"),
-            @Mapping(source = "moderated", target = "moderated"),
-            @Mapping(source = "moderateAccept", target = "moderateAccept"),
-            @Mapping(source = "moderatedRejectReason", target = "moderatedRejectReason"),
-            @Mapping(source = "pretendentToBeDeleted", target = "pretendentToBeDeleted")
-    })
     Shop shopDtoToShop(ShopDto shopDto);
 
 
