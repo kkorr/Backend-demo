@@ -1,7 +1,7 @@
 package com.amr.project.service.impl;
 
 import com.amr.project.converter.ItemsMapper;
-import com.amr.project.dao.abstracts.MainPageItemsDAO;
+import com.amr.project.dao.abstracts.MainPageItemsDao;
 import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.entity.Item;
 import com.amr.project.service.abstracts.MainPageItemService;
@@ -11,15 +11,14 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class MainPageItemServiceImpl extends ReadWriteServiceImpl<Item, Long> implements MainPageItemService {
 
-    private final MainPageItemsDAO mainPageItemsDAO;
+    private final MainPageItemsDao mainPageItemsDAO;
 
     @Autowired
-    public MainPageItemServiceImpl(MainPageItemsDAO mainPageItemsDAO) {
+    public MainPageItemServiceImpl(MainPageItemsDao mainPageItemsDAO) {
         super(mainPageItemsDAO);
         this.mainPageItemsDAO = mainPageItemsDAO;
     }
