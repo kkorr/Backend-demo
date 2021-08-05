@@ -1,6 +1,6 @@
 package com.amr.project.service.impl;
 
-import com.amr.project.converter.ItemsMapper;
+import com.amr.project.converter.ItemMapper;
 import com.amr.project.dao.abstracts.MainPageItemsDao;
 import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.entity.Item;
@@ -25,7 +25,7 @@ public class MainPageItemServiceImpl extends ReadWriteServiceImpl<Item, Long> im
 
     @Override
     public List<ItemDto> findPopularItems() {
-        return ItemsMapper.INSTANCE.toItemsDto(mainPageItemsDAO.getAll().stream()
+        return ItemMapper.INSTANCE.toItemsDto(mainPageItemsDAO.getAll().stream()
                 .sorted(Comparator.comparing(Item::getCount, Comparator.reverseOrder()))
                 .limit(10).collect(Collectors.toList()));
     }
