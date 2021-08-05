@@ -1,5 +1,6 @@
 package com.amr.project.webapp.rest_controller;
 
+import com.amr.project.converter.CartItemMapper;
 import com.amr.project.model.dto.CartItemDto;
 import com.amr.project.model.entity.CartItem;
 import com.amr.project.model.entity.User;
@@ -31,22 +32,20 @@ public class CartRestController {
     private final CartItemService cartItemService;
     private final UserService userService;
     private final ItemService itemService;
-    //ДОБАВИТЬ ЛОГГЕР
-//
-//
-//
+    private final CartItemMapper cartItemMapper;
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     public CartRestController(CartItemService cartItemService, UserService userService,
-                              ItemService itemService) {
+                              ItemService itemService, CartItemMapper cartItemMapper) {
         this.cartItemService = cartItemService;
         this.userService = userService;
         this.itemService = itemService;
+        this.cartItemMapper = cartItemMapper;
     }
     @Transactional
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<CartItem>> getAllCartItemsByUser(Principal principal) {
+    public ResponseEntity<List<CartItemDto>> getAllCartItemsByUser(Principal principal) {
         if(principal == null || principal instanceof AnonymousAuthenticationToken) {
             throw new IllegalStateException("Вам нужно авторизоваться для доступа к корзине");
         }
@@ -56,15 +55,14 @@ public class CartRestController {
         } else {
             throw new IllegalStateException("Вам нужно авторизоваться для доступа к корзине");
         }
-
         List<CartItem> cartItems = cartItemService.findByUser(user);
-
-//        List<CartItemDto> cartItemsDto = cartItems.stream().map(c -> CartItemMapper.INSTANCE.cartItemToDto(c)).collect(Collectors.toList());
-        return ResponseEntity.ok(cartItems);
+        List<CartItemDto> cartItemsDto = cartItems.stream().map(c -> cartItemMapper.cartItemToDto(c)).collect(Collectors.toList());
+        LOGGER.info(String.format("Пользователь с id %d успешно открыл корзину покупателя", user.getId()));
+        return ResponseEntity.ok(cartItemsDto);
     }
     @Transactional
     @PatchMapping("/update/{id}")
-    public ResponseEntity<Void> updateCartItemQuantity(@PathVariable("id") Long id, @RequestBody CartItem cartItem) {
+    public ResponseEntity<Void> updateCartItemQuantity(@PathVariable("id") Long id, @RequestBody CartItemDto cartItem) {
         cartItemService.getByKey(id).setQuantity(cartItem.getQuantity());
         return ResponseEntity.ok().body(null);
     }

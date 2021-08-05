@@ -25,7 +25,7 @@ function insertCartItemRow(cartItem) {
           width="25" height="25"/></button></div>
         </div>
         <div class="col-3">
-          <img src="${ci.item.images[0].url}" class="img-fluid" />
+          <img src="${ci.item.images[0]}" class="img-fluid" />
         </div>
         <div class="col-7">
           <p id="itemName">${ci.item.name}</p>
