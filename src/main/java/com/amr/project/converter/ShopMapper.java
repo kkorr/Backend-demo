@@ -6,6 +6,9 @@ import com.amr.project.model.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 /**
  * @author denisqaa on 29.07.2021.
@@ -38,4 +41,8 @@ public interface ShopMapper {
     default String map(User user) {
         return user != null ? user.getUsername() : "No user!";
     }
+
+    ShopMapper INSTANCE = Mappers.getMapper(ShopMapper.class);
+
+    List<ShopDto> toShopDto(List<Shop> shop);
 }

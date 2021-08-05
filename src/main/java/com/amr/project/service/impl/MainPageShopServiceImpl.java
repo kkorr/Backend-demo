@@ -1,6 +1,7 @@
 package com.amr.project.service.impl;
 
-import com.amr.project.converter.ShopsMapper;
+
+import com.amr.project.converter.ShopMapper;
 import com.amr.project.dao.abstracts.MainPageShopsDao;
 import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.entity.Shop;
@@ -25,7 +26,7 @@ public class MainPageShopServiceImpl extends ReadWriteServiceImpl<Shop, Long> im
 
     @Override
     public List<ShopDto> findPopularShops() {
-        return ShopsMapper.INSTANCE.toShopDto(mainPageShopsDAO.getAll().stream()
+        return ShopMapper.INSTANCE.toShopDto(mainPageShopsDAO.getAll().stream()
                 .sorted(Comparator.comparing(Shop::getCount, Comparator.reverseOrder()))
                 .limit(10).collect(Collectors.toList()));
     }

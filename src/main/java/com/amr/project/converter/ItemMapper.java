@@ -6,6 +6,7 @@ import com.amr.project.model.entity.Shop;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
@@ -32,4 +33,6 @@ public interface ItemMapper {
     default List<Item> map(Shop shop) {
         return shop.getItems();
     }
+    ItemMapper INSTANCE = Mappers.getMapper(ItemMapper.class);
+    List<ItemDto> toItemsDto(List<Item> item);
 }
