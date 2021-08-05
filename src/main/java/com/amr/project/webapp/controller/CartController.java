@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class CartController {
 
     @GetMapping("/cart")
-    public String registerUser() {
+    public String cartPage() {
         return "cart";
     }
 }
