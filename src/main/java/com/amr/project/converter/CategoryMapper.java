@@ -11,7 +11,7 @@ import java.util.Collection;
  * @project platform
  */
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface CategoryMapper {
 
     default String[] map(Collection<Category> categories) {

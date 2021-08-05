@@ -1,6 +1,5 @@
 package com.amr.project.converter;
 
-import com.amr.project.model.entity.Category;
 import com.amr.project.model.entity.Image;
 import org.mapstruct.Mapper;
 
@@ -12,7 +11,7 @@ import java.util.Collection;
  * @project platform
  */
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ImageMapper {
     default String[] map(Collection<Image> images) {
         if (images == null) {
@@ -26,22 +25,5 @@ public interface ImageMapper {
             iterCount++;
         }
         return strings;
-    }
-
-    default Collection<Image> map(String[] strings) {
-        if (strings == null) {
-            return new ArrayList<>();
-        }
-        ArrayList<Image> images = new  ArrayList<>(strings.length);
-        int iterCount = 0;
-        for (String s : strings) {
-            images.get(iterCount).setUrl(s);
-            iterCount++;
-        }
-        return images;
-    }
-
-    default String map(Image image) {
-        return image != null ? image.getUrl() : "No image!";
     }
 }
