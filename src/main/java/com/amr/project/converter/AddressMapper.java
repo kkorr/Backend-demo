@@ -6,10 +6,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface AddressMapper {
 
-    AddressMapper INSTANCE = Mappers.getMapper( AddressMapper.class );
+//    AddressMapper INSTANCE = Mappers.getMapper( AddressMapper.class );
 
     @Mapping(source = "country.name", target = "country")
     @Mapping(source = "city.name", target = "city")

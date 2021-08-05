@@ -6,10 +6,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = AddressMapper.class)
+@Mapper(uses = {AddressMapper.class}, componentModel = "spring")
 public interface UserMapper {
 
-    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
+//    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     @Mapping(source = "address", target = "address")
     UserDto userToDto(User user);

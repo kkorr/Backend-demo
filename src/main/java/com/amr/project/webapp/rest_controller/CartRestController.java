@@ -1,6 +1,5 @@
 package com.amr.project.webapp.rest_controller;
 
-import com.amr.project.converter.CartItemMapper;
 import com.amr.project.model.dto.CartItemDto;
 import com.amr.project.model.entity.CartItem;
 import com.amr.project.model.entity.User;
@@ -33,6 +32,9 @@ public class CartRestController {
     private final UserService userService;
     private final ItemService itemService;
     //ДОБАВИТЬ ЛОГГЕР
+//
+//
+//
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     @Autowired

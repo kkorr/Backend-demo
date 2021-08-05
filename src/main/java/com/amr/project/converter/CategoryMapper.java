@@ -27,16 +27,4 @@ public interface CategoryMapper {
         }
         return strings;
     }
-    default Collection<Category> map(String[] strings) {
-        if (strings == null) {
-            return new ArrayList<>();
-        }
-        ArrayList<Category> categories = new  ArrayList<>(strings.length);
-        int iterCount = 0;
-        for (String s : strings) {
-            categories.get(iterCount).setName(s);
-            iterCount++;
-        }
-        return categories;
-    }
 }
