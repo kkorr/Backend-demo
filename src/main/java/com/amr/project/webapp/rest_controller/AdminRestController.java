@@ -111,7 +111,7 @@ public class AdminRestController {
     public ResponseEntity<List<CategoryDto>> showAllCategories() {
         List<CategoryDto> categories = categoryService.getAll()
                 .stream()
-                .map(x-> CategoryMapper.INSTANCE.categoryToDto(x))
+                .map(x-> CategoryMapper.INSTANCE.categoryTocategoryDto(x))
                 .sorted((x,y)->(x.getId().compareTo(y.getId())))
                 .collect(Collectors.toList());
 

@@ -23,7 +23,7 @@ public class CategoryRestController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDto> getAddress(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(CategoryMapper.INSTANCE.categoryToDto(categoryService.getByKey(id)), HttpStatus.OK);
+        return new ResponseEntity<>(CategoryMapper.INSTANCE.categoryTocategoryDto(categoryService.getByKey(id)), HttpStatus.OK);
     }
 
 

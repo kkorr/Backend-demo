@@ -17,7 +17,7 @@ import java.util.List;
 public interface CategoryMapper {
     CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
 
-   // public CategoryDto categoryToDto(Category category);
+    public CategoryDto categoryTocategoryDto(Category category);
     public Category dtoToCategory(CategoryDto categoryDto);
 
     default String[] map(Collection<Category> categories) {
@@ -35,5 +35,5 @@ public interface CategoryMapper {
     }
 
 
-    List<CategoryDto> toCategoryDto(List<Category> categories);
+   List<CategoryDto> toCategoryDto(List<Category> categories);
 }
