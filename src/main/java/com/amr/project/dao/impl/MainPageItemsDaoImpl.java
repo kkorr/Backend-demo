@@ -5,5 +5,5 @@ import com.amr.project.model.entity.Item;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class MainPageItemsDaoImpl extends ReadWriteDAOImpl<Item,Long> implements MainPageItemsDao {
+public class MainPageItemsDaoImpl extends ReadWriteDAOImpl<Item, Long> implements MainPageItemsDao {
 }

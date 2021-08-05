@@ -28,6 +28,8 @@ public interface CategoryMapper {
         }
         return strings;
     }
+
     CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
+
     List<CategoryDto> toCategoryDto(List<Category> categories);
 }

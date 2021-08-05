@@ -27,6 +27,7 @@ public class CategoryServiceImpl extends ReadWriteServiceImpl<Category, Long> im
     public Category getCategoryByName(String name) {
         return categoryDao.getCategoryByName(name);
     }
+
     @Override
     public List<CategoryDto> getCategoryDto() {
         List<Category> categories = categoryDao.getAll();

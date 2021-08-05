@@ -15,19 +15,21 @@ public class MainPageController {
     private final MainPageShopService mainPageShopService;
     private final UserService userService;
     private final CategoryService categoryService;
+
     @Autowired
     public MainPageController(MainPageItemService mainPageItemService, MainPageShopService mainPageShopService,
-                              UserService userService,CategoryService categoryService) {
+                              UserService userService, CategoryService categoryService) {
         this.mainPageItemService = mainPageItemService;
         this.mainPageShopService = mainPageShopService;
         this.userService = userService;
         this.categoryService = categoryService;
     }
+
     @GetMapping(value = "main")
-    public String getPopularItemsAbdShop(Model model, Principal principal){
-        model.addAttribute("user",userService.findByUsername(principal.getName()));
-        model.addAttribute("items",mainPageItemService.findPopularItems());
-        model.addAttribute("shops",mainPageShopService.findPopularShops());
+    public String getPopularItemsAbdShop(Model model, Principal principal) {
+        model.addAttribute("user", userService.findByUsername(principal.getName()));
+        model.addAttribute("items", mainPageItemService.findPopularItems());
+        model.addAttribute("shops", mainPageShopService.findPopularShops());
         model.addAttribute("categories", categoryService.getCategoryDto());
         return "mainPage";
     }

@@ -10,5 +10,6 @@ import java.util.List;
 @Mapper
 public interface ShopsMapper {
     ShopsMapper INSTANCE = Mappers.getMapper(ShopsMapper.class);
+
     List<ShopDto> toShopDto(List<Shop> shop);
 }

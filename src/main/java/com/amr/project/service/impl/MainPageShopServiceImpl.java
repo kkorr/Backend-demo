@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class MainPageShopServiceImpl extends ReadWriteServiceImpl<Shop,Long> implements MainPageShopService {
+public class MainPageShopServiceImpl extends ReadWriteServiceImpl<Shop, Long> implements MainPageShopService {
     private final MainPageShopsDao mainPageShopsDAO;
 
     @Autowired
@@ -26,7 +26,7 @@ public class MainPageShopServiceImpl extends ReadWriteServiceImpl<Shop,Long> imp
     @Override
     public List<ShopDto> findPopularShops() {
         return ShopsMapper.INSTANCE.toShopDto(mainPageShopsDAO.getAll().stream()
-                .sorted(Comparator.comparing(Shop::getCount,Comparator.reverseOrder()))
+                .sorted(Comparator.comparing(Shop::getCount, Comparator.reverseOrder()))
                 .limit(10).collect(Collectors.toList()));
     }
 }
