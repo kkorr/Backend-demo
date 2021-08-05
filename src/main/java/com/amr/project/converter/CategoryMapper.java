@@ -1,9 +1,12 @@
 package com.amr.project.converter;
 
+import com.amr.project.model.dto.CategoryDto;
 import com.amr.project.model.entity.Category;
 import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author denisqaa on 29.07.2021.
@@ -22,4 +25,6 @@ public interface CategoryMapper {
         }
         return strings;
     }
+    CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
+    List<CategoryDto> toCategoryDto(List<Category> categories);
 }
