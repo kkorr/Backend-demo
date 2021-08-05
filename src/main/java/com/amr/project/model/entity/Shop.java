@@ -63,7 +63,7 @@ public class Shop {
     private double rating;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "user_shop",
             joinColumns = {@JoinColumn(name = "shop_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")})
