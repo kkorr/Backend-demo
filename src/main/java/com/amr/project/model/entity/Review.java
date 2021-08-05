@@ -27,9 +27,7 @@ public class Review {
     String dignity = "-"; //плюсы
     String flaw = "-"; //минусы
     String text;
-    Date date = new Date(new Date().getTime() / 1000 * 1000);
-    int likes = 0;
-    int dislikes = 0;
+    Date date;
     int rating;
 
     @JsonIgnore
