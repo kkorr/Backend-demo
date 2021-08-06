@@ -15,9 +15,12 @@ import java.util.List;
  * @project platform
  */
 
+
 @Mapper(uses = {ReviewMapper.class,
         ImageMapper.class}, componentModel = "spring")
 public interface ShopMapper {
+
+    ShopMapper INSTANCE = Mappers.getMapper(ShopMapper.class);
 
     @Mappings({
             @Mapping(source = "user.username", target = "username"),
@@ -42,7 +45,7 @@ public interface ShopMapper {
         return user != null ? user.getUsername() : "No user!";
     }
 
-    ShopMapper INSTANCE = Mappers.getMapper(ShopMapper.class);
+
 
     List<ShopDto> toShopDto(List<Shop> shop);
 }
