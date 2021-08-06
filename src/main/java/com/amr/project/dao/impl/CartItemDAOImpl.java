@@ -42,7 +42,7 @@ public class CartItemDAOImpl extends ReadWriteDAOImpl<CartItem, Long> implements
                 "and c.shop.id= :shopid", CartItem.class)
                 .setParameter("userid", userId)
                 .setParameter("itemid", itemId)
-                .setParameter("shopid", itemId)
+                .setParameter("shopid", shopId)
                 .getResultStream().findAny();
     }
 

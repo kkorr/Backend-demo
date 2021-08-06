@@ -62,10 +62,14 @@ public class UserRestController {
         Set<Role> roles = new HashSet<>();
         roles.add(role);
         user.setRoles(roles);
-        Country country = countryService.getByName(userDto.getAddress().getCountry());
-        user.getAddress().setCountry(country);
-        City city = cityService.getByName(userDto.getAddress().getCity());
-        user.getAddress().setCity(city);
+        try {
+            Country country = countryService.getByName(userDto.getAddress().getCountry());
+            user.getAddress().setCountry(country);
+        } catch (Exception e) {}
+        try {
+            City city = cityService.getByName(userDto.getAddress().getCity());
+            user.getAddress().setCity(city);
+        } catch (Exception e) {}
         userService.persist(user);
         LOGGER.info(String.format("Пользователь с id %d успешно зарегистрирован", user.getId()));
         return ResponseEntity.ok().body(user);

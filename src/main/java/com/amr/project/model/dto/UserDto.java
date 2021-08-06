@@ -47,7 +47,7 @@ public class UserDto {
 
     private Gender gender;
 
-    @JsonFormat(pattern="yyyy.MM.dd")
+    @JsonFormat(pattern="dd.MM.yyyy")
     private Calendar birthday;
 
     private Image images;

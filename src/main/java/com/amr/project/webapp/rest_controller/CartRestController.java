@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -51,7 +52,7 @@ public class CartRestController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CartItemDto>> getAllCartItemsByUser(Principal principal) {
         if(principal == null || principal instanceof AnonymousAuthenticationToken) {
-            throw new IllegalStateException("Вам нужно авторизоваться для доступа к корзине");
+            throw new AccessDeniedException("Вам нужно авторизоваться для доступа к корзине");
         }
         User user = userService.findByUsername(principal.getName()).get();
         List<CartItem> cartItems = cartItemService.findByUser(user);
@@ -75,13 +76,15 @@ public class CartRestController {
     }
 
     @Transactional
-    @PostMapping("/add")
+    @PostMapping(value = "/add")
     public ResponseEntity<Void> addItemToCart(@RequestBody CartItemDto cartItemDto) {
-//        if(principal == null || principal instanceof AnonymousAuthenticationToken) {
-//            throw new IllegalStateException("Вам нужно авторизоваться для доступа к корзине");
-//        }
-//        User user = userService.findByUsername(principal.getName()).get();
-//        cartItemDto.setUser(userMapper.userToDto(user));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(authentication.getName());
+        if(authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            throw new AccessDeniedException("Вам нужно авторизоваться для доступа к корзине");
+        }
+        User user = userService.findByUsername(authentication.getName()).get();
+        cartItemDto.setUser(userMapper.userToDto(user));
 
         CartItem cartItem;
         if(cartItemService.findByItemAndShopAndUser(cartItemDto.getItem().getId(), cartItemDto.getUser().getId(),
