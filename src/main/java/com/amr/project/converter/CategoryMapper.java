@@ -5,7 +5,6 @@ import com.amr.project.model.entity.Category;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,6 +15,11 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
+    CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
+
+    public CategoryDto categoryToDto(Category category);
+
+    public Category dtoToCategory(CategoryDto categoryDto);
 
     default String[] map(Collection<Category> categories) {
         if (categories == null) {
@@ -30,8 +34,6 @@ public interface CategoryMapper {
         }
         return strings;
     }
-
-    CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
 
     List<CategoryDto> toCategoryDto(List<Category> categories);
 }
