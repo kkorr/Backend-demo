@@ -16,5 +16,4 @@ public interface UserMapper {
 
     @Mapping(source = "address", target = "address")
     User dtoToUser(UserDto userDto);
-
 }
