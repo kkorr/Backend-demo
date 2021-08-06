@@ -1,24 +1,18 @@
 package com.amr.project.converter;
 
 import com.amr.project.model.entity.Shop;
-import com.amr.project.service.abstracts.CountryService;
-import com.amr.project.service.abstracts.ImageService;
 import com.amr.project.service.abstracts.ShopService;
-import com.amr.project.service.abstracts.UserService;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@Component
-public class ReferenceShopMapper {
-    private final
-    ShopService shopService;
 
-    public ReferenceShopMapper(ShopService shopService, ImageService imageService, CountryService countryService, UserService userService) {
-        this.shopService = shopService;
+@Mapper(unmappedTargetPolicy = org.mapstruct.ReportingPolicy.IGNORE,
+        componentModel = "spring")
+public abstract class ReferenceShopMapper {
+    @Autowired
+    protected ShopService shopService;
+
+    public Shop map(Long shopId) {
+        return shopService.getByKey(shopId);
     }
-
-    public Shop map(Long id) {
-        return shopService.findShopById(id);
-    }
-
-
 }

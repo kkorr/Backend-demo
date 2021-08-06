@@ -11,8 +11,9 @@ import java.util.Collection;
  * @project platform
  */
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ImageMapper {
+
     default String[] map(Collection<Image> images) {
         if (images == null) {
             images = new ArrayList<>();
@@ -25,9 +26,5 @@ public interface ImageMapper {
             iterCount++;
         }
         return strings;
-    }
-
-    default String map(Image image) {
-        return image != null ? image.getUrl() : "No image!";
     }
 }

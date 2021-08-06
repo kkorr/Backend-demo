@@ -4,14 +4,15 @@ import com.amr.project.dao.abstracts.ItemDao;
 import com.amr.project.model.entity.Item;
 import com.amr.project.service.abstracts.ItemService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @author denisqaa on 28.07.2021.
  * @project platform
  */
+
 @Service
-@Transactional
 public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long>
         implements ItemService {
     private final ItemDao itemDao;
@@ -29,6 +30,11 @@ public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long>
     @Override
     public Item findItemByName(String name) {
         return itemDao.findItemByName(name);
+    }
+
+    @Override
+    public List<Item> getItemsByShopId(Long id) {
+        return itemDao.getItemsByShopId(id);
     }
 }
 

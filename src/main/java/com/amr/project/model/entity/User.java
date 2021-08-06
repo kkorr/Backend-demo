@@ -64,7 +64,8 @@ public class User implements UserDetails {
     @Column
     private int age;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id",referencedColumnName = "id")
     private Address address;
 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = Role.class, cascade = CascadeType.PERSIST)
@@ -90,8 +91,8 @@ public class User implements UserDetails {
             inverseJoinColumns = {@JoinColumn(name = "coupon_id")})
     private Collection<Coupon> coupons;
 
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    private Collection<Item> cart;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Collection<Item> cart;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "user_orders")
@@ -141,5 +142,11 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User(Long id, String email, String username) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
     }
 }

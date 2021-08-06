@@ -33,6 +33,8 @@ public class ItemDto {
 
     private String[] images;
 
+    private String[] reviews;
+
     private String description;
 
     private int discount;
