@@ -25,12 +25,12 @@ public class MainPageController {
         this.categoryService = categoryService;
     }
 
-    @GetMapping(value = "main")
-    public String getPopularItemsAbdShop(Model model, Principal principal) {
-        model.addAttribute("user", userService.findByUsername(principal.getName()));
-        model.addAttribute("items", mainPageItemService.findPopularItems());
+    @GetMapping(value = "/home")
+    public String getPopularItemsAbdShop(Model model /*,Principal principal*/) {
+        //model.addAttribute("user", userService.findByUsername(principal.getName()));
+        //model.addAttribute("items", mainPageItemService.findPopularItems());
         model.addAttribute("shops", mainPageShopService.findPopularShops());
         model.addAttribute("categories", categoryService.getCategoryDto());
-        return "mainPage";
+        return "home";
     }
 }
