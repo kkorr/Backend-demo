@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration;
 import org.springframework.boot.autoconfigure.session.SessionAutoConfiguration;
 
 @SpringBootApplication(exclude = {SessionAutoConfiguration.class,
-        org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
+        //org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
         })
 public class ProjectApplication {
 
