@@ -3,6 +3,8 @@ package com.amr.project.webapp.controller;
 
 import com.amr.project.service.abstracts.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,9 +28,12 @@ public class MainPageController {
     }
 
     @GetMapping(value = "/home")
-    public String getPopularItemsAbdShop(Model model /*,Principal principal*/) {
-        //model.addAttribute("user", userService.findByUsername(principal.getName()));
-        //model.addAttribute("items", mainPageItemService.findPopularItems());
+    public String getPopularItemsAbdShop(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication.isAuthenticated()) {
+            model.addAttribute("user", userService.findByUsername(authentication.getName()));
+        }
+        model.addAttribute("items", mainPageItemService.findPopularItems());
         model.addAttribute("shops", mainPageShopService.findPopularShops());
         model.addAttribute("categories", categoryService.getCategoryDto());
         return "home";

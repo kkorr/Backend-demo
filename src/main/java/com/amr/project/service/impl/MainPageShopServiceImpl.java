@@ -16,11 +16,14 @@ import java.util.stream.Collectors;
 @Service
 public class MainPageShopServiceImpl extends ReadWriteServiceImpl<Shop, Long> implements MainPageShopService {
     private final MainPageShopsDao mainPageShopsDAO;
+    private final ShopMapper shopMapper;
 
     @Autowired
-    public MainPageShopServiceImpl(MainPageShopsDao mainPageShopsDAO) {
+    public MainPageShopServiceImpl(MainPageShopsDao mainPageShopsDAO,
+                                   ShopMapper shopMapper) {
         super(mainPageShopsDAO);
         this.mainPageShopsDAO = mainPageShopsDAO;
+        this.shopMapper = shopMapper;
     }
 
 
