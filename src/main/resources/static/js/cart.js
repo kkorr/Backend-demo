@@ -7,6 +7,11 @@ async function getItems() {
     }
 }
 getItems()
+
+function checkButton() {
+    document.getElementById("paymentButton").if
+}
+
 let i = 0;
 function insertCartItemRow(cartItem) {
     let ci = {
