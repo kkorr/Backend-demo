@@ -22,16 +22,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/seller/api")
 public class SellerRestController {
-
     private final ShopService shopService;
     private final ItemService itemService;
     private final ItemMapper itemMapper;
     private final ShopMapper shopMapper;
 
-    /**
-     * Ругается что не находит бинов сейчас, они появляются после билда
-     * игнорируйте эту ошибук
-     **/
+
     public SellerRestController(ShopService shopService, ItemService itemService, ItemMapper itemMapper, ShopMapper shopMapper) {
         this.shopService = shopService;
         this.itemService = itemService;
@@ -58,7 +54,7 @@ public class SellerRestController {
         return new ResponseEntity<>(shopMapper.shopToShopDto(shopService.findShopByName(shopDto.getName())), HttpStatus.OK);
     }
 
-/*    @PostMapping(value = "/{shopIdOrName}/product/{productIdOrName}/newProduct")
+    @PostMapping(value = "/{shopIdOrName}/product/{productIdOrName}/newProduct")
     public ResponseEntity<Void> addProduct(@RequestBody ItemDto itemDto,
                                            @PathVariable String productIdOrName, @PathVariable String shopIdOrName) {
         Shop shop = isNumeric(shopIdOrName) ? shopService.getByKey(Long.parseLong(shopIdOrName)) : shopService.getByName(shopIdOrName);
@@ -74,7 +70,7 @@ public class SellerRestController {
         shop.setItems(items);
         shopService.update(shop);
         return new ResponseEntity<>(HttpStatus.CREATED);
-    }*/
+    }
 
     @GetMapping(value = "/{shopIdOrName}/product/{productIdOrName}/edit")
     public ResponseEntity<ItemDto> getProduct(@PathVariable String productIdOrName, @PathVariable String shopIdOrName) {
@@ -84,7 +80,7 @@ public class SellerRestController {
         return isShopItem ? new ResponseEntity<>(itemMapper.itemToItemDto(item), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-/*
+
     @PatchMapping(value = "/{shopIdOrName}/product/{productIdOrName}/edit")
     public ResponseEntity<ItemDto> updateProduct(@RequestBody ItemDto itemDto,
                                                  @PathVariable String productIdOrName, @PathVariable String shopIdOrName) {
@@ -96,7 +92,7 @@ public class SellerRestController {
         return new ResponseEntity<>(itemMapper.itemToItemDto
                 (itemService.findItemByName(item.getName())), HttpStatus.OK);
     }
-*/
+
 
     @DeleteMapping(value = "/{shopIdOrName}/product/{productIdOrName}/edit")
     public ResponseEntity<Void> deleteProduct(@PathVariable String shopIdOrName, @PathVariable String productIdOrName) {

@@ -30,19 +30,19 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(unique = true)
-   // @org.hibernate.validator.constraints.NotBlank(message = "Введите ваш email")
-   // @Email(message = "Введите корректный email")
+    @org.hibernate.validator.constraints.NotBlank(message = "Введите ваш email")
+    @Email(message = "Введите корректный email")
     private String email;
 
 
     @Column(unique = true)
-   // @NotBlank(message = "Введите имя пользователя")
-   // @Length(min = 4, message = "Имя пользователя должно быть не менее 4 символов")
+    @NotBlank(message = "Введите имя пользователя")
+    @Length(min = 4, message = "Имя пользователя должно быть не менее 4 символов")
     private String username;
 
     @Column
-  //  @NotBlank(message = "Введите пароль")
-   // @Length(min = 6, message = "пароль должен быть не менее 6 символов")
+    @NotBlank(message = "Введите пароль")
+    @Length(min = 6, message = "пароль должен быть не менее 6 символов")
     private String password;
 
     private boolean activate;
@@ -51,8 +51,8 @@ public class User implements UserDetails {
     private String activationCode;
 
     @Column(unique = true)
-    //@NotBlank(message = "enter your phone number")
-   // @Length(min = 11, message = "phone number must be at least 11 characters")
+    @NotBlank(message = "enter your phone number")
+    @Length(min = 11, message = "phone number must be at least 11 characters")
     private String phone;
 
     @Column(name = "first_name")

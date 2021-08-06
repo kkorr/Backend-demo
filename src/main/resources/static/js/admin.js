@@ -7,16 +7,61 @@ $(document).ready(function () {
     updateAddresses();
     updateCategories();
 
+    //add new shop
+    $('.shopInsertModal .shopInsertButton').on('click', function (event) {
+        let shop = {
+            name:$(".shopInsertModal #name").val(),
+            email:$(".shopInsertModal #email").val(),
+            phone:$(".shopInsertModal #phone").val(),
+            description:$(".shopInsertModal #description").val(),
+            location:$(".shopInsertModal #ins_shop_location").val(),
+            username:$(".shopInsertModal #ins_shop_username").val()
+        }
+        console.log(shop)
+
+        fetch("api/shop/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(shop)
+        }) .then(() => {$('.shopInsertModal #shopInsertModal').modal('hide');$('input').val(''); updateShops()})
+    })
+
+    //save shop
+    $('.shopEditModal .shopSaveButton').on('click', function (event) {
+        let shop = {
+            id:$(".shopEditModal #id").val(),
+            name:$(".shopEditModal #name").val(),
+            email:$(".shopEditModal #email").val(),
+            phone:$(".shopEditModal #phone").val(),
+            description:$(".shopEditModal #description").val(),
+            location:$(".shopEditModal #edit_shop_location").val(),
+            username:$(".shopEditModal #edit_shop_username").val()
+        }
+
+        console.log(shop)
+        fetch("api/shop/save", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(shop)
+        }) .then(() => {$('.shopEditModal #shopEditModal').modal('hide'); $('input').val('');
+            updateShops();})
+    })
+
+
     //add new item
     $('.itemInsertModal .itemInsertButton').on('click', function (event) {
         let item = {
             name:$(".itemInsertModal #name").val(),
             price:$(".itemInsertModal #price").val(),
             count:$(".itemInsertModal #count").val(),
-            categories:$(".itemInsertModal ins_item_categories").val(),
+            categories:getCategory("#ins_item_categories"),
             description:$(".itemInsertModal #description").val(),
             discount:$(".itemInsertModal #discount").val(),
-            shop:$(".itemInsertModal #ins_item_shops").val()
+            shopId:$(".itemInsertModal #ins_item_shops").val()
         }
 
         console.log(item)
@@ -27,21 +72,25 @@ $(document).ready(function () {
                 "Content-Type": "application/json;charset=utf-8"
             },
             body: JSON.stringify(item)
-        }) .then(() => {$('.itemInsertModal #addressInsertModal').modal('hide');$('input').val(''); updateItems()})
+        }) .then(() => {$('.itemInsertModal #itemInsertModal').modal('hide');$('input').val(''); updateItems()})
     })
 
     //save item
     $('.itemEditModal .itemSaveButton').on('click', function (event) {
         let item = {
+            id:$(".itemEditModal #id").val(),
             name:$(".itemEditModal #name").val(),
             price:$(".itemEditModal #price").val(),
             count:$(".itemEditModal #count").val(),
-            categories:$(".itemEditModal edit_item_categories").val(),
+            categories:getCategory("#edit_item_categories"),
             description:$(".itemEditModal #description").val(),
             discount:$(".itemEditModal #discount").val(),
-            shop:$(".itemEditModal #edit_item_shops").val()
+            shopId:$(".itemEditModal #edit_item_shops").val(),
+            images:$(".itemEditModal #edit_item_images").val(),
+            reviews:$(".itemEditModal #edit_item_reviews").val()
         }
 
+        console.log(item)
         fetch("api/item/save", {
             method: "PUT",
             headers: {
@@ -282,11 +331,11 @@ function createTableShop(shop) {
             <td>${shop.username}</td>
             
             <td>
-            <a href="/seller/api/${shop.id}/settings" class="btn btn-info shopItemsButton">Список товаров</a>
+            <a href="/api/admin/shop/${shop.id}/allitems" class="btn btn-info shopItemsButton">Список товаров</a>
             </td>
             
             <td>
-            <a href="/seller/api/${shop.id}/settings" class="btn btn-info shopEditButton">Редактировать</a>
+            <a href="/api/shop/${shop.id}" class="btn btn-info shopEditButton">Редактировать</a>
             </td>
             <td>
             <a  href="/api/shop/${shop.id}" class="btn btn-danger shopDeleteButton">Удалить</a>
@@ -372,6 +421,21 @@ function createTableItem(item) {
             <td>
             <a  href="/api/item/${item.id}" class="btn btn-danger itemDeleteButton">Delete</a>
             </td>
+        </tr>`;
+}
+
+function createTableItemShop(item) {
+
+    return `<tr id="item_table_row">
+            <td>${item.id}</td>
+            <td>${item.name}</td>
+            <td>${item.price}</td>
+            <td>${item.count}</td>
+            <td>${item.rating}</td>
+            <td>${item.categories}</td>
+            <td>${item.moderated}</td>
+            <td>${item.moderateAccept}</td>
+            <td>${item.moderatedRejectReason}</td>                     
         </tr>`;
 }
 
@@ -527,9 +591,16 @@ function getRole(address) {
 function getCountry(address) {
     let data = [];
     $(address).find("option:selected").each(function () {
-       // data.push({id: $(this).val(),name: $(this).attr("name"),label: $(this).attr("label"), authority: $(this).attr("name")})
         return $(this).attr("name");
     });
+}
+
+function getCategory(address) {
+    let data = [];
+    $(address).find("option:selected").each(function () {
+         data.push($(this).attr("name"))
+    });
+    return data;
 }
 
 
@@ -537,6 +608,112 @@ function getCountry(address) {
 
 document.addEventListener('click', function (event) {
     event.preventDefault()
+
+    //open shopItemListModal modal form
+    if ($(event.target).hasClass('shopItemsButton')) {
+        let itemShopTableBody = $("#item_by_shop_table_body")
+        itemShopTableBody.children().remove();
+
+        let href = $(event.target).attr("href");
+        console.log(href);
+
+
+        fetch(href)
+            .then((response) => {
+                response.json().then(data => data.forEach(function (item, i, data) {
+                    let TableRow = createTableItemShop(item);
+                    itemShopTableBody.append(TableRow);
+                    console.log(TableRow);
+                }));
+            }).catch(error => {
+            console.log(error);
+        });
+
+
+        $(".shopItemListModal #shopItemListModal").modal();
+    }
+
+    //open shopInsertModal modal form
+    if ($(event.target).hasClass('addNewShopBtn')) {
+
+        $(".shopInsertModal #ins_shop_location").children().remove();
+        $(".shopInsertModal #ins_shop_username").children().remove();
+
+        fetch("/api/admin/allcountries")
+            .then((response) => {
+                response.json().then(data => data.forEach(function (item, i, data) {
+                    $("#ins_shop_location")
+                        .append("<option name=\""+item.name+"\" value=\""+item.name+"\" "
+                            +" label=\""+item.name+"\" "
+                            +">"+item.name+"</option>");
+                }));
+            }).catch(error => {
+            console.log(error);
+        });
+
+        fetch("/api/admin/allusers")
+            .then((response) => {
+                response.json().then(data => data.forEach(function (item, i, data) {
+                    $("#ins_shop_username")
+                        .append("<option name=\""+item.username+"\" value=\""+item.username+"\" "
+                            +" label=\""+item.username+"\" "
+                            +">"+item.username+"</option>");
+                }));
+            }).catch(error => {
+            console.log(error);
+        });
+
+
+        $(".shopInsertModal #shopInsertModal").modal();
+    }
+
+    //open shopEdit modal form
+    if ($(event.target).hasClass('shopEditButton')) {
+
+        $(".shopEditModal #edit_shop_location").children().remove();
+        $(".shopEditModal #edit_shop_username").children().remove();
+
+        fetch("/api/admin/allcountries")
+            .then((response) => {
+                response.json().then(data => data.forEach(function (item, i, data) {
+                    $("#edit_shop_location")
+                        .append("<option name=\""+item.name+"\" value=\""+item.name+"\" "
+                            +" label=\""+item.name+"\" "
+                            +">"+item.name+"</option>");
+                }));
+            }).catch(error => {
+            console.log(error);
+        });
+
+        fetch("/api/admin/allusers")
+            .then((response) => {
+                response.json().then(data => data.forEach(function (item, i, data) {
+                    $("#edit_shop_username")
+                        .append("<option name=\""+item.username+"\" value=\""+item.username+"\" "
+                            +" label=\""+item.username+"\" "
+                            +">"+item.username+"</option>");
+                }));
+            }).catch(error => {
+            console.log(error);
+        });
+
+
+        let href = $(event.target).attr("href");
+        console.log(href);
+
+        $.get(href, function (shop) {
+            $('.shopEditModal #id').val(shop.id);
+            $('.shopEditModal #name').val(shop.name);
+            $('.shopEditModal #email').val(shop.email);
+            $('.shopEditModal #phone').val(shop.phone);
+            $('.shopEditModal #description').val(shop.description);
+            $('.shopEditModal #edit_shop_location').val(shop.location);
+            $('.shopEditModal #edit_shop_username').val(shop.username);
+        });
+
+        $(".shopEditModal #shopEditModal").modal();
+    }
+
 
     //open itemInsertModal modal form
     if ($(event.target).hasClass('addNewItemBtn')) {
@@ -560,7 +737,7 @@ document.addEventListener('click', function (event) {
             .then((response) => {
                 response.json().then(data => data.forEach(function (item, i, data) {
                     $("#ins_item_shops")
-                        .append("<option name=\""+item.name+"\" value=\""+item.name+"\" "
+                        .append("<option name=\""+item.name+"\" value=\""+item.id+"\" "
                             +" label=\""+item.name+"\" "
                             +">"+item.name+"</option>");
                 }));
@@ -578,6 +755,8 @@ document.addEventListener('click', function (event) {
 
         $(".itemEditModal #edit_item_categories").children().remove();
         $(".itemEditModal #ins_item_shops").children().remove();
+/*        $(".itemEditModal #ins_item_images").children().remove();
+        $(".itemEditModal #ins_item_reviews").children().remove();*/
 
         fetch("/api/admin/allcategories")
             .then((response) => {
@@ -595,13 +774,14 @@ document.addEventListener('click', function (event) {
             .then((response) => {
                 response.json().then(data => data.forEach(function (item, i, data) {
                     $("#edit_item_shops")
-                        .append("<option name=\""+item.name+"\" value=\""+item.name+"\" "
+                        .append("<option name=\""+item.name+"\" value=\""+item.id+"\" "
                             +" label=\""+item.name+"\" "
                             +">"+item.name+"</option>");
                 }));
             }).catch(error => {
             console.log(error);
         });
+
 
         let href = $(event.target).attr("href");
         console.log(href);
@@ -612,8 +792,11 @@ document.addEventListener('click', function (event) {
             $('.itemEditModal #price').val(item.price);
             $('.itemEditModal #count').val(item.count);
             $('.itemEditModal #edit_item_categories').val(item.categories);
+            $('.itemEditModal #description').val(item.description);
             $('.itemEditModal #discount').val(item.discount);
             $('.itemEditModal #edit_item_shops').val(item.shop);
+            $('.itemEditModal #edit_item_images').val(item.images);
+            $('.itemEditModal #edit_item_reviews').val(item.reviews);
 
         });
 

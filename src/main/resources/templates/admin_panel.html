@@ -150,7 +150,7 @@
                 <div class="col-sm-6">
                   <input type="text" class="form-control" id="search2" placeholder="введите данные поиска" value="" />
                 </div>
-                <button type="submit" class="btn btn-success col-sm-2 addNewUserBtn">Добавить новый товар</button>
+                <button type="submit" class="btn btn-success col-sm-2 addNewItemBtn">Добавить новый товар</button>
               </div>
             </form>
 
@@ -772,7 +772,7 @@
               <input type="text" class="form-control"  id="count" name="count" value="" />
 
               <label for="ins_item_categories">Category</label>
-              <select name="ins_item_categories" id="ins_item_categories" class="form-control form-control-sm "></select>
+              <select multiple name="ins_item_categories" id="ins_item_categories" class="form-control form-control-sm "></select>
 
               <label for="description">Description </label>
               <input type="text" class="form-control"  id="description" name="description" value="" />
@@ -833,6 +833,12 @@
               <label for="edit_item_shops">Shop</label>
               <select name="edit_item_shops" id="edit_item_shops" class="form-control form-control-sm "></select>
 
+<!--              <label for="edit_item_images">Images</label>
+              <select name="edit_item_images" id="edit_item_images" class="form-control form-control-sm "></select>
+
+              <label for="edit_item_reviews">Reviews</label>
+              <select name="edit_item_reviews" id="edit_item_reviews" class="form-control form-control-sm "></select>-->
+
             </div>
           </div>
           <div class="modal-footer">
@@ -846,6 +852,141 @@
   </form>
 </div>
 
+<!--shop modals-->
+
+<div class="shopItemListModal">
+  <form >
+
+    <div class="modal fade" id="shopItemListModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="ishopItemListModalLabel">Shop items list</h4>
+            <button type="button" class="close" data-dismiss="modal">х</button>
+          </div>
+          <div class="modal-body" >
+
+            <div class="container-fluid">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Название</th>
+                  <th>Цена</th>
+                  <th>Количество</th>
+                  <th>Рейтинг</th>
+                  <th>Категории</th>
+                  <th>Прошел модерацию</th>
+                  <th>Принят</th>
+                  <th>Причина отклонения</th>
+                </tr>
+                </thead>
+                <tbody id="item_by_shop_table_body"></tbody>
+              </table>
+
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>
+
+<div class="shopInsertModal">
+  <form >
+
+    <div class="modal fade" id="shopInsertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="shopInsertModalLabel">Insert new shop</h4>
+            <button type="button" class="close" data-dismiss="modal">х</button>
+          </div>
+          <div class="modal-body" >
+            <div class="form-group  text-center">
+              <label for="name">Name </label>
+              <input type="text" class="form-control"  id="name" name="name" value="" />
+
+              <label for="email">E-mail </label>
+              <input type="text" class="form-control"  id="email" name="email" value="" />
+
+              <label for="phone">Phone </label>
+              <input type="text" class="form-control"  id="phone" name="phone" value="" />
+
+              <label for="description">Description </label>
+              <input type="text" class="form-control"  id="description" name="description" value="" />
+
+              <label for="ins_shop_location">Location</label>
+              <select name="ins_shop_location" id="ins_shop_location" class="form-control form-control-md "></select>
+
+              <label for="ins_shop_username">Username</label>
+              <select name="ins_shop_username" id="ins_shop_username" class="form-control form-control-md "></select>
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button class="btn btn-info shopInsertButton" type="submit">Insert</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>
+
+<div class="shopEditModal">
+  <form >
+
+    <div class="modal fade" id="shopEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="shopEditModalLabel">Edit item</h4>
+            <button type="button" class="close" data-dismiss="modal">х</button>
+          </div>
+          <div class="modal-body" >
+
+            <div class="form-group  text-center">
+
+              <label for="id" class="control-label text-center">ID</label>
+              <input type="text" class="form-control"  id="id" name="id"  value="" readonly/>
+
+              <label for="name">Name </label>
+              <input type="text" class="form-control"  id="name" name="name" value="" />
+
+              <label for="email">E-mail </label>
+              <input type="text" class="form-control"  id="email" name="email" value="" />
+
+              <label for="phone">Phone </label>
+              <input type="text" class="form-control"  id="phone" name="phone" value="" />
+
+              <label for="description">Description </label>
+              <input type="text" class="form-control"  id="description" name="description" value="" />
+
+              <label for="ins_shop_location">Location</label>
+              <select name="ins_shop_location" id="edit_shop_location" class="form-control form-control-md "></select>
+
+              <label for="ins_shop_username">Username</label>
+              <select name="ins_shop_username" id="edit_shop_username" class="form-control form-control-md "></select>
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button class="btn btn-info shopSaveButton" type="submit">Edit</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>
 
 </body>
 </html>

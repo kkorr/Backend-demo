@@ -8,6 +8,7 @@ import com.amr.project.service.abstracts.MainPageItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,8 +26,9 @@ public class MainPageItemServiceImpl extends ReadWriteServiceImpl<Item, Long> im
 
     @Override
     public List<ItemDto> findPopularItems() {
-        return ItemMapper.INSTANCE.toItemsDto(mainPageItemsDAO.getAll().stream()
+/*        return ItemMapper.INSTANCE.toItemsDto(mainPageItemsDAO.getAll().stream()
                 .sorted(Comparator.comparing(Item::getCount, Comparator.reverseOrder()))
-                .limit(10).collect(Collectors.toList()));
+                .limit(10).collect(Collectors.toList()));*/
+        return new ArrayList<>();
     }
 }

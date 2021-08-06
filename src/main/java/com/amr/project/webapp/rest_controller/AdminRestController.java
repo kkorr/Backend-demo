@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,12 +37,15 @@ public class AdminRestController {
     @Autowired
     private RoleService roleService;
 
+    private final ItemMapper itemMapper;
+
 
     @Autowired
-    public AdminRestController(ShopService shopService, UserService userService, ItemService itemService) {
+    public AdminRestController(ShopService shopService, UserService userService, ItemService itemService, ItemMapper itemMapper) {
         this.shopService = shopService;
         this.userService = userService;
         this.itemService = itemService;
+        this.itemMapper = itemMapper;
     }
 
 
@@ -66,14 +70,29 @@ public class AdminRestController {
     }
 
     @GetMapping("/allitems")
-    public ResponseEntity<List<Item>> showAllItems() {
-/*        List<ItemDto> items = itemService.getAll()
+    public ResponseEntity<List<ItemDto>> showAllItems() {
+   /*     List<ItemDto> items = itemService.getAll()
                 .stream()
                 .map(x-> ItemMapper.INSTANCE.itemToItemDto(x))
                 .collect(Collectors.toList());*/
 
-        //return new ResponseEntity<>(ItemMapper.INSTANCE.toItemsDto(itemService.getAll()), HttpStatus.OK);
-        return new ResponseEntity<>(itemService.getAll(), HttpStatus.OK);
+      //  return new ResponseEntity<>(ItemMapper.INSTANCE.toItemsDto(itemService.getAll()), HttpStatus.OK);
+       // return new ResponseEntity<>(itemService.getAll(), HttpStatus.OK);
+      //  return new ResponseEntity<>(items, HttpStatus.OK);
+        return new ResponseEntity<>(itemMapper.toItemsDto(itemService.getAll()), HttpStatus.OK);
+    }
+
+    @GetMapping("/shop/{id}/allitems")
+    public ResponseEntity<List<ItemDto>> showAllItemsByShop(@PathVariable("id") Long id) {
+   /*     List<ItemDto> items = itemService.getAll()
+                .stream()
+                .map(x-> ItemMapper.INSTANCE.itemToItemDto(x))
+                .collect(Collectors.toList());*/
+
+        //  return new ResponseEntity<>(ItemMapper.INSTANCE.toItemsDto(itemService.getAll()), HttpStatus.OK);
+        // return new ResponseEntity<>(itemService.getAll(), HttpStatus.OK);
+        //  return new ResponseEntity<>(items, HttpStatus.OK);
+        return new ResponseEntity<>(itemMapper.toItemsDto(itemService.getItemsByShopId(id)), HttpStatus.OK);
     }
 
     @GetMapping("/allcountries")
@@ -116,6 +135,7 @@ public class AdminRestController {
                 .map(x-> CategoryMapper.INSTANCE.categoryToDto(x))
                 .sorted((x,y)->(x.getId().compareTo(y.getId())))
                 .collect(Collectors.toList());
+        //List<CategoryDto> categories =CategoryMapper.INSTANCE.toCategoryDto(categoryService.getAll());
 
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }

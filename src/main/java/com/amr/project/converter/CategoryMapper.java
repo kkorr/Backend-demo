@@ -13,7 +13,8 @@ import java.util.List;
  * @project platform
  */
 
-@Mapper(componentModel = "spring")
+@Mapper
+       (componentModel = "spring")
 public interface CategoryMapper {
     CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
 
@@ -34,6 +35,5 @@ public interface CategoryMapper {
         return strings;
     }
 
-
-   List<CategoryDto> toCategoryDto(List<Category> categories);
+  List<CategoryDto> toCategoryDto(List<Category> categories);
 }

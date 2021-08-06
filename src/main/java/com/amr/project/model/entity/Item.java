@@ -43,7 +43,7 @@ public class Item {
             inverseJoinColumns = {@JoinColumn(name = "image_id")})
     private Collection<Image> images;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "item_review",
             joinColumns = {@JoinColumn(name = "item_id")},
             inverseJoinColumns = {@JoinColumn(name = "review_id")})
@@ -61,8 +61,8 @@ public class Item {
     @Column
     private int discount;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    //@JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(name = "shop_item",
             joinColumns = {@JoinColumn(name = "item_id")},
             inverseJoinColumns = {@JoinColumn(name = "shop_id")})

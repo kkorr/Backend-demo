@@ -9,6 +9,7 @@ import com.amr.project.service.abstracts.MainPageShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,8 +27,9 @@ public class MainPageShopServiceImpl extends ReadWriteServiceImpl<Shop, Long> im
 
     @Override
     public List<ShopDto> findPopularShops() {
-        return ShopMapper.INSTANCE.toShopDto(mainPageShopsDAO.getAll().stream()
+/*        return ShopMapper.INSTANCE.toShopDto(mainPageShopsDAO.getAll().stream()
                 .sorted(Comparator.comparing(Shop::getCount, Comparator.reverseOrder()))
-                .limit(10).collect(Collectors.toList()));
+                .limit(10).collect(Collectors.toList()));*/
+        return new ArrayList<>();
     }
 }

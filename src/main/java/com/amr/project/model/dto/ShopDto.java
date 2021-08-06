@@ -4,6 +4,7 @@ import com.amr.project.model.entity.Discount;
 import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.Review;
 import io.swagger.annotations.ApiModel;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @ApiModel
+@Data
 public class ShopDto {
     private Long id;
     private String name;
