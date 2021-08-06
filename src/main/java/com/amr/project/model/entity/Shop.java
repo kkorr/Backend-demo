@@ -41,18 +41,21 @@ public class Shop {
     @OneToOne(fetch = FetchType.LAZY)
     private Country location;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "shop_item",
             joinColumns = {@JoinColumn(name = "shop_id")},
             inverseJoinColumns = {@JoinColumn(name = "item_id")})
     private List<Item> items;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "shop_review",
             joinColumns = {@JoinColumn(name = "shop_id")},
             inverseJoinColumns = {@JoinColumn(name = "review_id")})
     private List<Review> reviews;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Image logo;
 
@@ -63,12 +66,13 @@ public class Shop {
     private double rating;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(name = "user_shop",
             joinColumns = {@JoinColumn(name = "shop_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")})
     private User user;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinTable(name = "shop_discount",
             joinColumns = {@JoinColumn(name = "shop_id")},

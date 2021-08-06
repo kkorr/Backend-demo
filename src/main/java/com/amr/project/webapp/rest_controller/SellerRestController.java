@@ -32,6 +32,7 @@ public class SellerRestController {
      * Ругается что не находит бинов сейчас, они появляются после билда
      * игнорируйте эту ошибук
      **/
+
     public SellerRestController(ShopService shopService, ItemService itemService, ItemMapper itemMapper, ShopMapper shopMapper) {
         this.shopService = shopService;
         this.itemService = itemService;
@@ -84,6 +85,7 @@ public class SellerRestController {
         return isShopItem ? new ResponseEntity<>(itemMapper.itemToItemDto(item), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+
     @PatchMapping(value = "/{shopIdOrName}/product/{productIdOrName}/edit")
     public ResponseEntity<ItemDto> updateProduct(@RequestBody ItemDto itemDto,
                                                  @PathVariable String productIdOrName, @PathVariable String shopIdOrName) {
@@ -95,6 +97,7 @@ public class SellerRestController {
         return new ResponseEntity<>(itemMapper.itemToItemDto
                 (itemService.findItemByName(item.getName())), HttpStatus.OK);
     }
+
 
     @DeleteMapping(value = "/{shopIdOrName}/product/{productIdOrName}/edit")
     public ResponseEntity<Void> deleteProduct(@PathVariable String shopIdOrName, @PathVariable String productIdOrName) {

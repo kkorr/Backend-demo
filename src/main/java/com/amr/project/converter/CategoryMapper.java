@@ -15,6 +15,12 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
+    CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
+
+    public CategoryDto categoryToDto(Category category);
+
+    public Category dtoToCategory(CategoryDto categoryDto);
+
     default String[] map(Collection<Category> categories) {
         if (categories == null) {
             return new String[0];
@@ -28,8 +34,6 @@ public interface CategoryMapper {
         }
         return strings;
     }
-
-    CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
 
     List<CategoryDto> toCategoryDto(List<Category> categories);
 }
