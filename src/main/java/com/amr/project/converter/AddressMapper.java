@@ -9,6 +9,8 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "spring")
 public interface AddressMapper {
 
+    AddressMapper INSTANCE = Mappers.getMapper( AddressMapper.class );
+
     @Mapping(source = "country.name", target = "country")
     @Mapping(source = "city.name", target = "city")
     AddressDto addressToDto(Address address);
