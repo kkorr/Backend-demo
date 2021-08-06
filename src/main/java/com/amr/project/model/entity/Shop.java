@@ -1,25 +1,14 @@
 package com.amr.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 
@@ -27,7 +16,9 @@ import java.util.List;
 @Table(name = "shop")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @ApiIgnore
+@Builder
 public class Shop {
 
     @Id
@@ -72,7 +63,10 @@ public class Shop {
     private double rating;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_shop",
+            joinColumns = {@JoinColumn(name = "shop_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")})
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -96,4 +90,14 @@ public class Shop {
 
     @Transient
     private MultipartFile file;
+
+    @Column
+    private boolean isPretendentToBeDeleted = false;
+
+    public Shop(String name, String email, String phone, String description) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.description = description;
+    }
 }

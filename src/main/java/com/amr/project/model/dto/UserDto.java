@@ -1,13 +1,8 @@
 package com.amr.project.model.dto;
 
-import com.amr.project.model.entity.Address;
-import com.amr.project.model.entity.Coupon;
-import com.amr.project.model.entity.Image;
-import com.amr.project.model.entity.Order;
-import com.amr.project.model.entity.Review;
-import com.amr.project.model.entity.Role;
-import com.amr.project.model.entity.Shop;
+import com.amr.project.model.entity.*;
 import com.amr.project.model.enums.Gender;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,12 +41,13 @@ public class UserDto {
 
     private int age;
 
-    private Address address;
+    private AddressDto address;
 
     private Collection<Role> roles;
 
     private Gender gender;
 
+    @JsonFormat(pattern="yyyy.MM.dd")
     private Calendar birthday;
 
     private Image images;

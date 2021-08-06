@@ -5,6 +5,6 @@ import com.amr.project.model.entity.Shop;
 
 import java.util.List;
 
-public interface MainPageShopService {
+public interface MainPageShopService extends ReadWriteService<Shop, Long> {
     List<ShopDto> findPopularShops();
 }
