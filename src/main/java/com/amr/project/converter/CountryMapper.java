@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
  * @project platform
  */
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface CountryMapper {
 
     default String map(Country country) {
