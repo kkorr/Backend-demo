@@ -22,11 +22,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/seller/api")
 public class SellerRestController {
+
     private final ShopService shopService;
     private final ItemService itemService;
     private final ItemMapper itemMapper;
     private final ShopMapper shopMapper;
 
+    /**
+     * Ругается что не находит бинов сейчас, они появляются после билда
+     * игнорируйте эту ошибук
+     **/
 
     public SellerRestController(ShopService shopService, ItemService itemService, ItemMapper itemMapper, ShopMapper shopMapper) {
         this.shopService = shopService;

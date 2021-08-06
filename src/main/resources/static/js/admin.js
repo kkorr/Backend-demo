@@ -259,13 +259,13 @@ $(document).ready(function () {
 
         console.log(user)
 
-        fetch("api/user/add", {
+        fetch("api/add", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json;charset=utf-8"
             },
             body: JSON.stringify(user)
-        }) .then(() => {$('.userInsertModal #insertModal').modal('hide');$('input').val(''); updateUsers()})
+        }) .then(() => {$('.userInsertModal #userInsertModal').modal('hide');$('input').val(''); updateUsers()})
     })
 
     //save user
@@ -286,7 +286,7 @@ $(document).ready(function () {
 
         console.log(user)
 
-        fetch("api/user/save-user", {
+        fetch("api/save-user", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json;charset=utf-8"
@@ -379,7 +379,7 @@ function createTableUser(user) {
             <a href="/api/user/${user.id}" class="btn btn-info userEditButton">Edit</a>
             </td>
             <td>
-            <a  href="/api/user/${user.id}" class="btn btn-danger userDeleteButton">Delete</a>
+            <a  href="/api/${user.id}" class="btn btn-danger userDeleteButton">Delete</a>
             </td>
         </tr>`;
 }
@@ -961,7 +961,7 @@ document.addEventListener('click', function (event) {
             console.log(error);
         });
 
-        $(".userInsertModal #insertModal").modal();
+        $(".userInsertModal #userInsertModal").modal();
     }
 
     //open editUser modal form

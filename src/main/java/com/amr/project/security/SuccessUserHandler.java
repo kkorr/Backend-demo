@@ -1,4 +1,3 @@
-/*
 package com.amr.project.security;
 
 import org.springframework.security.core.Authentication;
@@ -22,4 +21,3 @@ public class SuccessUserHandler implements AuthenticationSuccessHandler {
         // здесь будет редирект на страницы в зависимости от юзера, админа или модератора, если понадобится.
     }
 }
-*/

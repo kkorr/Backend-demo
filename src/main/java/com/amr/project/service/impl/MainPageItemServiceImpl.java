@@ -26,9 +26,8 @@ public class MainPageItemServiceImpl extends ReadWriteServiceImpl<Item, Long> im
 
     @Override
     public List<ItemDto> findPopularItems() {
-/*        return ItemMapper.INSTANCE.toItemsDto(mainPageItemsDAO.getAll().stream()
+        return ItemMapper.INSTANCE.toItemsDto(mainPageItemsDAO.getAll().stream()
                 .sorted(Comparator.comparing(Item::getCount, Comparator.reverseOrder()))
-                .limit(10).collect(Collectors.toList()));*/
-        return new ArrayList<>();
+                .limit(10).collect(Collectors.toList()));
     }
 }

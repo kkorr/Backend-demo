@@ -2,7 +2,6 @@ package com.amr.project.webapp.rest_controller;
 
 import com.amr.project.converter.*;
 import com.amr.project.model.dto.*;
-import com.amr.project.model.entity.Item;
 import com.amr.project.service.abstracts.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -71,27 +70,11 @@ public class AdminRestController {
 
     @GetMapping("/allitems")
     public ResponseEntity<List<ItemDto>> showAllItems() {
-   /*     List<ItemDto> items = itemService.getAll()
-                .stream()
-                .map(x-> ItemMapper.INSTANCE.itemToItemDto(x))
-                .collect(Collectors.toList());*/
-
-      //  return new ResponseEntity<>(ItemMapper.INSTANCE.toItemsDto(itemService.getAll()), HttpStatus.OK);
-       // return new ResponseEntity<>(itemService.getAll(), HttpStatus.OK);
-      //  return new ResponseEntity<>(items, HttpStatus.OK);
         return new ResponseEntity<>(itemMapper.toItemsDto(itemService.getAll()), HttpStatus.OK);
     }
 
     @GetMapping("/shop/{id}/allitems")
     public ResponseEntity<List<ItemDto>> showAllItemsByShop(@PathVariable("id") Long id) {
-   /*     List<ItemDto> items = itemService.getAll()
-                .stream()
-                .map(x-> ItemMapper.INSTANCE.itemToItemDto(x))
-                .collect(Collectors.toList());*/
-
-        //  return new ResponseEntity<>(ItemMapper.INSTANCE.toItemsDto(itemService.getAll()), HttpStatus.OK);
-        // return new ResponseEntity<>(itemService.getAll(), HttpStatus.OK);
-        //  return new ResponseEntity<>(items, HttpStatus.OK);
         return new ResponseEntity<>(itemMapper.toItemsDto(itemService.getItemsByShopId(id)), HttpStatus.OK);
     }
 
@@ -135,7 +118,6 @@ public class AdminRestController {
                 .map(x-> CategoryMapper.INSTANCE.categoryToDto(x))
                 .sorted((x,y)->(x.getId().compareTo(y.getId())))
                 .collect(Collectors.toList());
-        //List<CategoryDto> categories =CategoryMapper.INSTANCE.toCategoryDto(categoryService.getAll());
 
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
