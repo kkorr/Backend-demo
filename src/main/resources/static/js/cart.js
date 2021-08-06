@@ -9,7 +9,15 @@ async function getItems() {
 getItems()
 
 function checkButton() {
-    document.getElementById("paymentButton").if
+    let paymentDiv = document.getElementById("paymentButton");
+    let cartDiv = document.getElementById("checkExists");
+    if (cartDiv) {
+        paymentDiv.insertAdjacentHTML("beforeend",
+            `<input type="submit" class="btn btn-primary" id="activePaymentButton" value="Перейти к оплате"/>`);
+    } else {
+        paymentDiv.insertAdjacentHTML("beforeend",
+        `<input type="submit" class="btn btn-primary" id="inactivePaymentButton" value="Перейти к оплате" disabled />`);
+    }
 }
 
 let i = 0;
@@ -32,7 +40,7 @@ function insertCartItemRow(cartItem) {
         <div class="col-3">
           <img src="${ci.item.images[0]}" class="img-fluid" />
         </div>
-        <div class="col-7">
+        <div class="col-7" id="checkExists">
           <p id="itemName">${ci.item.name}</p>
           <p id="itemDescription">${ci.item.description}</p>
           <div class="col-3">
