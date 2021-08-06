@@ -155,7 +155,7 @@ public class TestDataEntityService {
         cities.add(cityService.getByName("Brest"));
 
         Country country1 = Country.builder()
-                .name("Ukraine")
+                .name("Belarus")
                 .cities(cities)
                 .build();
         countryService.persist(country1);
@@ -166,7 +166,7 @@ public class TestDataEntityService {
         cities.add(cityService.getByName("Odessa"));
 
         Country country2 = Country.builder()
-                .name("Belarus")
+                .name("Ukraine")
                 .cities(cities)
                 .build();
         countryService.persist(country2);
@@ -190,6 +190,12 @@ public class TestDataEntityService {
                 .cities(cities)
                 .build();
         countryService.persist(country4);
+
+        Country country5 = Country.builder()
+                .name("Angola")
+                .cities(null)
+                .build();
+        countryService.persist(country5);
     }
 
     private void createAddressEntity() {
@@ -261,6 +267,9 @@ public class TestDataEntityService {
                 .birthday(new GregorianCalendar(1971, 1, 1))
                 .build();
         userService.persist(admin);
+
+        roles.clear();
+        roles.add(userRole);
 
         User user = User.builder()
                 .email("user@user.ru")
@@ -394,7 +403,7 @@ public class TestDataEntityService {
                 .logo(imageService.getByKey(4L))
                 .count(1)
                 .rating(4)
-                .user(userService.getByKey(3L))
+                .user(userService.getByKey(4L))
                 .isModerated(true)
                 .isModerateAccept(true)
                 .activity(1)
