@@ -15,11 +15,9 @@ import java.util.List;
  * @project platform
  */
 
+
 @Mapper(uses = {ReviewMapper.class,
-        ImageMapper.class,
-        }
-        ,componentModel = "spring"
-)
+        ImageMapper.class}, componentModel = "spring")
 public interface ShopMapper {
 
     ShopMapper INSTANCE = Mappers.getMapper(ShopMapper.class);

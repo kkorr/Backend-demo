@@ -6,8 +6,8 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
-//@Data
-//@AllArgsConstructor
+@Data
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter

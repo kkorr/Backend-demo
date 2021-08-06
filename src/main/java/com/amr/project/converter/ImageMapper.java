@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 
+/**
+ * @author denisqaa on 29.07.2021.
+ * @project platform
+ */
+
 @Mapper(componentModel = "spring")
 public interface ImageMapper {
 

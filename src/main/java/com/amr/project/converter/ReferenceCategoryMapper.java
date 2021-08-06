@@ -11,10 +11,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-@Mapper
-        (componentModel = "spring"
-,nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
- )
+@Mapper(componentModel = "spring", nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public abstract class ReferenceCategoryMapper {
     @Autowired
     protected CategoryService categoryService;

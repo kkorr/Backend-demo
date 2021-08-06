@@ -6,6 +6,10 @@ import com.amr.project.model.entity.Country;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+/**
+ * @author denisqaa on 29.07.2021.
+ * @project platform
+ */
 import java.util.ArrayList;
 import java.util.Collection;
 

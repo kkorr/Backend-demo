@@ -7,7 +7,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -16,15 +15,10 @@ import java.util.List;
  * @project platform
  */
 
-@Mapper(uses = {CategoryMapper.class,
-        ImageMapper.class,
+@Mapper(uses = {CategoryMapper.class, ImageMapper.class,
         ReferenceCategoryMapper.class,
-        ReferenceImageMapper.class, ReferenceReviewMapper.class
-        ,ReviewMapper.class
-       // ,ReferenceShopMapper.class
-
-      }
-       ,componentModel = "spring"
+        ReferenceImageMapper.class, ReferenceReviewMapper.class, ReviewMapper.class},
+        componentModel = "spring"
 )
 public interface ItemMapper {
 

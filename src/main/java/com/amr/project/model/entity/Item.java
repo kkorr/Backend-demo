@@ -61,7 +61,6 @@ public class Item {
     @Column
     private int discount;
 
-    //@JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(name = "shop_item",
             joinColumns = {@JoinColumn(name = "item_id")},
