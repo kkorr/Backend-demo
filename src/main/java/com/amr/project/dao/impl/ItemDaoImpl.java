@@ -3,9 +3,7 @@ package com.amr.project.dao.impl;
 
 import com.amr.project.dao.abstracts.ItemDao;
 import com.amr.project.model.entity.Item;
-import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -41,3 +39,4 @@ public class ItemDaoImpl extends ReadWriteDAOImpl<Item, Long> implements ItemDao
 
     }
 }
+

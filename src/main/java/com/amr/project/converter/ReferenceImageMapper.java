@@ -5,6 +5,7 @@ import com.amr.project.service.abstracts.ImageService;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -20,6 +21,9 @@ public abstract class ReferenceImageMapper {
     }
 
     public Collection<Image> map(String[] images) {
+        if (images == null) {
+            return new ArrayList<>();
+        }
         return Arrays.stream(images)
                 .map(imageService::getByUrl)
                 .collect(Collectors.toList());

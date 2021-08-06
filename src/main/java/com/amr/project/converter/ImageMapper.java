@@ -6,7 +6,6 @@ import org.mapstruct.Mapper;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
 /**
  * @author denisqaa on 29.07.2021.
  * @project platform
@@ -14,7 +13,6 @@ import java.util.Collection;
 
 @Mapper(componentModel = "spring")
 public interface ImageMapper {
-
 
     default String[] map(Collection<Image> images) {
         if (images == null) {
