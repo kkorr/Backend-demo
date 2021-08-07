@@ -5,5 +5,5 @@ import com.amr.project.model.entity.Shop;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ShopDaoImpl extends ReadWriteDAOImpl<Shop, Long> implements ShopDao {
+public class ShopDAOImpl extends ReadWriteDAOImpl<Shop, Long> implements ShopDao {
 }
