@@ -8,7 +8,7 @@ async function saveUser() {
         },
 
         body: JSON.stringify({
-            username: document.getElementById('usernameSave').value,
+            username: document.getElementById(  'usernameSave').value,
             email: document.getElementById('emailSave').value,
             password: document.getElementById('passwordSave').value,
             phone: document.getElementById('phoneSave').value,

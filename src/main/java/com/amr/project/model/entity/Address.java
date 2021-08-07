@@ -1,5 +1,6 @@
 package com.amr.project.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,10 +26,13 @@ public class Address {
     @Column(name = "city_index")
     private String cityIndex;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "country_id",referencedColumnName = "id")
     private Country country;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "city_id")
     private City city;
 
     @Column
@@ -36,5 +40,9 @@ public class Address {
 
     @Column
     private String house;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "address", cascade = {CascadeType.PERSIST})
+    private User user;
 
 }

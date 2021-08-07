@@ -1,9 +1,7 @@
 package com.amr.project.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
@@ -14,6 +12,8 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @ApiIgnore
 @Builder
 public class Country {
@@ -26,9 +26,11 @@ public class Country {
     @Column(unique = true)
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "country_city",
             joinColumns = {@JoinColumn(name = "country_id")},
             inverseJoinColumns = {@JoinColumn(name = "city_id")})
     private Collection<City> cities;
+
 }

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Корзина товаров</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+</head>
+<body>
+<div class="container">
+  <h1>Ваша корзина товаров:</h1>
+  <br>
+  <div class="row">
+    <div class="col-9" id="cartItems">
+    <!--  Code in cart.js    -->
+    </div>
+    <div class="col-3">
+      <h2>Итоговая сумма:</h2>
+      <h2><div id="itemSubtotal"></div></h2>
+      <div id="paymentButton" onload="checkButton()"></div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" th:src="@{js/cart.js}" src="../static/js/cart.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+</body>
+</html>

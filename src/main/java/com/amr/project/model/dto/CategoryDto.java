@@ -1,10 +1,14 @@
 package com.amr.project.model.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ApiIgnore
 public class CategoryDto {
     private Long id;
     private String name;

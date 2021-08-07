@@ -13,6 +13,7 @@ import java.util.Collection;
 
 @Mapper(componentModel = "spring")
 public interface ImageMapper {
+
     default String[] map(Collection<Image> images) {
         if (images == null) {
             images = new ArrayList<>();
