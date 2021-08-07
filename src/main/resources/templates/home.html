@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+
+<!-- модалка для входа юзеру -->
+<div class="modal fade" id="user_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Войдите в систему</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="user_signin_form" th:action="@{/login}" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="username_input" class="form-label">Введите email:</label>
+                        <input id="username_input" type="text" name="j_username" class="form-control" placeholder="Username">
+                        <div id="username_checker" class="form-text" style="color:#a40000;"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password_input" class="form-label">Введите пароль:</label>
+                        <input id="password_input" type="password" name="j_password" class="form-control" placeholder="Password">
+                        <div id="password_checker" class="form-text" style="color:#a40000;"></div>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="remember-me"  id="flexCheckChecked" checked>
+                        <label class="form-check-label" for="flexCheckChecked">
+                            Запомнить пароль
+                        </label>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" id="user_signin_btn" class="btn btn-primary">Войти</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--HEADER-->
+<header class="bg-dark text-white" style="height: 44px;">
+    <div class="container" style="height: 44px;">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start" style="height: 44px;">
+            <a href="/" class="d-flex align-items-center mb-lg-0 text-white text-decoration-none">
+                <h5 style="margin: 0;">LOGO</h5>
+            </a>
+            <!--NavBar(HEADER)-->
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ms-5">
+                <li><a href="#" class="nav-link px-2 text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Магазины</font></font></a></li>
+                <li><a href="#" class="nav-link px-2 text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Товары</font></font></a></li>
+                <li><a href="#" class="nav-link px-2 text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Избранное</font></font></a></li>
+                <li><a href="#" class="nav-link px-2 text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ещё...</font></font></a></li>
+            </ul>
+
+            <div class="text-end">
+                <!--ссылка и информация пользователя-->
+                <a th:href="@{/user/${user.getId()}}" sec:authorize="isAuthenticated()" class="d-flex">
+                    <img th:src="${user.getImages()}" alt="user_img" width="35px" height="35px" style="border-radius: 50%;">
+                    <p th:text="${user.getUsername()}" style="margin-left: 6px;"></p>
+                </a>
+                <button type="button" class="btn btn-outline-light me-2">Корзина</button>
+                <button sec:authorize="isAnonymous()" type="button" id="user_open_modal_btn" class="btn btn-outline-light me-2">Войти</button>
+                <button sec:authorize="isAnonymous()" type="button" class="btn btn-warning">Зарегистрироваться</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!--Main zone-->
+<section class="d-flex">
+    <!--Sidebar-->
+    <div class="bg-light" style="width: 350px; min-height: 100vh; padding-top: 30px; padding-bottom: 200px">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 d-flex align-items-center">
+                    <h5>Категории</h5>
+                </div>
+
+                <div class="col-12 d-flex justify-content-center">
+                    <hr style="width: 100%; margin: 0;">
+                </div>
+                <!--Категории-->
+                <div class="col-12 mt-4">
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item">
+                            <a id="popular_show_btn" href="#" class="nav-link active" aria-current="page">
+                                Популярное
+                                </font></font></a>
+                        </li>
+
+                        <th:block th:each="category : ${categories}">
+                            <li class="nav-item">
+                                <a th:text="${category.getName()}" th:id="${category.getId()}" href="#" class="nav-link link-dark" aria-current="page">
+                                    Одежда
+                                    </font></font></a>
+                            </li>
+                        </th:block>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Main Body-->
+    <div class="container-fluid" style="padding-top: 30px; padding-left: 35px; padding-bottom: 40px;">
+        <div class="row">
+            <div class="col-12">
+                <form style="width: 650px;" class="d-flex">
+                    <input id="search_input" type="search" class="form-control" name="search" placeholder="Поиск по наименованию:">
+                    <button id="search_btn" type="button" class="btn btn-success" style="width: 150px;">Поиск</button>
+                </form>
+            </div>
+
+            <!--Контейнер для динамического контента (js)-->
+            <div class="collapse" id="dinamic_content">
+                <div class="col-12" style="margin-top: 30px;">
+                    <h4 id="dinamic_head"> </h4>
+                </div>
+                <!--сюда генерируются товары-->
+                <div class="col-12 d-flex flex-wrap mt-3" id="dinamic_content_inner">
+
+                </div>
+            </div>
+
+            <!--Контейнер для статического контента (при загрузке страницы)-->
+            <div class="collapse show" id="popular_show_content">
+                <div class="col-12" style="margin-top: 30px;">
+                    <h4>
+                        Популярные товары
+                    </h4>
+                </div>
+                <!--Блок популярные товары-->
+                <div class="col-12 d-flex flex-wrap mt-3">
+                    <th:block th:each="item : ${items}">
+                        <div class="card" style="width: 18rem; margin-right: 15px; margin-top: 20px;">
+                            <img th:src="${item.getImages()[0]}" class="card-img-top" alt="popular_item" style="height: 180px;">
+                            <div class="card-body">
+                                <h5 th:text="${item.getName()}" class="card-title">Заголовок товара</h5>
+                                <p th:text="${item.getDescription()}" class="card-text">Описание товара:</p>
+                                <div class="d-flex">
+                                    <a href="#" class="btn btn-danger" style="width: 150px;">В корзину</a>
+                                    <a th:href="@{/item/${item.getId()}}" class="btn btn-primary" style="margin-left: 10px;">Смотреть</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </th:block>
+
+                </div>
+                <!--Блок популярные магазины-->
+                <div class="col-12" style="margin-top: 30px;">
+                    <h4>
+                        Популярные магазины
+                    </h4>
+                </div>
+
+                <div class="col-12 d-flex flex-wrap mt-3">
+                    <th:block th:each="shop : ${shops}">
+                        <div class="card" style="width: 18rem; margin-right: 15px; margin-top: 20px; overflow: hidden;">
+                            <img th:src="${shop.getLogo()}" class="card-img-top" alt="popular_shop" style="height: 180px;">
+                            <div class="card-body">
+                                <h5 th:text="${shop.getName()}" class="card-title">Заголовок магазины</h5>
+                                <p th:text="${shop.getDescription()}" class="card-text">Описание магазина:</p>
+                                <a th:href="@{/shop/${shop.getId()}}" class="btn btn-danger">Перейти в магазин</a>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script>
+    /*связано с статическим контентом*/
+    const popular_show_btn = $('#popular_show_btn');
+    const popular_show_content = $('#popular_show_content');
+    /*связано с динамическим контентом*/
+    const dinamic_show_content = $('#dinamic_content');
+    const dinamic_head = $('#dinamic_head');
+    const dinamic_inner_content = $('#dinamic_content_inner');
+    /*связано с поиском*/
+    const search_input = $('#search_input');
+    const search_btn = $('#search_btn');
+    /*связано со входом в систему и модальным окном*/
+    const user_modal = $('#user_modal');
+    const user_open_modal_btn = $('#user_open_modal_btn');
+    const user_signin_form = $('#user_signin_form');
+    const username_input = $('#username_input');
+    const password_input = $('#password_input');
+    const username_checker = $('#username_checker');
+    const password_checker = $('#password_checker');
+
+    $(document).ready(function () {
+
+        /*проверка корректности отправленой формы*/
+        $(user_signin_form).on('submit', function(e) {
+            username_checker.html('');
+            password_checker.html('');
+            let username = username_input.val();
+            let password = password_input.val();
+            if(username === "" || username === " ") {
+                username_checker.html('Поле username не должно быть пустым');
+                e.preventDefault();
+            } else if(password === "" || password === " ") {
+                password_checker.html('Поле password не должно быть пустым')
+                e.preventDefault();
+            }
+        })
+
+        /*открытие модального окна входа в систему*/
+        $(user_open_modal_btn).on('click', function(e) {
+            e.preventDefault();
+            user_modal.modal('show');
+        })
+        /*обработка поиска*/
+        $(search_btn).on('click', function (e) {
+            e.preventDefault();
+            toggleClassesContent($(this));
+            toggleClassesNavBar(null);
+            let valueSearch = search_input.val();
+            search_input.val('');
+            /*проверка на пустое значение поиска*/
+            if(valueSearch === '') {
+                dinamic_head.html('');
+                dinamic_head.html('Все товары')
+            } else {
+                dinamic_head.html('');
+                dinamic_head.html('Результат запроса "' + valueSearch + '"');
+            }
+        })
+
+        /*обработчик на кнопке "популярное" в навбар*/
+        $(popular_show_btn).on('click', function (e) {
+            e.preventDefault();
+            toggleClassesContent($(this));
+            toggleClassesNavBar($(this));
+        })
+
+        /*обработчик на все кнопки в навбар кроме "популярное"*/
+        $('.link-dark').on('click', function(e) {
+            e.preventDefault();
+            /*переключение стилей кнопок навбара и контейнера с контентом*/
+            toggleClassesContent($(this));
+            toggleClassesNavBar($(this));
+
+            /*перезапись категории в заголовок*/
+            let category = $(this).html();
+            dinamic_head.html("");
+            dinamic_head.html(category);
+
+        })
+
+
+    })
+
+    /*функция переключения классов контейнера с контентом*/
+    function toggleClassesContent(e) {
+        if($(e).is(popular_show_btn)) {
+            popular_show_content.addClass('show');
+            dinamic_show_content.removeClass('show');
+        } else {
+            popular_show_content.removeClass('show');
+            dinamic_show_content.addClass('show');
+        }
+    }
+
+    /*функция переключения кнопок в навбар*/
+    function toggleClassesNavBar(e) {
+        $('.active').removeClass('active').addClass('link-dark');
+        $(e).removeClass('link-dark');
+        $(e).addClass('active');
+    }
+</script>
+
+</body>
+</html>

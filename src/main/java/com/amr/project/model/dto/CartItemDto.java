@@ -17,9 +17,9 @@ import java.math.BigDecimal;
 public class CartItemDto {
 
     private Long id;
-    private Item item;
-    private Shop shop;
-    private User user;
+    private ItemDto item;
+    private ShopDto shop;
+    private UserDto user;
     private int quantity;
     private BigDecimal getSubTotal;
 

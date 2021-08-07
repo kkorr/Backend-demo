@@ -5,9 +5,11 @@ import com.amr.project.service.abstracts.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements UserService {
 
     private final UserDao userDao;
@@ -18,9 +20,12 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
         this.userDao = userDao;
     }
 
-
-    public Optional<User> findByUsername(String username) {
+    public Optional<User> findByUsername(String username)  {
         return userDao.findByUsername(username);
+    };
+
+    public Optional<User> findByEmail(String email) {
+        return userDao.findByEmail(email);
     }
 
 }

@@ -3,54 +3,57 @@
       xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Product page</title>
+  <meta charset="UTF-8">
+  <title>Product page</title>
 
-    <link rel="stylesheet" th:href="@{'https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css'}"
-          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
-          crossorigin="anonymous">
-    <script th:src="@{'https://code.jquery.com/jquery-3.5.1.slim.min.js'}"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous"></script>
-    <script th:src="@{'https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js'}"
-            integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
-            crossorigin="anonymous"></script>
+  <link rel="stylesheet" th:href="@{'https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css'}"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+        crossorigin="anonymous">
+  <script th:src="@{'https://code.jquery.com/jquery-3.5.1.slim.min.js'}"
+          integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+          crossorigin="anonymous"></script>
+  <script th:src="@{'https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js'}"
+          integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+          crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="row no-gutters vh-100">
-    <!---------- Left Column / Image ---------->
-    <div class="col-md-6 bg-white">
-        <div class="product-img">
-            <a href="">
-                <img src="//images.wbstatic.net/large/new/25910000/25910205-1.jpg">
-                <!-- item_image -->
-            </a>
-        </div>
-    </div>
 
-    <!---------- Right Column ---------->
-    <div class="col-md-6 bg-light">
-        <!-- Product Description -->
-        <br/>
-        <div class="product-description">Название группы товаров
-            <!-- item_category-->
-            <br/>
-            <h2>Название товара</h2>
-            <!-- item.getName -->
-            <div class="product-configuration">
-                <hr/>
-                <div class="cable-config">Описание товара
-                    <!-- item.getDescription -->
-                </div>
-                <hr/>
-                <!-- Product Pricing -->
-                <div class="product-price">
-                    <h4>148$</h4>
-                    <!-- item.getPrise-->
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-primary btn-block" href="#">В корзину</button>
-                </div>
-            </div>
+<div class="row no-gutters vh-100">
+  <!---------- Left Column / Image ---------->
+  <div class="col-md-6 bg-light">
+    <div class="product-image">
+      <a href="">
+        <img src="//images.wbstatic.net/large/new/25910000/25910205-1.jpg">
+        <!-- <img src= "${item.getImage()}">  -->
+      </a>
+    </div>
+  </div>
+
+  <!---------- Right Column ---------->
+  <div class="col-md-6 bg-white">
+    <br/>
+    <p th:text="${item.getShop().getName()}">Название магазина</p>
+    <br/>
+    <div class="product-category">
+      <p th:text="${item.getCategories()}">Название группы товаров</p>
+      <br/>
+      <b th:text="${item.getName()}">Название товара</b>
+      <div class="product-configuration">
+        <hr/>
+        <div class="product-description">
+          <p th:text="${item.getDescription()}">Описание товара</p>
+        </div>
+        <hr/>
+        <!-- Product Pricing -->
+        <div class="product-price">
+          <p th:text="${item.getPrice()}">Стоимость товара</p>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block">В корзину</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>

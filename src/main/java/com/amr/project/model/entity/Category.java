@@ -1,17 +1,18 @@
 package com.amr.project.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.Api;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "сategory")
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
+@Getter
 @Data
 @Api(hidden = true)
 @Builder
