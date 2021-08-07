@@ -37,6 +37,6 @@ public class ItemController {
         review.setDate(new java.sql.Date(System.currentTimeMillis()));
         reviews.add(review);
         itemService.getByKey(id).setReviews(reviews);
-        return "redirect:/shop/item/{id}";
+        return "redirect:/home";
     }
 }
