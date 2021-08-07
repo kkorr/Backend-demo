@@ -20,6 +20,8 @@ import java.util.List;
         ReferenceImageMapper.class, ReferenceReviewMapper.class, ReviewMapper.class},
         componentModel = "spring")
 public interface ItemMapper {
+    ItemMapper INSTANCE = Mappers.getMapper(ItemMapper.class);
+
     @Mappings({
             @Mapping(source = "shop.id", target = "shopId"),
     })
@@ -33,6 +35,6 @@ public interface ItemMapper {
     default List<Item> map(Shop shop) {
         return shop.getItems();
     }
-    ItemMapper INSTANCE = Mappers.getMapper(ItemMapper.class);
+
     List<ItemDto> toItemsDto(List<Item> item);
 }

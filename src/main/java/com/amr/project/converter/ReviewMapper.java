@@ -13,8 +13,9 @@ import java.util.List;
  * @project platform
  */
 
-@Mapper(componentModel = "spring")
+@Mapper(uses = {ReferenceReviewMapper.class}, componentModel = "spring")
 public interface ReviewMapper {
+
     default List<Review> map(Shop shop) {
         return shop.getReviews();
     }

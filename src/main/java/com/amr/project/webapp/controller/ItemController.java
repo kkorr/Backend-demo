@@ -13,24 +13,23 @@ import java.util.Collection;
 import java.util.Date;
 
 @Controller
-@RequestMapping("/shop/item")
 public class ItemController {
 
-    private final ItemService itemService;
+    private ItemService itemService;
 
-    @Autowired
     public ItemController(ItemService itemService) {
         this.itemService = itemService;
     }
 
-    @GetMapping("/{id}")
+
+    @GetMapping("/product/{id}")
     public String getItemPage(@PathVariable("id") Long id, Model model, @ModelAttribute("review") Review review) {
         model.addAttribute("item", itemService.getByKey(id));
         model.addAttribute("reviews", itemService.getByKey(id).getReviews());
         return "product_page";
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/product/{id}")
     public String addReview(@PathVariable("id") Long id, @ModelAttribute("review") Review review, @ModelAttribute("rating") int rating) {
         Collection<Review> reviews = itemService.getByKey(id).getReviews();
         review.setRating(rating);

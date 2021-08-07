@@ -17,17 +17,19 @@ import java.util.Objects;
 public class MyProfileRestController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public MyProfileRestController(UserService userService) {
+    public MyProfileRestController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUser(@PathVariable("id") long id) {
         if(userService.existsById(id)) {
-            UserDto userDto =  UserMapper.INSTANCE.userToDto(userService.getByKey(id));
+            UserDto userDto = userMapper.userToDto(userService.getByKey(id));
             return ResponseEntity.ok().body(userDto);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("User with ID: %d does not exist", id));
@@ -36,11 +38,11 @@ public class MyProfileRestController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
         if (Objects.equals(id, userDto.getId())) {
-            User user = UserMapper.INSTANCE.dtoToUser(userDto);
+            User user = userMapper.dtoToUser(userDto);
             if (userService.existsById(userDto.getId())) {
                 userService.update(user);
                 logger.info(String.format("user с ID: %d updated successfully", userDto.getId()));
-                return ResponseEntity.ok().body(UserMapper.INSTANCE.userToDto(user));
+                return ResponseEntity.ok().body(userMapper.userToDto(user));
             }
             logger.info(String.format("Пользователь с ID: %d не существует", userDto.getId()));
         }

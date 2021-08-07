@@ -4,5 +4,5 @@ import com.amr.project.model.entity.Role;
 
 public interface RoleService extends ReadWriteService<Role, Long> {
 
-    public Role findByName(String roleName);
+    Role findByName(String roleName);
 }
