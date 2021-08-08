@@ -70,7 +70,7 @@ public class CartRestController {
 
     @Transactional
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> updateCartItemQuantity(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCartItem(@PathVariable Long id) {
         cartItemService.deleteByKeyCascadeIgnore(id);
         return ResponseEntity.ok().body(null);
     }
@@ -90,6 +90,7 @@ public class CartRestController {
                 cartItemDto.getShop().getId()).isPresent()) {
             cartItem = cartItemService.findByItemAndShopAndUser(cartItemDto.getItem().getId(), cartItemDto.getUser().getId(),
                     cartItemDto.getShop().getId()).get();
+            cartItemDto.setQuantity(cartItem.getQuantity() + cartItemDto.getQuantity());
             updateCartItemQuantity(cartItem.getId(), cartItemDto);
         } else {
             cartItem = cartItemMapper.dtoToCartItem(cartItemDto);

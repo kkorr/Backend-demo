@@ -23,8 +23,7 @@
   <div class="col-md-6 bg-light">
     <div class="product-image">
       <a href="">
-        <img src="//images.wbstatic.net/large/new/25910000/25910205-1.jpg">
-        <!-- <img src= "${item.getImage()}">  -->
+         <img th:src= "${item.getImages()[0]}">
       </a>
     </div>
   </div>
@@ -32,10 +31,13 @@
   <!---------- Right Column ---------->
   <div class="col-md-6 bg-white">
     <br/>
-    <p th:text="${item.getShop().getName()}">Название магазина</p>
+    <p th:text="${shop.getName()}"><b>Название магазина</b></p>
     <br/>
     <div class="product-category">
-      <p th:text="${item.getCategories()}">Название группы товаров</p>
+      <p><b>Категории:</b></p>
+      <ul th:each="category : ${item.getCategories()}">
+        <li th:text="${category}"></li>
+      </ul>
       <br/>
       <b th:text="${item.getName()}">Название товара</b>
       <div class="product-configuration">
@@ -53,7 +55,7 @@
           <input type="number" id="itemQuant" th:value="${cartItem!=null}?${cartItem.getQuantity()} :1" class="form-control" min="1">
         </div>
         <div class="form-group">
-          <button class="btn btn-primary btn-block" th:attr="onclick=|addCartItem('${item.id}','${item.shop.id}')|">В корзину</button>
+          <button class="btn btn-primary btn-block" th:attr="onclick=|addCartItem('${item.id}','${shop.id}')|">В корзину</button>
         </div>
       </div>
     </div>
