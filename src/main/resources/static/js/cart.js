@@ -103,8 +103,6 @@ function sumForCartItem(id, price) {
     document.getElementById(idHTML).innerHTML = `<span>${sum}</span>`;
 }
 
-
-
 function subtotalForCartItems() {
     let result = 0;
     let elems = document.getElementsByName("itemTotalPrice");

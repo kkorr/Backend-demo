@@ -19,6 +19,7 @@ public class ItemController {
     @GetMapping("/product/{id}")
     public String itemById(@PathVariable("id") Long id, Model model) {
         model.addAttribute("item", itemService.getByKey(id));
+        model.addAttribute("item", itemService.getByKey(id));
         return "product_page";
     }
 }
