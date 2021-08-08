@@ -53,7 +53,7 @@ public class SellerRestController {
         return new ResponseEntity<>(shopMapper.shopToShopDto(shopService.findShopByName(shopIdOrName)), HttpStatus.OK);
     }
 
-    @PatchMapping(value = "/{shopIdOrName}/settings")
+    @PutMapping(value = "/{shopIdOrName}/settings")
     public ResponseEntity<ShopDto> updateShop(@RequestBody ShopDto shopDto) {
         shopService.update(shopMapper.shopDtoToShop(shopDto));
         return new ResponseEntity<>(shopMapper.shopToShopDto(shopService.findShopByName(shopDto.getName())), HttpStatus.OK);
@@ -70,7 +70,6 @@ public class SellerRestController {
         if (items == null) {
             items = new ArrayList<>();
         }
-        ;
         items.add(item);
         shop.setItems(items);
         shopService.update(shop);
@@ -86,9 +85,10 @@ public class SellerRestController {
     }
 
 
-    @PatchMapping(value = "/{shopIdOrName}/product/{productIdOrName}/edit")
+    @PutMapping(value = "/{shopIdOrName}/product/{productIdOrName}/edit")
     public ResponseEntity<ItemDto> updateProduct(@RequestBody ItemDto itemDto,
-                                                 @PathVariable String productIdOrName, @PathVariable String shopIdOrName) {
+                                                 @PathVariable String productIdOrName,
+                                                 @PathVariable String shopIdOrName) {
         Shop shop = isNumeric(shopIdOrName) ? shopService.getByKey(Long.parseLong(shopIdOrName)) : shopService.getByName(shopIdOrName);
         Item item = itemMapper.itemDtoToItem(itemDto);
         item.setShop(shop);
