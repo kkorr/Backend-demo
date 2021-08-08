@@ -48,6 +48,10 @@
         <div class="product-price">
           <p th:text="${item.getPrice()}">Стоимость товара</p>
         </div>
+        <div>
+          <label for="itemQuant">Количество:</label>
+          <input type="number" id="itemQuant" th:value="${cartItem!=null}?${cartItem.getQuantity()} :1" class="form-control" min="1">
+        </div>
         <div class="form-group">
           <button class="btn btn-primary btn-block" th:attr="onclick=|addCartItem('${item.id}','${item.shop.id}')|">В корзину</button>
         </div>
@@ -57,6 +61,7 @@
 </div>
 <script>
   async function addCartItem(itemId, shopId) {
+    let quant = document.getElementById("itemQuant").value;
     let url = new URL("http://localhost:8888/api/cart/add")
     const response = await fetch(url, {
       method: 'POST',
@@ -65,7 +70,7 @@
         "Content-Type": "application/json; charset=utf-8",
       },
       body: JSON.stringify({
-        quantity: 1,
+        quantity: quant,
         item: {
           id: itemId
         },
