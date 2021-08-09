@@ -80,51 +80,36 @@ public class UserRestController {
     }
 
     @PutMapping("/save-user")
-    public ResponseEntity<Long> saveUser(@RequestBody UserDto userDto) {
-        Calendar calendar = Calendar.getInstance();
-
+    public ResponseEntity<User> saveUser(@RequestBody UserDto userDto) {
         if (!userDto.getRoles().isEmpty()) {
             Set<Role> roles = new HashSet<>();
             userDto.getRoles().stream().forEach(x -> roles.add(roleService.findByName(x.getName())));
-
             userDto.setRoles(roles);
         }
 
         User user = userMapper.dtoToUser(userDto);
         user.setAge(user.calculateAge());
-
         userService.update(user);
 
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Long> addUser(@RequestBody UserDto userDto) {
-        Calendar calendar = Calendar.getInstance();
-
+    public ResponseEntity<User> addUser(@RequestBody UserDto userDto) {
         Set<Role> roles = new HashSet<>();
         userDto.getRoles().stream().forEach(x -> roles.add(roleService.findByName(x.getName())));
         userDto.setRoles(roles);
 
         User user = userMapper.dtoToUser(userDto);
         user.setAge(user.calculateAge());
-
-        System.out.println("our dates" + Calendar.getInstance() + " sdsads "+ user.getBirthday());
-
         userService.persist(user);
 
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<UserDto> delete(@PathVariable("id") Long id) {
-/*        User user = userService.getByKey(id);
-        if (user.getImages()==null) {
-            user.setImages(new Image());
-            userService.update(user);
-        }*/
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         userService.deleteByKeyCascadeEnable(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
