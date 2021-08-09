@@ -3,6 +3,7 @@ package com.amr.project.webapp.rest_controller;
 import com.amr.project.converter.UserMapper;
 import com.amr.project.model.dto.UserDto;
 import com.amr.project.model.entity.User;
+import com.amr.project.service.abstracts.CityService;
 import com.amr.project.service.abstracts.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,12 +19,14 @@ public class MyProfileRestController {
 
     private final UserService userService;
     private final UserMapper userMapper;
+    private final CityService cityService;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public MyProfileRestController(UserService userService, UserMapper userMapper) {
+    public MyProfileRestController(UserService userService, UserMapper userMapper, CityService cityService) {
         this.userService = userService;
         this.userMapper = userMapper;
+        this.cityService = cityService;
     }
 
     @GetMapping("/{id}")
@@ -40,6 +43,7 @@ public class MyProfileRestController {
         if (Objects.equals(id, userDto.getId())) {
             User user = userMapper.dtoToUser(userDto);
             if (userService.existsById(userDto.getId())) {
+                cityService.persist(user.getAddress().getCity());
                 userService.update(user);
                 logger.info(String.format("user с ID: %d updated successfully", userDto.getId()));
                 return ResponseEntity.ok().body(userMapper.userToDto(user));
