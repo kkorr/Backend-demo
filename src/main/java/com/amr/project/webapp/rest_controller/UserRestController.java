@@ -1,11 +1,10 @@
 package com.amr.project.webapp.rest_controller;
 
+import com.amr.project.converter.ShopMapper;
 import com.amr.project.converter.UserMapper;
+import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.dto.UserDto;
-import com.amr.project.model.entity.City;
-import com.amr.project.model.entity.Country;
-import com.amr.project.model.entity.Role;
-import com.amr.project.model.entity.User;
+import com.amr.project.model.entity.*;
 import com.amr.project.service.abstracts.CityService;
 import com.amr.project.service.abstracts.CountryService;
 import com.amr.project.service.abstracts.RoleService;
@@ -17,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Period;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,6 +41,11 @@ public class UserRestController {
         this.countryService = countryService;
         this.cityService = cityService;
         this.userMapper = userMapper;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> getAddress(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(userMapper.userToDto(userService.getByKey(id)), HttpStatus.OK);
     }
 
     @PostMapping("/save")
@@ -85,9 +90,8 @@ public class UserRestController {
             userDto.setRoles(roles);
         }
 
-        User user = UserMapper.INSTANCE.dtoToUser(userDto);
-
-        user.setAge(calendar.get(Calendar.YEAR) - user.getBirthday().get(1));
+        User user = userMapper.dtoToUser(userDto);
+        user.setAge(user.calculateAge());
 
         userService.update(user);
 
@@ -103,9 +107,10 @@ public class UserRestController {
         userDto.getRoles().stream().forEach(x -> roles.add(roleService.findByName(x.getName())));
         userDto.setRoles(roles);
 
-        User user = UserMapper.INSTANCE.dtoToUser(userDto);
+        User user = userMapper.dtoToUser(userDto);
+        user.setAge(user.calculateAge());
 
-        user.setAge(calendar.get(Calendar.YEAR) - user.getBirthday().get(1));
+        System.out.println("our dates" + Calendar.getInstance() + " sdsads "+ user.getBirthday());
 
         userService.persist(user);
 
@@ -115,6 +120,11 @@ public class UserRestController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<UserDto> delete(@PathVariable("id") Long id) {
+/*        User user = userService.getByKey(id);
+        if (user.getImages()==null) {
+            user.setImages(new Image());
+            userService.update(user);
+        }*/
         userService.deleteByKeyCascadeEnable(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
