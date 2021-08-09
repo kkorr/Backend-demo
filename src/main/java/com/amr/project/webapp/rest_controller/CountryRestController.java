@@ -31,7 +31,7 @@ public class CountryRestController {
     }
 
     @PutMapping("/save")
-    public ResponseEntity<Long> saveCountry(@RequestBody CountryDto countryDto) {
+    public ResponseEntity<Void> saveCountry(@RequestBody CountryDto countryDto) {
         countryDto.setCities(countryService.getByKey(countryDto.getId()).getCities());
         countryService.update(CountryMapper.INSTANCE.dtoToCountry(countryDto));
         return new ResponseEntity<>(HttpStatus.OK);
@@ -39,13 +39,13 @@ public class CountryRestController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<Long> addCountry(@RequestBody CountryDto countryDto) {
+    public ResponseEntity<Void> addCountry(@RequestBody CountryDto countryDto) {
         countryService.persist(CountryMapper.INSTANCE.dtoToCountry(countryDto));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<CountryDto> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         countryService.deleteByKeyCascadeIgnore(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

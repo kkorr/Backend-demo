@@ -18,8 +18,8 @@ public class CategoryServiceImpl extends ReadWriteServiceImpl<Category, Long> im
     private final CategoryDao categoryDao;
 
     @Autowired
-    public CategoryServiceImpl(ReadWriteDAO<Category, Long> readWriteDAO, CategoryDao categoryDao) {
-        super(readWriteDAO);
+    public CategoryServiceImpl(CategoryDao categoryDao) {
+        super(categoryDao);
         this.categoryDao = categoryDao;
     }
 
@@ -32,7 +32,6 @@ public class CategoryServiceImpl extends ReadWriteServiceImpl<Category, Long> im
     public List<CategoryDto> getCategoryDto() {
         List<Category> categories = categoryDao.getAll();
         return CategoryMapper.INSTANCE.toCategoryDto(categories);
-
     }
 }
 
