@@ -82,7 +82,7 @@ public class User implements UserDetails {
     private Calendar birthday;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "image_id")
+    @JoinColumn(name = "image_id",referencedColumnName = "id")
     private Image images;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -148,5 +148,31 @@ public class User implements UserDetails {
         this.id = id;
         this.email = email;
         this.username = username;
+    }
+
+
+    public int calculateAge() {
+
+        Calendar today = Calendar.getInstance();
+        Calendar birthDate = this.getBirthday();
+
+        int age = 0;
+
+        if (birthDate.after(today)) {
+            throw new IllegalArgumentException("Can't be born in the future");
+        }
+
+        age = today.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR);
+
+        if ( (birthDate.get(Calendar.DAY_OF_YEAR) - today.get(Calendar.DAY_OF_YEAR) > 3) ||
+                (birthDate.get(Calendar.MONTH) > today.get(Calendar.MONTH ))){
+            age--;
+
+        }else if ((birthDate.get(Calendar.MONTH) == today.get(Calendar.MONTH )) &&
+                (birthDate.get(Calendar.DAY_OF_MONTH) > today.get(Calendar.DAY_OF_MONTH ))){
+            age--;
+        }
+
+        return age;
     }
 }

@@ -99,7 +99,7 @@ public class TestDataEntityService {
 
     }
 
-    private byte[] downloadImage(URL url) {
+    public static byte[] downloadImage(URL url) {
         byte[] bytes = null;
         try {
             BufferedImage originalImage= ImageIO.read(url);
@@ -389,7 +389,7 @@ public class TestDataEntityService {
                 .rating(3)
                 .user(userService.getByKey(3L))
                 .isModerated(true)
-                .isModerateAccept(true)
+                .isModerateAccept(false)
                 .activity(1)
                 .build();
         shopService.persist(shop2);
@@ -432,8 +432,8 @@ public class TestDataEntityService {
                 .rating(1)
                 .description("Маска медицинская")
                 .shop(shops[0])
-                .isModerated(true)
-                .isModerateAccept(true)
+                .isModerated(false)
+                .isModerateAccept(false)
                 .build();
         itemService.persist(item);
 
@@ -448,8 +448,8 @@ public class TestDataEntityService {
                 .rating(4)
                 .description("Плащ Louis Vuitton")
                 .shop(shops[1])
-                .isModerated(true)
-                .isModerateAccept(true)
+                .isModerated(false)
+                .isModerateAccept(false)
                 .build();
         itemService.persist(item3);
 
@@ -468,8 +468,8 @@ public class TestDataEntityService {
                 .rating(19)
                 .description("Зонт 3 слона")
                 .shop(shops[3])
-                .isModerated(true)
-                .isModerateAccept(true)
+                .isModerated(false)
+                .isModerateAccept(false)
                 .build();
         itemService.persist(item18);
 
