@@ -31,8 +31,10 @@ public class MainPageItemServiceImpl extends ReadWriteServiceImpl<Item, Long> im
         return itemMapper.toItemsDto(mainPageItemsDAO.getAll().stream()
                 .sorted(Comparator.comparing(Item::getCount, Comparator.reverseOrder()))
                 .limit(10).collect(Collectors.toList()));
-        /*return ItemMapper.INSTANCE.toItemsDto(mainPageItemsDAO.getAll().stream()
-                .sorted(Comparator.comparing(Item::getCount, Comparator.reverseOrder()))
-                .limit(10).collect(Collectors.toList()));*/
+    }
+
+    @Override
+    public List<ItemDto> findItemsByCategoryId(Long categoryId) {
+        return itemMapper.toItemsDto(mainPageItemsDAO.findItemsByCategoryId(categoryId));
     }
 }
