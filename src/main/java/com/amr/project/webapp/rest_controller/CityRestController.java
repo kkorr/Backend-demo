@@ -39,7 +39,7 @@ public class CityRestController {
     }
 
     @PutMapping("/save")
-    public ResponseEntity<Long> saveCity(@RequestBody CityDto cityDto) {
+    public ResponseEntity<Void> saveCity(@RequestBody CityDto cityDto) {
         City city = CityMapper.INSTANCE.dtoToCity(cityDto);
         city.setCountry(countryService.getByName(cityDto.getCountry()));
         cityService.update(city);
@@ -48,7 +48,7 @@ public class CityRestController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<Long> addCity(@RequestBody CityDto cityDto) {
+    public ResponseEntity<Void> addCity(@RequestBody CityDto cityDto) {
         City city = CityMapper.INSTANCE.dtoToCity(cityDto);
         city.setCountry(countryService.getByName(cityDto.getCountry()));
 
@@ -57,7 +57,7 @@ public class CityRestController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<CityDto> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
 
         cityService
                 .getByKey(id)

@@ -38,7 +38,7 @@ public class ItemRestController {
     }
 
     @PutMapping("/save")
-    public ResponseEntity<Long> saveItem(@RequestBody ItemDto itemDto) {
+    public ResponseEntity<Item> saveItem(@RequestBody ItemDto itemDto) {
         Set<Image> images = new HashSet<>();
 
         for (int i = 0; i < itemDto.getImages().length; i++) {
@@ -62,12 +62,12 @@ public class ItemRestController {
 
         item.setImages(images);
         itemService.update(item);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
 
     @PostMapping("/add")
-    public ResponseEntity<Long> addItem(@RequestBody  ItemDto itemDto) {
+    public ResponseEntity<Item> addItem(@RequestBody  ItemDto itemDto) {
 
         Set<Image> images = new HashSet<>();
 
@@ -83,11 +83,11 @@ public class ItemRestController {
         item.setImages(images);
         itemService.persist(item);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(item, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ItemDto> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         itemService.deleteByKeyCascadeIgnore(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

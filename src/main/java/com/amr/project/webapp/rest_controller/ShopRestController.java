@@ -83,7 +83,7 @@ public class ShopRestController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ShopDto> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         shopService.deleteByKeyCascadeEnable(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
