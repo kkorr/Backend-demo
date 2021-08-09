@@ -143,7 +143,7 @@
                             <div class="card-body">
                                 <h5 th:text="${shop.getName()}" class="card-title">Заголовок магазины</h5>
                                 <p th:text="${shop.getDescription()}" class="card-text">Описание магазина:</p>
-                                <a th:href="@{/shop/${shop.getId()}}" class="btn btn-danger">Перейти в магазин</a>
+                                <a th:href="@{/showcase/{id}(id = ${shop.getId})}" class="btn btn-danger">Перейти в магазин</a>
                             </div>
                         </div>
                     </th:block>
