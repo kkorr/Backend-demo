@@ -48,4 +48,6 @@ public class ItemDto {
     private Long shopId;
 
     private boolean isPretendentToBeDeleted;
+
+    private String[] imagesArray;
 }
