@@ -1,6 +1,5 @@
 package com.amr.project.model.dto;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +15,6 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @ApiIgnore
-@Data
 public class ItemDto {
 
     private Long id;
@@ -46,6 +44,7 @@ public class ItemDto {
     private String moderatedRejectReason;
 
     private Long shopId;
-
     private boolean isPretendentToBeDeleted;
+
+    private String[] imagesArray;
 }

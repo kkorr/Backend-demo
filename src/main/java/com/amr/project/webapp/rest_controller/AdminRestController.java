@@ -38,13 +38,16 @@ public class AdminRestController {
 
     private final ItemMapper itemMapper;
 
+    private final UserMapper userMapper;
+
 
     @Autowired
-    public AdminRestController(ShopService shopService, UserService userService, ItemService itemService, ItemMapper itemMapper) {
+    public AdminRestController(ShopService shopService, UserService userService, ItemService itemService, ItemMapper itemMapper, UserMapper userMapper) {
         this.shopService = shopService;
         this.userService = userService;
         this.itemService = itemService;
         this.itemMapper = itemMapper;
+        this.userMapper = userMapper;
     }
 
 
@@ -62,7 +65,7 @@ public class AdminRestController {
     public ResponseEntity<List<UserDto>> showAllUsers() {
         List<UserDto> users = userService.getAll()
                 .stream()
-                .map(x-> UserMapper.INSTANCE.userToDto(x))
+                .map(x-> userMapper.userToDto(x))
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(users, HttpStatus.OK);

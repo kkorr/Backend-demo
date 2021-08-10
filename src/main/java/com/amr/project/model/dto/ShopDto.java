@@ -5,16 +5,10 @@ import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.Review;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.Collection;
 import java.util.List;
 
-@NoArgsConstructor
-@Getter
-@Setter
 @ApiModel
 @Data
 public class ShopDto {
@@ -35,4 +29,5 @@ public class ShopDto {
     private boolean isModerateAccept;
     private String moderatedRejectReason;
     private boolean isPretendentToBeDeleted;
+    private String logoarray;
 }
