@@ -16,7 +16,10 @@ import java.util.List;
  * @project platform
  */
 
-@Mapper(uses = {ReferenceReviewMapper.class}, componentModel = "spring")
+@Mapper(uses = {ReferenceReviewMapper.class,
+        ItemMapper.class,
+        ShopMapper.class,
+        UserMapper.class}, componentModel = "spring")
 public interface ReviewMapper {
 
     @Mappings({
