@@ -13,6 +13,7 @@ import com.amr.project.service.abstracts.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.Option;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -55,7 +57,7 @@ public class FavoriteRestController {
     @GetMapping(value = "/items", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ItemDto>> getFavoriteItems() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+        if(!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
             throw new AccessDeniedException("Вам нужно авторизоваться для доступа к избранному");
         }
         User user = userService.findByUsername(authentication.getName()).get();
@@ -67,8 +69,37 @@ public class FavoriteRestController {
             LOGGER.info(String.format("Пользователь с id %d успешно получил список избранных товаров", user.getId()));
             List<ItemDto> itemsDto = items.stream().map(i -> itemMapper.itemToItemDto(i)).collect(Collectors.toList());
             return ResponseEntity.ok(itemsDto);
+        } else {
+            List<ItemDto> itemsDto  = new ArrayList<>();
+            return ResponseEntity.ok(itemsDto);
         }
-        return ResponseEntity.ok(null);
+    }
+    @Transactional
+    @PatchMapping("/items/add/{id}")
+    public ResponseEntity<Void> addItemToFavorites(@PathVariable Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
+            throw new AccessDeniedException("Вам нужно авторизоваться для того чтобы добавить в избранное");
+        }
+        User user = userService.findByUsername(authentication.getName()).get();
+        Favorite favorite;
+        if (user.getFavorite() == null) {
+            favorite = new Favorite();
+            favorite.setUser(user);
+            LOGGER.info(String.format("Пользователь с id %d успешно создал раздел избранного", user.getId()));
+            favoriteService.persist(favorite);
+            user.setFavorite(favorite);
+        } else {
+            favorite = user.getFavorite();
+        }
+        if(favorite.getItems() == null) {
+            Collection<Item> items = new ArrayList<>();
+            favorite.setItems(items);
+        }
+        favorite.getItems().add(itemService.getByKey(id));
+        favoriteService.update(favorite);
+        LOGGER.info(String.format("Пользователь с id %d успешно добавил товар в избранное", user.getId()));
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Transactional
@@ -76,7 +107,7 @@ public class FavoriteRestController {
     public ResponseEntity<Void> deleteFavoriteItem(@PathVariable Long id) {
         Item item = itemService.getByKey(id);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+        if(!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
             throw new AccessDeniedException("Вам нужно авторизоваться для доступа к избранному");
         }
         User user = userService.findByUsername(authentication.getName()).get();
@@ -91,7 +122,7 @@ public class FavoriteRestController {
     @GetMapping(value = "/shops", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ShopDto>> getFavoriteShops() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+        if (!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
             throw new AccessDeniedException("Вам нужно авторизоваться для доступа к избранному");
         }
         User user = userService.findByUsername(authentication.getName()).get();
@@ -103,8 +134,38 @@ public class FavoriteRestController {
             LOGGER.info(String.format("Пользователь с id %d успешно получил список избранных магазинов", user.getId()));
             List<ShopDto> shopsDto = shops.stream().map(s -> shopMapper.shopToShopDto(s)).collect(Collectors.toList());
             return ResponseEntity.ok(shopsDto);
+        } else {
+            List<ShopDto> shopsDto  = new ArrayList<>();
+            return ResponseEntity.ok(shopsDto);
         }
-        return ResponseEntity.ok(null);
+    }
+
+    @Transactional
+    @PatchMapping("/shops/add/{id}")
+    public ResponseEntity<Void> addShopToFavorites(@PathVariable Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
+            throw new AccessDeniedException("Вам нужно авторизоваться для того чтобы добавить в избранное");
+        }
+        User user = userService.findByUsername(authentication.getName()).get();
+        Favorite favorite;
+        if (user.getFavorite() == null) {
+            favorite = new Favorite();
+            favorite.setUser(user);
+            LOGGER.info(String.format("Пользователь с id %d успешно создал раздел избранного", user.getId()));
+            favoriteService.persist(favorite);
+            user.setFavorite(favorite);
+        } else {
+            favorite = user.getFavorite();
+        }
+        if(favorite.getShops() == null) {
+            Collection<Shop> shops = new ArrayList<>();
+            favorite.setShops(shops);
+        }
+        favorite.getShops().add(shopService.getByKey(id));
+        favoriteService.update(favorite);
+        LOGGER.info(String.format("Пользователь с id %d успешно добавил товар в избранное", user.getId()));
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Transactional
@@ -112,7 +173,7 @@ public class FavoriteRestController {
     public ResponseEntity<Void> deleteFavoriteShop(@PathVariable Long id) {
         Shop shop = shopService.getByKey(id);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+        if(!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
             throw new AccessDeniedException("Вам нужно авторизоваться для доступа к избранному");
         }
         User user = userService.findByUsername(authentication.getName()).get();

@@ -5,7 +5,6 @@ async function getItems() {
     if(data.length > 0) {
         checkPaymentButton()
     }
-    console.log(data)
     if(document.getElementById("cartItems")) {
         data.forEach(cartItem=> insertCartItemRow(cartItem))
     }
@@ -91,6 +90,7 @@ async function updateQuantity(id) {
         headers: { "Content-Type": "application/json; charset=utf-8" },
         method: 'PATCH',
         body: JSON.stringify({
+            id: id,
             quantity: newQuant,
         })
     })

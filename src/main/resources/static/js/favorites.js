@@ -1,7 +1,9 @@
 async function getFavoriteItems() {
     const response = await fetch("/api/favorites/items")
     const data = await response.json();
-    console.log(data)
+    if(data.length > 0) {
+        checkCartButton()
+    }
     if(document.getElementById("favoriteItems")) {
         data.forEach(item=> insertFavoriteItemRow(item))
     }
@@ -10,7 +12,6 @@ async function getFavoriteItems() {
 async function getFavoriteShops() {
     const response = await fetch("/api/favorites/shops")
     const data = await response.json();
-    console.log(data)
     if(document.getElementById("favoriteShops")) {
         data.forEach(shop=> insertFavoriteShopRow(shop))
     }
@@ -18,8 +19,11 @@ async function getFavoriteShops() {
 getFavoriteItems();
 getFavoriteShops();
 
-document.getElementById("cartFromFavoritesButton").addEventListener('click',
-    addToCartFromFavorites());
+function checkCartButton() {
+    let cartDiv = document.getElementById("cartFromFavoritesButton");
+    cartDiv.innerHTML =
+        `<button class="btn btn-success btn-block" onclick="addToCartFromFavorites()">Добавить в корзину</button>`;
+}
 
 function insertFavoriteItemRow(item){
     let i = {
@@ -39,7 +43,7 @@ function insertFavoriteItemRow(item){
         </div>
         <div class="row">
             <div class="col-1">
-                <input type="checkbox" id="checkBox${i.id}"> 
+                <input type="checkbox" id="checkBox${i.id}&${i.shopId}" name="checkBox"> 
             </div>
             <div class="col-3">
               <img src="${i.images[0]}" class="img-fluid"/>
@@ -73,13 +77,10 @@ function insertFavoriteShopRow(shop) {
             <h5>${s.name}</h5>
         </div>
         <div class="row">
-            <div class="col-1">
-                <input type="checkbox" id="checkBox${s.id}"> 
-            </div>
             <div class="col-4">
               <img src="${s.logo}" class="img-fluid"/>
             </div>
-            <div class="col-6">
+            <div class="col-7">
                 <p>${s.description}</p>
             </div>
             <div class="col-1">
@@ -116,8 +117,22 @@ async function deleteFavoriteItem(id){
     })
 }
 
-async function addToCartFromFavorites() {
-    let quant = document.getElementById("itemQuant").value;
+function addToCartFromFavorites() {
+    let checkBoxes = document.getElementsByName("checkBox");
+    console.log(checkBoxes, checkBoxes.length)
+    for (let i = 0; i < checkBoxes.length; i++) {
+        if(checkBoxes[i].checked) {
+            let idCheckbox = checkBoxes[i].id;
+            let itemId = idCheckbox.substr(idCheckbox.indexOf("x")+1, idCheckbox.indexOf("&")-(idCheckbox.indexOf("x")+1));
+            let shopdId = idCheckbox.substr(idCheckbox.indexOf("&")+1, idCheckbox.length - idCheckbox.indexOf("&")+1);
+            console.log(itemId, shopdId)
+            addSpecificItemFromFavorites(itemId, shopdId)
+        }
+    }
+}
+
+async function addSpecificItemFromFavorites(itemId, shopId) {
+
     let url = new URL("http://localhost:8888/api/cart/add")
     const response = await fetch(url, {
         method: 'POST',
@@ -126,7 +141,7 @@ async function addToCartFromFavorites() {
             "Content-Type": "application/json; charset=utf-8",
         },
         body: JSON.stringify({
-            quantity: quant,
+            quantity: 1,
             item: {
                 id: itemId
             },
@@ -136,3 +151,5 @@ async function addToCartFromFavorites() {
         })
     })
 }
+
+
