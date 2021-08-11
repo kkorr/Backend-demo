@@ -22,4 +22,5 @@ public class ShopDaoImpl extends ReadWriteDAOImpl<Shop, Long> implements ShopDao
                 .stream()
                 .findFirst().orElse(new Shop());
     }
+    
 }
