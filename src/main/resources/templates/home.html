@@ -120,7 +120,7 @@
                                 <h5 th:text="${item.getName()}" class="card-title">Заголовок товара</h5>
                                 <p th:text="${item.getDescription()}" class="card-text">Описание товара:</p>
                                 <div class="d-flex">
-                                    <a href="#" class="btn btn-danger" style="width: 150px;">В корзину</a>
+                                    <a href="#" class="btn btn-danger" th:attr="onclick=|addCartItem('${item.id}','${item.shopId}')|" style="width: 150px;">В корзину</a>
                                     <a th:href="@{/product/{id}(id = ${item.getId()})}" class="btn btn-primary" style="margin-left: 10px;">Смотреть</a>
                                 </div>
                                 <div class="mt-2 d-flex">
@@ -332,6 +332,26 @@
         $(e).addClass('active');
     }
 
+    async function addCartItem(itemId, shopId) {
+        // let quant = document.getElementById("itemQuant").value;
+        let url = new URL("http://localhost:8888/api/cart/add")
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            body: JSON.stringify({
+                quantity: 1,
+                item: {
+                    id: itemId
+                },
+                shop: {
+                    id: shopId
+                },
+            })
+        })
+    }
 
     async function addItemToFavorites(itemId) {
 
