@@ -122,7 +122,10 @@ public class FavoriteRestController {
             Collection<Item> items = new ArrayList<>();
             favorite.setItems(items);
         }
-        favorite.getItems().add(itemService.getByKey(id));
+        Item item = itemService.getByKey(id);
+        if (!favorite.getItems().contains(item)) {
+            favorite.getItems().add(item);
+        }
         favoriteService.update(favorite);
         LOGGER.info(String.format("Пользователь с id %d успешно добавил товар в избранное", user.getId()));
         return new ResponseEntity<>(HttpStatus.CREATED);

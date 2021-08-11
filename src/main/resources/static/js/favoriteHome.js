@@ -12,6 +12,7 @@ async function favoriteButtonItem(itemId) {
     $(functionItem).click(function () {
         addItemToFavorites(itemId);
         if ($(this).hasClass('btn btn-info')) {
+            deleteFavoriteItem(itemId)
             $(this).removeClass('btn btn-info');
             $(this).addClass('btn btn-secondary');
         } else {
@@ -29,5 +30,14 @@ async function addItemToFavorites(itemId) {
         headers: { "Content-Type": "application/json; charset=utf-8" },
         method: 'PATCH',
         body: null
+    })
+}
+
+async function deleteFavoriteItem(id){
+    let url = new URL("http://localhost:8888/api/favorites/items/delete/"+id);
+
+    const response = await fetch(url, {
+        headers: { "Content-Type": "application/json; charset=utf-8" },
+        method: 'DELETE'
     })
 }

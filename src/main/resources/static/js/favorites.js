@@ -166,6 +166,7 @@ async function favoriteButtonItem(itemId) {
     $(functionItem).click(function () {
         addItemToFavorites(itemId);
         if ($(this).hasClass('btn btn-info')) {
+            deleteFavoriteItem(itemId)
             $(this).removeClass('btn btn-info');
             $(this).addClass('btn btn-secondary');
         } else {
