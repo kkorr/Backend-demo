@@ -74,6 +74,32 @@ public class FavoriteRestController {
             return ResponseEntity.ok(itemsDto);
         }
     }
+
+    @GetMapping("/existsItem/{id}")
+    public Boolean getCheckItem(@PathVariable long id) {
+        Item item = itemService.findItemById(id);
+
+        User user = userService.findByUsername(SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName()).orElse(null);
+
+        if(user == null) {
+            return null;
+        }
+        Favorite favorite;
+        if(!favoriteService.findByUser(user).isPresent()) {
+            return false;
+        } else {
+            favorite = favoriteService.findByUser(user).get();
+            if (favorite.getItems().contains(item)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
     @Transactional
     @PatchMapping("/items/add/{id}")
     public ResponseEntity<Void> addItemToFavorites(@PathVariable Long id) {

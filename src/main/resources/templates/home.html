@@ -123,9 +123,10 @@
                                     <a href="#" class="btn btn-danger" th:attr="onclick=|addCartItem('${item.id}','${item.shopId}')|" style="width: 150px;">В корзину</a>
                                     <a th:href="@{/product/{id}(id = ${item.getId()})}" class="btn btn-primary" style="margin-left: 10px;">Смотреть</a>
                                 </div>
-                                <div class="mt-2 d-flex">
-                                    <button class="btn btn-info btn-block" th:attr="onclick=|addItemToFavorites('${item.id}')|">Добавить в избранное</button>
+                                <div class="mt-2 d-flex" th:id="'favoriteButton'+${item.id}">
+<!--                                    <button class="btn btn-info btn-block" th:attr="onclick=|addItemToFavorites('${item.id}')|">Добавить в избранное</button>-->
                                 </div>
+                                <div th:name="favItems" th:id="'favItem'+${item.id}"></div>
                             </div>
                         </div>
                     </th:block>
@@ -352,17 +353,19 @@
             })
         })
     }
-
-    async function addItemToFavorites(itemId) {
-
-        let url = new URL("http://localhost:8888/api/favorites/items/add/"+itemId)
-        const response = await fetch(url, {
-            headers: { "Content-Type": "application/json; charset=utf-8" },
-            method: 'PATCH',
-            body: null
-        })
+    $(async function (){
+        await favoriteItem()
+    })
+    async function favoriteItem() {
+        let items = document.getElementsByName("favItems")
+        for (let i = 0; i < items.length; i++) {
+            let itemDivID = items[i].id;
+            let itemId = itemDivID.substr(itemDivID.indexOf("m")+1, itemDivID.length - itemDivID.indexOf("m")+1)
+            await favoriteButtonItem(itemId);
+        }
     }
-</script>
 
+</script>
+<script type="text/javascript" th:src="@{/js/favoriteHome.js}" src="../static/js/favoriteHome.js"></script>
 </body>
 </html>
