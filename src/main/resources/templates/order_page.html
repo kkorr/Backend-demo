@@ -20,17 +20,19 @@
 <form action='https://demo.open-processing.ru/create' method='POST'>
     Фамилия Имя:
     <br/>
-    <input class='input_type' name='clientid' type='text' value=''/> <br/>
+    <input class='input_type' name='clientid' type='text' value='Александров Александр Иванович'/> <br/>
+    <!--    <b th:text="${user.getUsername()}">user1</b>-->
     Телефон:
     <br/>
-    <input class='input_type' name='client_phone' type='text' value=''/> <br/>
+    <input class='input_type' name='client_phone' type='text' value='8950432123'/> <br/>
     Адрес доставки:
     <br/>
-    <input class='input_type' name='client_email' type='text' value=''/> <br/>
+    <input class='input_type' name='client_address' type='text' value='Россия, г.Москва, ул.Ленина, д.3'/>
+    <br/>
     Сумма к оплате:
     <br/>
-    <input class='input_type' name='sum' type='text' value='1'/> <br/>
-    <input class='sub_btn' type='submit' value='Перейти к оплате'/>
+    <input class='input_type' name='sum' type='text' value='8100'/> <br/>
+    <input class='sub_btn' type='submit' value='Перейти к оплате'/></div>
 </form>
 </body>
 </html>
