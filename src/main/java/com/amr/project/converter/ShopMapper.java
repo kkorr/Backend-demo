@@ -16,8 +16,9 @@ import java.util.List;
  */
 
 
-@Mapper(uses = {ReviewMapper.class,
-        ImageMapper.class}, componentModel = "spring")
+@Mapper(unmappedTargetPolicy = org.mapstruct.ReportingPolicy.IGNORE,
+        uses = {ReviewMapper.class, ImageMapper.class},
+        componentModel = "spring")
 public interface ShopMapper {
 
     ShopMapper INSTANCE = Mappers.getMapper(ShopMapper.class);
@@ -44,7 +45,6 @@ public interface ShopMapper {
     default String map(User user) {
         return user != null ? user.getUsername() : "No user!";
     }
-
 
 
     List<ShopDto> toShopDto(List<Shop> shop);

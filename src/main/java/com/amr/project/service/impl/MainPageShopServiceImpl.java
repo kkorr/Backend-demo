@@ -30,7 +30,7 @@ public class MainPageShopServiceImpl extends ReadWriteServiceImpl<Shop, Long> im
 
     @Override
     public List<ShopDto> findPopularShops() {
-        return ShopMapper.INSTANCE.toShopDto(mainPageShopsDAO.getAll().stream()
+        return ShopMapper.INSTANCE.toShopDto(mainPageShopsDAO.getAll().stream().filter(shop -> shop.isModerated() && shop.isModerateAccept())
                 .sorted(Comparator.comparing(Shop::getCount, Comparator.reverseOrder()))
                 .limit(10).collect(Collectors.toList()));
     }
