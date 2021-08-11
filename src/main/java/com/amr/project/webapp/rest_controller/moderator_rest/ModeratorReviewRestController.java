@@ -1,7 +1,6 @@
 package com.amr.project.webapp.rest_controller.moderator_rest;
 
 import com.amr.project.converter.ReviewMapper;
-import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.dto.ReviewDto;
 import com.amr.project.model.entity.Review;
 import com.amr.project.service.abstracts.ItemService;
@@ -41,9 +40,8 @@ public class ModeratorReviewRestController {
     public ResponseEntity<List<ReviewDto>> getUnmoderatedReviews() {
         return new ResponseEntity<>(
                 reviewService
-                        .getAll()
+                        .getUnmoderatedReviews()
                         .stream()
-                        .filter(review -> !review.isModerated())
                         .map(reviewMapper::reviewToReviewDto)
                         .collect(Collectors.toList()),
                 HttpStatus.OK);
@@ -68,11 +66,9 @@ public class ModeratorReviewRestController {
 
     @GetMapping("/getUnmoderatedReviewsCount")
     public ResponseEntity<Long> getUnmoderatedReviewsCount() {
-        return new ResponseEntity<>(reviewService
-                .getAll()
-                .stream()
-                .filter(review -> !review.isModerated())
-                .count(), HttpStatus.OK);
+        return new ResponseEntity<>((long) reviewService
+                .getUnmoderatedReviews()
+                .size(), HttpStatus.OK);
     }
 
 }

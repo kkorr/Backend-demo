@@ -4,16 +4,11 @@ import com.amr.project.converter.ItemMapper;
 import com.amr.project.model.dto.ItemDto;
 import com.amr.project.service.abstracts.ItemService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.Tag;
-import io.swagger.v3.oas.annotations.Hidden;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,10 +39,8 @@ public class ModeratorItemsRestController {
     @GetMapping("/getUnmoderatedItems")
     public ResponseEntity<List<ItemDto>> getUnmoderatedItems() {
         return new ResponseEntity<>(
-                itemService
-                        .getAll()
+                itemService.getUnmoderatedItems()
                         .stream()
-                        .filter(item -> !item.isModerated())
                         .map(itemMapper::itemToItemDto)
                         .collect(Collectors.toList()),
                 HttpStatus.OK);
@@ -69,11 +62,9 @@ public class ModeratorItemsRestController {
 
     @GetMapping("/getUnmoderatedItemsCount")
     public ResponseEntity<Long> getUnmoderatedItemsCount() {
-        return new ResponseEntity<>(itemService
-                .getAll()
-                .stream()
-                .filter(item -> !item.isModerated())
-                .count(), HttpStatus.OK);
+        return new ResponseEntity<>((long) itemService
+                .getUnmoderatedItems()
+                .size(), HttpStatus.OK);
     }
 
 }

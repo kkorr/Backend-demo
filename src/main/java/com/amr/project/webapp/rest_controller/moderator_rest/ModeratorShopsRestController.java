@@ -1,13 +1,10 @@
 package com.amr.project.webapp.rest_controller.moderator_rest;
 
-import com.amr.project.converter.ItemMapper;
 import com.amr.project.converter.ShopMapper;
-import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.CountryService;
-import com.amr.project.service.abstracts.ItemService;
 import com.amr.project.service.abstracts.ShopService;
 import com.amr.project.service.abstracts.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -52,10 +49,8 @@ public class ModeratorShopsRestController {
     public ResponseEntity<List<ShopDto>> getUnmoderatedShops() {
         return new ResponseEntity<>(
                 shopService
-                        .getAll()
-                        .stream()
-                        .filter(shop -> !shop.isModerated())
-                        .map(shopMapper::shopToShopDto)
+                        .getUnmoderatedShops()
+                        .stream().map(shopMapper::shopToShopDto)
                         .collect(Collectors.toList()),
                 HttpStatus.OK);
     }
@@ -84,11 +79,9 @@ public class ModeratorShopsRestController {
 
     @GetMapping("/getUnmoderatedShopsCount")
     public ResponseEntity<Long> getUnmoderatedItemsCount() {
-        return new ResponseEntity<>(shopService
-                .getAll()
-                .stream()
-                .filter(shop -> !shop.isModerated())
-                .count(),
+        return new ResponseEntity<>((long) shopService
+                .getUnmoderatedShops()
+                .size(),
                 HttpStatus.OK);
     }
 }
