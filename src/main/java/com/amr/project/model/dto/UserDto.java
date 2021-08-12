@@ -52,7 +52,9 @@ public class UserDto {
 
     private Collection<Coupon> coupons;
 
-//    private Collection<Item> cart;
+    private Collection<DiscountDto> discounts;
+
+    private Collection<CartItemDto> cart;
 
     private Collection<Order> orders;
 

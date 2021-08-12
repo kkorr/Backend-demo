@@ -25,15 +25,16 @@
 
                 <div class="text-end">
                     <!--ссылка и информация пользователя-->
-                    <a th:href="@{/user/${user.getId()}}" sec:authorize="isAuthenticated()" class="d-flex">
-                        <img th:src="${user.getImages()}" alt="user_img" width="35px" height="35px" style="border-radius: 50%;">
-                        <p th:text="${user.getUsername()}" style="margin-left: 6px;"></p>
-                    </a>
+<!--                    <a th:href="@{/user/${user.getId()}}" sec:authorize="isAuthenticated()" class="d-flex">-->
+<!--                        <img th:src="${user.getImages()}" alt="user_img" width="35px" height="35px" style="border-radius: 50%;">-->
+<!--                        <p th:text="${user.getUsername()}" style="margin-left: 6px;"></p>-->
+<!--                    </a>-->
+                    <a href="cart"><button type="button" class="btn btn-outline-light me-2" sec:authorize="isAuthenticated()">Корзина</button></a>
+                    <a href="favorites"><button type="button" class="btn btn-outline-light me-2" sec:authorize="isAuthenticated()">Избранное</button></a>
+                    <a href="discounts"><button type="button" class="btn btn-outline-light me-2" sec:authorize="isAuthenticated()">Скидки</button></a>
                     <a href="#" class="btn btn-outline-light me-2" sec:authorize="isAuthenticated()">Выход</a>
-                    <a href="cart"><button type="button" class="btn btn-outline-light me-2">Корзина</button></a>
-                    <a href="favorites"><button type="button" class="btn btn-outline-light me-2">Избранное</button></a>
                     <button sec:authorize="isAnonymous()" type="button" id="user_open_modal_btn" class="btn btn-outline-light me-2">Войти</button>
-                    <button sec:authorize="isAnonymous()" type="button" class="btn btn-warning">Зарегистрироваться</button>
+                    <a href="registration"><button sec:authorize="isAnonymous()" type="button" class="btn btn-warning">Зарегистрироваться</button></a>
                 </div>
             </div>
         </div>
