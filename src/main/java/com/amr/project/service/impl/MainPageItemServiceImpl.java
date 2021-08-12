@@ -30,7 +30,7 @@ public class MainPageItemServiceImpl extends ReadWriteServiceImpl<Item, Long> im
     public List<ItemDto> findPopularItems() {
         return itemMapper.toItemsDto(mainPageItemsDAO.getAll().stream().filter(item -> item.isModerated() && item.isModerateAccept())
                 .sorted(Comparator.comparing(Item::getCount, Comparator.reverseOrder()))
-                .limit(10).collect(Collectors.toList()));
+                .limit(5).collect(Collectors.toList()));
     }
 
     @Override
