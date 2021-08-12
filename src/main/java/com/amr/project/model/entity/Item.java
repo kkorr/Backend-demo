@@ -1,10 +1,7 @@
 package com.amr.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
@@ -18,6 +15,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @ApiIgnore
 @Builder
+@ToString
 public class Item {
 
     @Id
@@ -61,6 +59,7 @@ public class Item {
     @Column
     private int discount;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(name = "shop_item",
             joinColumns = {@JoinColumn(name = "item_id")},

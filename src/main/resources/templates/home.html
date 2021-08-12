@@ -46,33 +46,7 @@
 </div>
 
 <!--HEADER-->
-<header class="bg-dark text-white" style="height: 44px;">
-    <div class="container" style="height: 44px;">
-        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start" style="height: 44px;">
-            <a href="/" class="d-flex align-items-center mb-lg-0 text-white text-decoration-none">
-                <h5 style="margin: 0;">LOGO</h5>
-            </a>
-            <!--NavBar(HEADER)-->
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ms-5">
-                <li><a href="#" class="nav-link px-2 text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Магазины</font></font></a></li>
-                <li><a href="#" class="nav-link px-2 text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Товары</font></font></a></li>
-                <li><a href="#" class="nav-link px-2 text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Избранное</font></font></a></li>
-                <li><a href="#" class="nav-link px-2 text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ещё...</font></font></a></li>
-            </ul>
-
-            <div class="text-end">
-                <!--ссылка и информация пользователя-->
-                <a th:href="@{/user/${user.getId()}}" sec:authorize="isAuthenticated()" class="d-flex">
-                    <img th:src="${user.getImages()}" alt="user_img" width="35px" height="35px" style="border-radius: 50%;">
-                    <p th:text="${user.getUsername()}" style="margin-left: 6px;"></p>
-                </a>
-                <button type="button" class="btn btn-outline-light me-2">Корзина</button>
-                <button sec:authorize="isAnonymous()" type="button" id="user_open_modal_btn" class="btn btn-outline-light me-2">Войти</button>
-                <button sec:authorize="isAnonymous()" type="button" class="btn btn-warning">Зарегистрироваться</button>
-            </div>
-        </div>
-    </div>
-</header>
+<div th:replace="/includes/header :: header"></div>
 
 <!--Main zone-->
 <section class="d-flex">
@@ -146,10 +120,13 @@
                                 <h5 th:text="${item.getName()}" class="card-title">Заголовок товара</h5>
                                 <p th:text="${item.getDescription()}" class="card-text">Описание товара:</p>
                                 <div class="d-flex">
-                                    <a href="#" class="btn btn-danger" style="width: 150px;">В корзину</a>
-                                    <a th:href="@{/item/${item.getId()}}" class="btn btn-primary" style="margin-left: 10px;">Смотреть</a>
+                                    <a href="#" class="btn btn-danger" th:attr="onclick=|addCartItem('${item.id}','${item.shopId}')|" style="width: 150px;">В корзину</a>
+                                    <a th:href="@{/product/{id}(id = ${item.getId()})}" class="btn btn-primary" style="margin-left: 10px;">Смотреть</a>
                                 </div>
-
+                                <div class="mt-2 d-flex" th:id="'favoriteButton'+${item.id}">
+<!--                                    <button class="btn btn-info btn-block" th:attr="onclick=|addItemToFavorites('${item.id}')|">Добавить в избранное</button>-->
+                                </div>
+                                <div th:name="favItems" th:id="'favItem'+${item.id}"></div>
                             </div>
                         </div>
                     </th:block>
@@ -169,7 +146,7 @@
                             <div class="card-body">
                                 <h5 th:text="${shop.getName()}" class="card-title">Заголовок магазины</h5>
                                 <p th:text="${shop.getDescription()}" class="card-text">Описание магазина:</p>
-                                <a th:href="@{/shop/${shop.getId()}}" class="btn btn-danger">Перейти в магазин</a>
+                                <a th:href="@{/showcase/{id}(id = ${shop.getId})}" class="btn btn-danger">Перейти в магазин</a>
                             </div>
                         </div>
                     </th:block>
@@ -185,17 +162,25 @@
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script>
-    /*связано с статическим контентом*/
+    /**
+     * связано с статическим контентом
+     */
     const popular_show_btn = $('#popular_show_btn');
     const popular_show_content = $('#popular_show_content');
-    /*связано с динамическим контентом*/
+    /**
+     * динамический контент
+     */
     const dinamic_show_content = $('#dinamic_content');
     const dinamic_head = $('#dinamic_head');
     const dinamic_inner_content = $('#dinamic_content_inner');
-    /*связано с поиском*/
+    /**
+     * поиск
+     */
     const search_input = $('#search_input');
     const search_btn = $('#search_btn');
-    /*связано со входом в систему и модальным окном*/
+    /**
+     *  вход в систему и модальное окно входа в систему
+     */
     const user_modal = $('#user_modal');
     const user_open_modal_btn = $('#user_open_modal_btn');
     const user_signin_form = $('#user_signin_form');
@@ -206,7 +191,10 @@
 
     $(document).ready(function () {
 
-        /*проверка корректности отправленой формы*/
+        /**
+         * обработчик
+         * проверка корректности отправленой формы
+         */
         $(user_signin_form).on('submit', function(e) {
             username_checker.html('');
             password_checker.html('');
@@ -221,19 +209,30 @@
             }
         })
 
-        /*открытие модального окна входа в систему*/
+        /**
+         * обработчик
+         * открытие модального окна входа в систему
+         */
         $(user_open_modal_btn).on('click', function(e) {
             e.preventDefault();
             user_modal.modal('show');
         })
-        /*обработка поиска*/
+
+        /**
+         * обработчик
+         * обработка поиска
+         */
         $(search_btn).on('click', function (e) {
             e.preventDefault();
             toggleClassesContent($(this));
             toggleClassesNavBar(null);
             let valueSearch = search_input.val();
             search_input.val('');
-            /*проверка на пустое значение поиска*/
+
+            /**
+             * обрабочтик
+             * проверка на пустое значение поиска
+             */
             if(valueSearch === '') {
                 dinamic_head.html('');
                 dinamic_head.html('Все товары')
@@ -243,48 +242,130 @@
             }
         })
 
-        /*обработчик на кнопке "популярное" в навбар*/
+        /**
+         * обработчик
+         * обработчик на кнопке "популярное" в навбар
+         */
         $(popular_show_btn).on('click', function (e) {
             e.preventDefault();
             toggleClassesContent($(this));
             toggleClassesNavBar($(this));
         })
 
-        /*обработчик на все кнопки в навбар кроме "популярное"*/
+        /**
+         * обработчик
+         * обработчик на все кнопки в навбар кроме "популярное"
+         */
         $('.link-dark').on('click', function(e) {
             e.preventDefault();
-            /*переключение стилей кнопок навбара и контейнера с контентом*/
+            /**
+             * переключение стилей кнопок навбара и контейнера с контентом
+             */
             toggleClassesContent($(this));
             toggleClassesNavBar($(this));
 
-            /*перезапись категории в заголовок*/
+            /**
+             * перезапись категории в заголовок
+             */
             let category = $(this).html();
             dinamic_head.html("");
             dinamic_head.html(category);
-
+            /** перезапись динамического контента
+             *  товары по категории
+             */
+            searchByCategory($(this));
         })
 
 
     })
 
-    /*функция переключения классов контейнера с контентом*/
+    /**
+     * отправляет GET запрос на /home/category/id = категории
+     * генерирует html из массива итемов на странице
+     */
+    async function searchByCategory(e) {
+        const categoryId = $(e).attr("id");
+        const response = await fetch("/home/category/" + categoryId);
+        if(response.ok) {
+            let items = await response.json();
+            /**
+             * Добавляем итемы по категориям на страницу
+             * */
+            let itemsByCategoryHTML = "";
+            for(let i = 0; i < items.length; i++) {
+                itemsByCategoryHTML += '<div class="card" style="width: 18rem; margin-right: 15px; margin-top: 20px;">\n' +
+                    '                       <img src="' + items[i].images[0] + '" class="card-img-top" alt="popular_item" style="height: 180px;">' +
+                    '                           <div class="card-body">\n' +
+                    '                                <h5 class="card-title">' + items[i].name + '</h5>' +
+                    '                                <p class="card-text">' + items[i].description + '</p>' +
+                    '                                <div class="d-flex">\n' +
+                    '                                    <a href="#" class="btn btn-danger" style="width: 150px;">В корзину</a>' +
+                    '                                    <a href="/product/' + items[i].id + '" class="btn btn-primary" style="margin-left: 10px;">Смотреть</a>' +
+                    '                                </div>' +
+                    '                           </div>' +
+                    '                   </div>';
+            }
+            dinamic_inner_content.html("");
+            dinamic_inner_content.html(itemsByCategoryHTML);
+        }
+    }
+
+    /**
+     * функция переключения классов контейнера с контентом
+     */
     function toggleClassesContent(e) {
         if($(e).is(popular_show_btn)) {
             popular_show_content.addClass('show');
             dinamic_show_content.removeClass('show');
+            dinamic_inner_content.html("");
         } else {
             popular_show_content.removeClass('show');
             dinamic_show_content.addClass('show');
         }
     }
 
-    /*функция переключения кнопок в навбар*/
+    /**
+     * функция переключения кнопок в навбар
+     */
     function toggleClassesNavBar(e) {
         $('.active').removeClass('active').addClass('link-dark');
         $(e).removeClass('link-dark');
         $(e).addClass('active');
     }
-</script>
 
+    async function addCartItem(itemId, shopId) {
+        // let quant = document.getElementById("itemQuant").value;
+        let url = new URL("http://localhost:8888/api/cart/add")
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            body: JSON.stringify({
+                quantity: 1,
+                item: {
+                    id: itemId
+                },
+                shop: {
+                    id: shopId
+                },
+            })
+        })
+    }
+    $(async function (){
+        await favoriteItem()
+    })
+    async function favoriteItem() {
+        let items = document.getElementsByName("favItems")
+        for (let i = 0; i < items.length; i++) {
+            let itemDivID = items[i].id;
+            let itemId = itemDivID.substr(itemDivID.indexOf("m")+1, itemDivID.length - itemDivID.indexOf("m")+1)
+            await favoriteButtonItem(itemId);
+        }
+    }
+
+</script>
+<script type="text/javascript" th:src="@{/js/favoriteHome.js}" src="../static/js/favoriteHome.js"></script>
 </body>
 </html>

@@ -29,4 +29,5 @@ public class ShopDto {
     private boolean isModerateAccept;
     private String moderatedRejectReason;
     private boolean isPretendentToBeDeleted;
+    private String logoarray;
 }

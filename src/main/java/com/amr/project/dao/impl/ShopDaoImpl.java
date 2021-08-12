@@ -4,21 +4,30 @@ import com.amr.project.dao.abstracts.ShopDao;
 import com.amr.project.model.entity.Shop;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class ShopDaoImpl extends ReadWriteDAOImpl<Shop, Long> implements ShopDao {
     @Override
     public Shop findShopByName(String name) {
-        return entityManager.createQuery("SELECT s from Shop s where s.name = :name", Shop.class)
-                .setParameter("name", name).getResultList()
-                .stream()
-                .findFirst().orElse(new Shop());
+        return null;
     }
 
     @Override
     public Shop findShopById(Long id) {
-        return entityManager.createQuery("SELECT s from Shop s where s.id = :id", Shop.class)
-                .setParameter("id", id).getResultList()
-                .stream()
-                .findFirst().orElse(new Shop());
+        return null;
+    }
+
+    @Override
+    public List<Shop> findUnmoderatedShops() {
+        return entityManager.createQuery("SELECT s from Shop s where s.isModerateAccept = false and s.isModerated = false", Shop.class)
+                .getResultList();
+    }
+
+    @Override
+    public List<Shop> findModeratedShops() {
+        return entityManager.createQuery("SELECT s from Shop s where s.isModerateAccept = true and s.isModerated = true", Shop.class)
+                .getResultList();
     }
 }
+

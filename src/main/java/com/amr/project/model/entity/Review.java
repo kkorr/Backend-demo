@@ -16,6 +16,8 @@ import java.util.Date;
 @EqualsAndHashCode
 @NoArgsConstructor
 @ApiIgnore
+@Builder
+@AllArgsConstructor
 @ToString(exclude = "user")
 public class Review {
 
@@ -31,15 +33,15 @@ public class Review {
     int rating;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private User user;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Shop shop;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Item item;
 
     @Column

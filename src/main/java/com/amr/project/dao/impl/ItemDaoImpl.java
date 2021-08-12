@@ -4,6 +4,7 @@ package com.amr.project.dao.impl;
 import com.amr.project.dao.abstracts.ItemDao;
 import com.amr.project.model.entity.Item;
 import org.springframework.stereotype.Repository;
+
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -36,7 +37,18 @@ public class ItemDaoImpl extends ReadWriteDAOImpl<Item, Long> implements ItemDao
 
 
         return query.getResultList();
+    }
 
+    @Override
+    public List<Item> getUnmoderatedItems() {
+        return entityManager.createQuery("SELECT i from Item i where i.isModerateAccept = false and i.isModerated = false ", Item.class)
+                .getResultList();
+    }
+
+    @Override
+    public List<Item> getModeratedItems() {
+        return entityManager.createQuery("SELECT i from Item i where i.isModerateAccept = true and i.isModerated = true ", Item.class)
+                .getResultList();
     }
 }
 
