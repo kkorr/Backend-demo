@@ -6,40 +6,173 @@
     <meta charset="UTF-8">
     <title>Order page</title>
 
-    <link crossorigin="anonymous" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
-          rel="stylesheet"
-          th:href="@{'https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css'}">
-    <script crossorigin="anonymous"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            th:src="@{'https://code.jquery.com/jquery-3.5.1.slim.min.js'}"></script>
-    <script crossorigin="anonymous"
-            integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
-            th:src="@{'https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js'}"></script>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 </head>
 <body>
-<form action='https://demo.open-processing.ru/create' method='POST'>
-    Фамилия Имя:
-    <br/>
-    <input class='input_type' name='clientid' type='text' value='Александров Александр Иванович'/> <br/>
-    <!--    <b th:text="${user.getUsername()}">user1</b>-->
-    Телефон:
-    <br/>
-    <input class='input_type' name='client_phone' type='text' value='8950432123'/> <br/>
-    Адрес доставки:
-    <br/>
-    <input class='input_type' name='client_address' type='text' value='Россия, г.Москва, ул.Ленина, д.3'/>
-    <br/>
-    Товары:
-    <br/>
-    <input class='input_type' name='itemid' type='text' value='Пальто'/> <br/>
-    <input class='input_type' name='itemid' type='text' value='Свитер'/> <br/>
-    Сумма к оплате:
-    <br/>
-    <input class='input_type' name='sum' type='text' value='8100'/> <br/>
-    <input class='sub_btn' type='submit' value='Перейти к оплате'/>
-</form>
-<form action='http://localhost:8888/home'>
-    <input class='sub_btn' type='submit' value='Отменить заказ'/>
-</form>
+<div style="width: 100%; height: 100vh; background-color: #fcffdf; position: relative; ">
+    <!-- модалка для изменения информации заказа -->
+    <div class="modal fade" id="order_info_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Изменение информации заказа:</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="order_edit_form">
+                    <div class="modal-body">
+                        <div class="mb-2">
+                            <h6>Адрес доставки:</h6>
+                        </div>
+                        <div class="mb-3">
+                            <label for="country_input" class="form-label">Страна:</label>
+                            <input id="country_input" type="text" name="country" class="form-control" placeholder="Введите страну:">
+                            <div id="country_checker" class="form-text" style="color:#a40000;"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="city_input" class="form-label">Город:</label>
+                            <input id="city_input" type="text" name="city" class="form-control" placeholder="Введите город:">
+                            <div id="city_checker" class="form-text" style="color:#a40000;"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="street_input" class="form-label">Улица:</label>
+                            <input id="street_input" type="text" name="street" class="form-control" placeholder="Введите улицу:">
+                            <div id="street_checker" class="form-text" style="color:#a40000;"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="home_input" class="form-label">Дом:</label>
+                            <input id="home_input" type="number" name="home" class="form-control" placeholder="Введите дом:">
+                            <div id="home_checker" class="form-text" style="color:#a40000;"></div>
+                        </div>
+                        <div class="mb-2">
+                            <h6>Персональные данные:</h6>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name_input" class="form-label">Имя:</label>
+                            <input id="name_input" type="text" name="name" class="form-control" placeholder="Введите имя:">
+                            <div id="name_checker" class="form-text" style="color:#a40000;"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone_input" class="form-label">Телефон:</label>
+                            <input id="phone_input" type="text" name="phone" class="form-control" placeholder="Введите телефон:">
+                            <div id="phone_checker" class="form-text" style="color:#a40000;"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email_input" class="form-label">Email:</label>
+                            <input id="email_input" type="email" name="phone" class="form-control" placeholder="Введите email:">
+                            <div id="email_checker" class="form-text" style="color:#a40000;"></div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <button type="submit" id="user_signin_btn" class="btn btn-primary">Изменить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--контейнер с заказом-->
+    <div class="container-fluid d-flex justify-content-center" style="padding-top:30px;">
+        <div class="shadow" style="width:850px; height:auto; background-color: #fff; padding-top: 10px; padding-bottom:20px; padding-left: 10px;">
+            <div class="row">
+                <div class="col-12">
+                    <h5>Проверьте ваш заказ:</h5>
+                </div>
+                <div class="col-12">
+                    <hr style="width:100%; margin: 0;">
+                </div>
+                <div class="col-12 d-flex justify-content-between px-4 mt-4">
+                    <div>Сумма заказа: <b>8100р</b></div>
+                    <button type="button" class="btn btn-primary text-align-center" style="height:35px;" id="order_edit_open_btn">Изменить информацию</button>
+                </div>
+                <div class="col-12 d-flex justify-content-between px-4">
+                    <div><b>Ваша информация:</b></div>
+                </div>
+                <div class="col-12 d-flex justify-content-between px-4">
+                    <div>Ваше имя: <b>Alex</b></div>
+                </div>
+                <div class="col-12 d-flex justify-content-between px-4">
+                    <div>Ваш телефон: <b>8959595493</b></div>
+                </div>
+                <div class="col-12 d-flex justify-content-between px-4">
+                    <div>Ваш email: <b>alex@email.ru</b></div>
+                </div>
+                <div class="col-12 d-flex justify-content-between px-4">
+                    <div>Адрес доставки: <b>Россия, г.Москва, ул.Ленина, д.3</b></div>
+                </div>
+                <div class="col-12 px-4">
+                    <table class="table table-striped" id="items_by_orders_table">
+                        <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+
+                        <tbody id="insert_items_by_order">
+                        <tr>
+                            <td><img src="" alt="item_img" width="80px" height="45px"></td>
+                            <td>Пальто</td>
+                            <td>Одежда</td>
+                            <td>6400р</td>
+                            <td>
+                                <button type="button" class="btn btn-danger">удалить</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><img src="" alt="item_img" width="80px" height="45px"></td>
+                            <td>Свитер</td>
+                            <td>Одежда</td>
+                            <td>1700р</td>
+                            <td>
+                                <button type="button" class="btn btn-danger">удалить</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-12 d-flex justify-content-end px-4">
+                    <button type="button" class="btn btn-secondary">Отменить заказ</button>
+                    <button type="button" class="btn btn-primary ms-2" id="complete_order">Оплатить</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const orderId = window.location.href.charAt(window.location.href.length - 1);
+
+    $(document).ready(function () {
+
+        $('#order_edit_open_btn').on('click', function(e) {
+            e.preventDefault();
+            $('#order_info_modal').modal('show');
+        })
+    })
+
+    /**
+     * получаем заказ
+     * @returns {Promise<void>}
+     */
+    async function getOrder() {
+        const response = await fetch('/api/order/' + orderId);
+        if(response.ok) {
+            const order = response.json();
+            const items = order.items;
+            console.log(order);
+        }
+    }
+
+</script>
 </body>
 </html>
