@@ -30,7 +30,8 @@
                         <p th:text="${user.getUsername()}" style="margin-left: 6px;"></p>
                     </a>
                     <a href="#" class="btn btn-outline-light me-2" sec:authorize="isAuthenticated()">Выход</a>
-                    <button type="button" class="btn btn-outline-light me-2">Корзина</button>
+                    <a href="cart"><button type="button" class="btn btn-outline-light me-2">Корзина</button></a>
+                    <a href="favorites"><button type="button" class="btn btn-outline-light me-2">Избранное</button></a>
                     <button sec:authorize="isAnonymous()" type="button" id="user_open_modal_btn" class="btn btn-outline-light me-2">Войти</button>
                     <button sec:authorize="isAnonymous()" type="button" class="btn btn-warning">Зарегистрироваться</button>
                 </div>

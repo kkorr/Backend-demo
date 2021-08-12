@@ -3,6 +3,7 @@ package com.amr.project.model.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @ApiIgnore
+@ToString
 public class ItemDto {
 
     private Long id;
