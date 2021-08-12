@@ -28,11 +28,13 @@ public class MainPageItemServiceImpl extends ReadWriteServiceImpl<Item, Long> im
 
     @Override
     public List<ItemDto> findPopularItems() {
-        return itemMapper.toItemsDto(mainPageItemsDAO.getAll().stream()
+        return itemMapper.toItemsDto(mainPageItemsDAO.getAll().stream().filter(item -> item.isModerated() && item.isModerateAccept())
                 .sorted(Comparator.comparing(Item::getCount, Comparator.reverseOrder()))
                 .limit(10).collect(Collectors.toList()));
-        /*return ItemMapper.INSTANCE.toItemsDto(mainPageItemsDAO.getAll().stream()
-                .sorted(Comparator.comparing(Item::getCount, Comparator.reverseOrder()))
-                .limit(10).collect(Collectors.toList()));*/
+    }
+
+    @Override
+    public List<ItemDto> findItemsByCategoryId(Long categoryId) {
+        return itemMapper.toItemsDto(mainPageItemsDAO.findItemsByCategoryId(categoryId));
     }
 }

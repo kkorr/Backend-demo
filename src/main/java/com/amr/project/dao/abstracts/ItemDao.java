@@ -10,4 +10,9 @@ public interface ItemDao extends ReadWriteDAO<Item, Long> {
     Item findItemByName(String name);
 
     List<Item> getItemsByShopId(Long id);
+
+    List<Item> getUnmoderatedItems();
+
+    List<Item> getModeratedItems();
+
 }

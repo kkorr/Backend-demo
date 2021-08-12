@@ -1,24 +1,24 @@
+let checkFetch = 0;
 async function getItems() {
     const response = await fetch("/api/cart")
     const data = await response.json();
-    console.log(data)
+    if(data.length > 0) {
+        checkPaymentButton()
+    }
     if(document.getElementById("cartItems")) {
         data.forEach(cartItem=> insertCartItemRow(cartItem))
     }
 }
 getItems()
 
-function checkButton() {
+function checkPaymentButton() {
+    let rowsDiv = document.getElementsByName("cartItemRow");
     let paymentDiv = document.getElementById("paymentButton");
-    let cartDiv = document.getElementById("checkExists");
-    if (cartDiv) {
-        paymentDiv.insertAdjacentHTML("beforeend",
-            `<input type="submit" class="btn btn-primary" id="activePaymentButton" value="Перейти к оплате"/>`);
-    } else {
-        paymentDiv.insertAdjacentHTML("beforeend",
-        `<input type="submit" class="btn btn-primary" id="inactivePaymentButton" value="Перейти к оплате" disabled />`);
-    }
+    console.log(rowsDiv.length)
+    paymentDiv.innerHTML =
+        `<input type="submit" class="btn btn-primary" id="inactivePaymentButton" value="Перейти к оплате" />`;
 }
+
 
 let i = 0;
 function insertCartItemRow(cartItem) {
@@ -31,7 +31,7 @@ function insertCartItemRow(cartItem) {
     };
     i++;
     document.querySelector('#cartItems').insertAdjacentHTML('beforeend', `
-    <div class="row rounded" id="cartItem${ci.id}" style="border: 1px solid">
+    <div class="row rounded" id="cartItem${ci.id}" style="border: 1px solid" name="cartItemRow">
         <div class="col-2">
           <div class="mt-2"><h4>${i}</h4></div>
           <div><button type="submit" onclick="deleteCartItem(${ci.id}); collapseRow(${ci.id});" style="border: none"><img src="https://static.thenounproject.com/png/147529-200.png" class="img-fluid"
@@ -51,7 +51,7 @@ function insertCartItemRow(cartItem) {
               "sumForCartItem(${ci.id}, ${ci.item.price}); updateQuantity(${ci.id}); subtotalForCartItems();">Пересчитать сумму</button>
             </div>
           </div>
-          <div>
+          <div name = "itemPrice">
             <span>X</span>
             <span id="itemPrice">${ci.item.price}</span>
           </div>
@@ -90,6 +90,7 @@ async function updateQuantity(id) {
         headers: { "Content-Type": "application/json; charset=utf-8" },
         method: 'PATCH',
         body: JSON.stringify({
+            id: id,
             quantity: newQuant,
         })
     })
@@ -102,8 +103,6 @@ function sumForCartItem(id, price) {
     let sum = newQuant * price;
     document.getElementById(idHTML).innerHTML = `<span>${sum}</span>`;
 }
-
-
 
 function subtotalForCartItems() {
     let result = 0;

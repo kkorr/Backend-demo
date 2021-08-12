@@ -58,8 +58,6 @@ public class AddressRestController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<AddressDto> delete(@PathVariable("id") Long id) {
-
-        addressService.getByKey(id).getUser().setAddress(null);
         addressService.deleteByKeyCascadeEnable(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

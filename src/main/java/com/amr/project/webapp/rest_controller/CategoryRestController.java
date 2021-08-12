@@ -28,20 +28,21 @@ public class CategoryRestController {
 
 
     @PutMapping("/save")
-    public ResponseEntity<Long> saveCategory(@RequestBody CategoryDto categoryDto) {
+    public ResponseEntity<Void> saveCategory(@RequestBody CategoryDto categoryDto) {
         categoryService.update(CategoryMapper.INSTANCE.dtoToCategory(categoryDto));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
     @PostMapping("/add")
-    public ResponseEntity<Long> addCategory(@RequestBody CategoryDto categoryDto) {
+    public ResponseEntity<Void> addCategory(@RequestBody CategoryDto categoryDto) {
         categoryService.persist(CategoryMapper.INSTANCE.dtoToCategory(categoryDto));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         categoryService.deleteByKeyCascadeIgnore(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

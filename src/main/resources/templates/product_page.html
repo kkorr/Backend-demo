@@ -3,17 +3,13 @@
       xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Product page</title>
-
-  <link rel="stylesheet" th:href="@{'https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css'}"
-        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
-        crossorigin="anonymous">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
   <script th:src="@{'https://code.jquery.com/jquery-3.5.1.slim.min.js'}"
           integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-          crossorigin="anonymous"></script>
-  <script th:src="@{'https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js'}"
-          integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
           crossorigin="anonymous"></script>
 </head>
 <body>
@@ -23,8 +19,7 @@
   <div class="col-md-6 bg-light">
     <div class="product-image">
       <a href="">
-        <img src="//images.wbstatic.net/large/new/25910000/25910205-1.jpg">
-        <!-- <img src= "${item.getImage()}">  -->
+         <img th:src= "${item.getImages()[0]}">
       </a>
     </div>
   </div>
@@ -32,10 +27,13 @@
   <!---------- Right Column ---------->
   <div class="col-md-6 bg-white">
     <br/>
-    <p th:text="${item.getShop().getName()}">Название магазина</p>
+    <p th:text="${shop.getName()}"><b>Название магазина</b></p>
     <br/>
     <div class="product-category">
-      <p th:text="${item.getCategories()}">Название группы товаров</p>
+      <p><b>Категории:</b></p>
+      <ul th:each="category : ${item.getCategories()}">
+        <li th:text="${category}"></li>
+      </ul>
       <br/>
       <b th:text="${item.getName()}">Название товара</b>
       <div class="product-configuration">
@@ -48,12 +46,56 @@
         <div class="product-price">
           <p th:text="${item.getPrice()}">Стоимость товара</p>
         </div>
+        <div>
+          <label for="itemQuant">Количество:</label>
+          <input type="number" id="itemQuant" th:value="${cartItem!=null}?${cartItem.getQuantity()} :1" class="form-control" min="1">
+        </div>
         <div class="form-group">
-          <button class="btn btn-primary btn-block">В корзину</button>
+          <button class="btn btn-primary btn-block" th:attr="onclick=|addCartItem('${item.id}','${shop.id}')|">В корзину</button>
+        </div>
+        <div class="form-group" id="favoriteButton">
+<!--          <button class="btn btn-info btn-block" th:attr="onclick=|addItemToFavorites('${item.id}')|">Добавить в избранное</button>-->
         </div>
       </div>
     </div>
   </div>
+  <div id="favItem" th:data-itemId="${item.getId()}"></div>
 </div>
+  <script>
+    $(async function (){
+      await favoriteItem()
+    })
+
+    async function favoriteItem() {
+      let form = $("#favItem");
+      let itemId = form.attr("data-itemId");
+
+      await favoriteButtonItem(itemId);
+    }
+
+    async function addCartItem(itemId, shopId) {
+      let quant = document.getElementById("itemQuant").value;
+      let url = new URL("http://localhost:8888/api/cart/add")
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify({
+          quantity: quant,
+          item: {
+            id: itemId
+          },
+          shop: {
+            id: shopId
+          },
+        })
+      })
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+  <script type="text/javascript" th:src="@{/js/favorites.js}" src="../static/js/favorites.js"></script>
+
 </body>
 </html>

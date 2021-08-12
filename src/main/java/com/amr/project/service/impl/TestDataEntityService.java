@@ -14,6 +14,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.time.Instant;
 import java.util.*;
 
 @Service
@@ -44,6 +45,9 @@ public class TestDataEntityService {
     @Autowired
     private ImageService imageService;
 
+    @Autowired
+    private ReviewService reviewService;
+
 
     public void createEntity() {
         createImageEntity();
@@ -54,12 +58,40 @@ public class TestDataEntityService {
         createCategoryEntity();
         createShopEntity();
         createItemEntity();
+        createReviewEntity();
+    }
+
+    @SneakyThrows
+    private void createReviewEntity() {
+        Review review1 = Review.builder()
+                .text("Bad item!!!")
+                .rating(1)
+                .user(userService.getByKey(2L))
+                .shop(shopService.getByKey(4L))
+                .item(itemService.findItemById(12L))
+                .isModerateAccept(false)
+                .isModerated(false)
+                .build();
+        reviewService.persist(review1);
+        Review review2 = Review.builder()
+                .text("Good item!!!")
+                .rating(5)
+                .user(userService.getByKey(2L))
+                .shop(shopService.getByKey(3L))
+                .item(itemService.findItemById(12L))
+                .isModerateAccept(false)
+                .isModerated(false)
+                .build();
+        reviewService.persist(review2);
+        User user = userService.getByKey(2L);
+        user.setReviews(new ArrayList<>(List.of(review1, review2)));
+        userService.update(user);
     }
 
 
     @SneakyThrows
     private void createImageEntity() {
-        URL[] urls = new URL[24];
+        URL[] urls = new URL[26];
         //shops
         urls[0] = new URL("https://epicris.ru/wp-content/uploads/blackfriday/beru.jpg");
         urls[1] = new URL("https://epicris.ru/wp-content/uploads/blackfriday/lamoda.jpg");
@@ -86,6 +118,8 @@ public class TestDataEntityService {
         urls[21] = new URL("https://hundaj.ru/im/hendaj-solyaris-hetchbek/hendaj-solyaris-hetchbek-1.jpeg");
         urls[22] = new URL("https://static.onlinetrade.ru/img/items/b/botinki_timberland_tbla2eduw_zhenskie_tsvet_korichnevyy_razmer_6_1527950_2.jpg");
         urls[23] = new URL("https://i.pinimg.com/originals/a8/f8/53/a8f853e94e56ed8da0e7b766a2202408.jpg");
+        urls[24] = new URL("https://news.store.rambler.ru/img/c3b030d73abf4a2716af03afa01794bd");
+        urls[25] = new URL("https://catherineasquithgallery.com/uploads/posts/2021-03/1614596205_33-p-muzhchina-kartinka-na-belom-fone-36.jpg");
 
         for (URL url:
              urls) {
@@ -99,7 +133,7 @@ public class TestDataEntityService {
 
     }
 
-    private byte[] downloadImage(URL url) {
+    public static byte[] downloadImage(URL url) {
         byte[] bytes = null;
         try {
             BufferedImage originalImage= ImageIO.read(url);
@@ -389,7 +423,7 @@ public class TestDataEntityService {
                 .rating(3)
                 .user(userService.getByKey(3L))
                 .isModerated(true)
-                .isModerateAccept(true)
+                .isModerateAccept(false)
                 .activity(1)
                 .build();
         shopService.persist(shop2);
@@ -409,6 +443,30 @@ public class TestDataEntityService {
                 .activity(1)
                 .build();
         shopService.persist(shop3);
+        Shop shop4 = Shop.builder()
+                .name("Some bad guys shop")
+                .email("worstshopever@mail.ru")
+                .phone("88005553535")
+                .description("Воруем деньги!")
+                .location(countryService.getByName("China"))
+                .logo(imageService.getByKey(25L))
+                .user(userService.getByKey(1L))
+                .isModerated(false)
+                .isModerateAccept(false)
+                .build();
+        shopService.persist(shop4);
+        Shop shop5 = Shop.builder()
+                .name("Some good guys shop")
+                .email("wonderfulshop@gmail.com")
+                .phone("7-903-271-4421")
+                .description("Отличные товары по отличным ценам!")
+                .location(countryService.getByName("Russia"))
+                .logo(imageService.getByKey(26L))
+                .user(userService.getByKey(1L))
+                .isModerated(false)
+                .isModerateAccept(false)
+                .build();
+        shopService.persist(shop5);
     }
 
     private void createItemEntity() {
@@ -432,8 +490,8 @@ public class TestDataEntityService {
                 .rating(1)
                 .description("Маска медицинская")
                 .shop(shops[0])
-                .isModerated(true)
-                .isModerateAccept(true)
+                .isModerated(false)
+                .isModerateAccept(false)
                 .build();
         itemService.persist(item);
 
@@ -448,8 +506,8 @@ public class TestDataEntityService {
                 .rating(4)
                 .description("Плащ Louis Vuitton")
                 .shop(shops[1])
-                .isModerated(true)
-                .isModerateAccept(true)
+                .isModerated(false)
+                .isModerateAccept(false)
                 .build();
         itemService.persist(item3);
 
@@ -468,8 +526,8 @@ public class TestDataEntityService {
                 .rating(19)
                 .description("Зонт 3 слона")
                 .shop(shops[3])
-                .isModerated(true)
-                .isModerateAccept(true)
+                .isModerated(false)
+                .isModerateAccept(false)
                 .build();
         itemService.persist(item18);
 
