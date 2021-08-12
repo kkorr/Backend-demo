@@ -30,3 +30,4 @@ public class ShopDaoImpl extends ReadWriteDAOImpl<Shop, Long> implements ShopDao
                 .getResultList();
     }
 }
+

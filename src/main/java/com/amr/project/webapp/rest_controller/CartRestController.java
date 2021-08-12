@@ -50,11 +50,12 @@ public class CartRestController {
 
     @Transactional
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<CartItemDto>> getAllCartItemsByUser(Principal principal) {
-        if(principal == null || principal instanceof AnonymousAuthenticationToken) {
+    public ResponseEntity<List<CartItemDto>> getAllCartItemsByUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
             throw new AccessDeniedException("Вам нужно авторизоваться для доступа к корзине");
         }
-        User user = userService.findByUsername(principal.getName()).get();
+        User user = userService.findByUsername(authentication.getName()).get();
         List<CartItem> cartItems = cartItemService.findByUser(user);
         List<CartItemDto> cartItemsDto = cartItems.stream().map(c -> cartItemMapper.cartItemToDto(c)).collect(Collectors.toList());
         LOGGER.info(String.format("Пользователь с id %d успешно получил список товаров в корзине", user.getId()));
@@ -64,6 +65,14 @@ public class CartRestController {
     @Transactional
     @PatchMapping("/update/{id}")
     public ResponseEntity<Void> updateCartItemQuantity(@PathVariable("id") Long id, @RequestBody CartItemDto cartItem) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
+            throw new AccessDeniedException("Вам нужно авторизоваться для доступа к корзине");
+        }
+        if (cartItem.getId() != id ) {
+            throw new IllegalArgumentException(String.format("Переданный параметр строки id %d не соответствует" +
+                    "параметру json id %d", id, cartItem.getId()));
+        }
         cartItemService.getByKey(id).setQuantity(cartItem.getQuantity());
         return ResponseEntity.ok().body(null);
     }
@@ -71,6 +80,10 @@ public class CartRestController {
     @Transactional
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteCartItem(@PathVariable Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
+            throw new AccessDeniedException("Вам нужно авторизоваться для доступа к корзине");
+        }
         cartItemService.deleteByKeyCascadeIgnore(id);
         return ResponseEntity.ok().body(null);
     }

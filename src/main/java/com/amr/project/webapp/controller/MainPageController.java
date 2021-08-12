@@ -2,6 +2,7 @@ package com.amr.project.webapp.controller;
 
 
 import com.amr.project.model.dto.ItemDto;
+import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/home")
@@ -44,8 +46,11 @@ public class MainPageController {
     @GetMapping
     public String getPopularItemsAbdShop(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication.isAuthenticated()) {
-            model.addAttribute("user", userService.findByUsername(authentication.getName()));
+        Optional<User> user = userService.findByUsername(authentication.getName());
+        if (authentication.isAuthenticated() && user.isPresent()) {
+            model.addAttribute("user", user.get());
+        } else {
+            model.addAttribute("user", new User());
         }
         model.addAttribute("items", mainPageItemService.findPopularItems());
         model.addAttribute("shops", mainPageShopService.findPopularShops());

@@ -3,10 +3,7 @@ package com.amr.project.model.dto;
 import com.amr.project.model.entity.*;
 import com.amr.project.model.enums.Gender;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Calendar;
 import java.util.Collection;
@@ -19,6 +16,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class UserDto {
 
     private Long id;

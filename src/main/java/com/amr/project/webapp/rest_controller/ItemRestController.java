@@ -33,7 +33,7 @@ public class ItemRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ItemDto> getAddress(@PathVariable("id") Long id) {
+    public ResponseEntity<ItemDto> getItem(@PathVariable("id") Long id) {
         return new ResponseEntity<>(itemMapper.itemToItemDto(itemService.getByKey(id)), HttpStatus.OK);
     }
 
