@@ -95,6 +95,8 @@ const select_options = $('#shopsModal');
 const create_discount_button = $('#create_discount_button');
 const percentage_check = $('#checkPercentage');
 const fixed_check = $('#checkFixed');
+const percentage_input = $('#percentageModal');
+const fixed_input = $('#fixedDiscModal');
 
 $(document).ready(function () {
     $(discount_open_modal_btn).on('click', function(e) {
@@ -102,8 +104,17 @@ $(document).ready(function () {
         discount_modal.modal('show');
     })
 
-    $(percentage_check, fixed_check).on('click', function (e) {
-        $(percentage_check, fixed_check).prop('checked', this.checked);
+    $(percentage_check).click(function () {
+        $(fixed_check).prop('checked', false);
+        $(percentage_check).prop('checked', true);
+        $(fixed_input).prop('disabled', true);
+        $(percentage_input).prop('disabled', false);
+    })
+    $(fixed_check).click(function () {
+        $(percentage_check).prop('checked', false);
+        $(fixed_check).prop('checked', true);
+        $(percentage_input).prop('disabled', true);
+        $(fixed_input).prop('disabled', false);
     })
 
     $(discount_modal).on('show.bs.modal', function (e) {
@@ -115,24 +126,3 @@ $(document).ready(function () {
         location.reload();
     })
 })
-
-
-// document.getElementById("addDiscountButton").addEventListener('click', showModal, false);
-// document.getElementById("addDiscountButton").addEventListener('click', getShopOptions, false);
-// // Modal for discount creation
-// let modalWrap = null;
-//
-// function showModal() {
-//     if(modalWrap != null) {
-//         modalWrap.remove();
-//     }
-//
-//     modalWrap=document.createElement('div');
-//     modalWrap.innerHTML=`
-//     `
-//     // document.getElementById("shopsModal").addEventListener('shown.bs.modal', getShopNames, false)
-//
-//     document.body.append(modalWrap)
-//     let modal = new bootstrap.Modal(modalWrap.querySelector('.modal'));
-//     modal.show();
-// };
