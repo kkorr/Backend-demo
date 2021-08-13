@@ -87,23 +87,20 @@
                     <hr style="width:100%; margin: 0;">
                 </div>
                 <div class="col-12 d-flex justify-content-between px-4 mt-4">
-                    <div>Сумма заказа: <b>8100р</b></div>
+                    <div>Сумма заказа: <b id="order_total">8100р</b></div>
                     <button type="button" class="btn btn-primary text-align-center" style="height:35px;" id="order_edit_open_btn">Изменить информацию</button>
                 </div>
                 <div class="col-12 d-flex justify-content-between px-4">
                     <div><b>Ваша информация:</b></div>
                 </div>
                 <div class="col-12 d-flex justify-content-between px-4">
-                    <div>Ваше имя: <b>Alex</b></div>
+                    <div>Ваше имя: <b id="order_name">Alex</b></div>
                 </div>
                 <div class="col-12 d-flex justify-content-between px-4">
-                    <div>Ваш телефон: <b>8959595493</b></div>
+                    <div>Ваш телефон: <b id="order_phone">8959595493</b></div>
                 </div>
                 <div class="col-12 d-flex justify-content-between px-4">
-                    <div>Ваш email: <b>alex@email.ru</b></div>
-                </div>
-                <div class="col-12 d-flex justify-content-between px-4">
-                    <div>Адрес доставки: <b>Россия, г.Москва, ул.Ленина, д.3</b></div>
+                    <div>Адрес доставки: <b id="order_country"></b>, <b id="order_city"></b>, <b id="order_street"></b> , <b id="order_house"></b></b></div>
                 </div>
                 <div class="col-12 px-4">
                     <table class="table table-striped" id="items_by_orders_table">
@@ -118,24 +115,7 @@
                         </thead>
 
                         <tbody id="insert_items_by_order">
-                        <tr>
-                            <td><img src="" alt="item_img" width="80px" height="45px"></td>
-                            <td>Пальто</td>
-                            <td>Одежда</td>
-                            <td>6400р</td>
-                            <td>
-                                <button type="button" class="btn btn-danger">удалить</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><img src="" alt="item_img" width="80px" height="45px"></td>
-                            <td>Свитер</td>
-                            <td>Одежда</td>
-                            <td>1700р</td>
-                            <td>
-                                <button type="button" class="btn btn-danger">удалить</button>
-                            </td>
-                        </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -150,10 +130,10 @@
 </div>
 
 <script>
-    const orderId = window.location.href.charAt(window.location.href.length - 1);
+    const orderId = window.location.href.replace('http://localhost:8888/order/', '');
 
     $(document).ready(function () {
-
+        getOrder().then((o) => addOrderInfoOnPage(o));
         $('#order_edit_open_btn').on('click', function(e) {
             e.preventDefault();
             $('#order_info_modal').modal('show');
@@ -167,10 +147,36 @@
     async function getOrder() {
         const response = await fetch('/api/order/' + orderId);
         if(response.ok) {
-            const order = response.json();
-            const items = order.items;
-            console.log(order);
+            return await response.json();
         }
+    }
+
+    function addOrderInfoOnPage(e) {
+        const items = e.items;
+        console.log(e);
+        $('#order_name').html(e.buyerName);
+        $('#order_phone').html(e.buyerPhone);
+        $('#order_total').html(e.total);
+        $('#order_country').html(e.country);
+        $('#order_city').html('г. ' + e.city);
+        $('#order_street').html('ул. ' + e.street);
+        $('#order_house').html('д. ' + e.house);
+        let inner_items = '';
+        for(let i = 0; i < items.length; i++) {
+            inner_items += '<tr>\n' +
+                '                            <td><img src="' + items[i].images[0].url + '" alt="item_img" width="80px" height="45px"></td>\n' +
+                '                            <td>' + items[i].name + '</td>\n' +
+                '                            <td>' + items[i].categories[0].name + '</td>\n' +
+                '                            <td>' + items[i].price + '</td>\n' +
+                '                            <td>\n' +
+                '                                <button type="button" id="delete_item_in_order" href="' + items[i].id +  '" class="btn btn-danger">удалить</button>\n' +
+                '                            </td>\n' +
+                '                        </tr>';
+        }
+        $('#insert_items_by_order').html('');
+        $('#insert_items_by_order').html(inner_items);
+
+
     }
 
 </script>

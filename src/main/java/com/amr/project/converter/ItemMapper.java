@@ -37,4 +37,5 @@ public interface ItemMapper {
     }
 
     List<ItemDto> toItemsDto(List<Item> item);
+    List<Item> toItems(List<ItemDto> items);
 }

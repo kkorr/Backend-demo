@@ -1,15 +1,26 @@
 package com.amr.project.webapp.rest_controller;
 
+import com.amr.project.converter.ItemMapper;
 import com.amr.project.converter.OrderMapper;
+import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.dto.OrderDto;
 import com.amr.project.model.entity.Order;
+import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.OrderService;
+import com.amr.project.service.abstracts.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/order")
@@ -18,9 +29,16 @@ public class OrderRestController {
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
     private final OrderService orderService;
     private final OrderMapper orderMapper;
+    private final ItemMapper itemMapper;
+    private final UserService userService;
 
     @Autowired
-    public OrderRestController(OrderService orderService, OrderMapper orderMapper) {
+    public OrderRestController(OrderService orderService,
+                               OrderMapper orderMapper,
+                               ItemMapper itemMapper,
+                               UserService userService) {
+        this.userService = userService;
+        this.itemMapper = itemMapper;
         this.orderService = orderService;
         this.orderMapper = orderMapper;
     }
@@ -31,24 +49,43 @@ public class OrderRestController {
                 HttpStatus.OK);
     }
 
-    @PutMapping("/save")
-    public ResponseEntity<Long> saveOrder(@RequestBody OrderDto orderDto) {
+    @PostMapping
+    @ResponseBody
+    public ResponseEntity<OrderDto> saveOrder(@RequestBody List<ItemDto> items) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> userOp = userService.findByUsername(authentication.getName());
+        if(authentication.isAuthenticated() && userOp.isPresent()) {
+            Order order = new Order();
+            User user = userOp.get();
+            order.setItems(itemMapper.toItems(items));
+            order.setAddress(user.getAddress());
+            order.setUser(user);
+            order.setBuyerName(user.getFirstName());
+            order.setBuyerPhone(user.getPhone());
 
-        Order order = orderMapper.dtoToOrder(orderDto);
-        orderService.update(order);
-        LOGGER.info(String.format("Пользователь изменил данные заказа", orderDto));
-        return new ResponseEntity<>(HttpStatus.OK);
+            BigDecimal total = items.stream()
+                    .map(i -> i.getPrice())
+                    .reduce((s1,s2) -> s1.add(s2))
+                    .get();
+            order.setTotal(total);
+            orderService.persist(order);
+
+            return new ResponseEntity<>(orderMapper.orderToDto(order), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Long> addOrder(@RequestBody OrderDto orderDto) {
+    @PutMapping
+    public ResponseEntity<Long> updateOrder(@RequestBody OrderDto orderDto) {
         Order order = orderMapper.dtoToOrder(orderDto);
         orderService.persist(order);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<OrderDto> delete(@PathVariable("id") Long id) {
+    @DeleteMapping("/{orderId}")
+    public ResponseEntity<OrderDto> delete(@PathVariable("orderId") Long id) {
         orderService.deleteByKeyCascadeIgnore(id);
         LOGGER.info(String.format("Пользователь удалил заказ с id %d", orderService.getByKey(id)));
         return new ResponseEntity<>(HttpStatus.OK);

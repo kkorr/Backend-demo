@@ -1,3 +1,13 @@
+
+$(document).ready(function() {
+
+    getItems();
+
+    $('#order_btn').on('click', function (e) {
+        e.preventDefault();
+        addItemsToOrder().then((id) => location.replace("/order/" + id));
+    })
+})
 let checkFetch = 0;
 async function getItems() {
     const response = await fetch("/api/cart")
@@ -5,18 +15,45 @@ async function getItems() {
     if(data.length > 0) {
         checkPaymentButton()
     }
+    console.log(data);
     if(document.getElementById("cartItems")) {
         data.forEach(cartItem=> insertCartItemRow(cartItem))
     }
 }
-getItems()
+
+/**
+ *Отправляет товары из карзины и возвращает id созданого ордера
+ * @returns {Promise<void>}
+ */
+async function addItemsToOrder() {
+    const response = await fetch("/api/cart");
+    if(response.ok) {
+        let carts = await response.json();
+        let items = new Array();
+        for(let i = 0; i < carts.length; i++) {
+            items.push(carts[i].item);
+        }
+        console.log(items);
+        const orderResponse = await fetch("/api/order", {
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+            method: 'post',
+            body: JSON.stringify(items)
+        })
+        if(orderResponse.ok) {
+            let order = await orderResponse.json();
+            return order.id;
+        } else {
+            alert("Ошибка при создании заказа")
+        }
+    }
+}
 
 function checkPaymentButton() {
     let rowsDiv = document.getElementsByName("cartItemRow");
     let paymentDiv = document.getElementById("paymentButton");
     console.log(rowsDiv.length)
     paymentDiv.innerHTML =
-        `<input type="submit" class="btn btn-primary" id="inactivePaymentButton" value="Перейти к оплате" />`;
+        `<input type="submit" class="btn btn-primary" id="inactivePaymentButton" value="Перейти к оформлению заказа" />`;
 }
 
 
