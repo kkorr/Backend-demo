@@ -37,7 +37,7 @@ async function insertDiscountCard(discount) {
             </div>
             <div class="card-body border-light">
                 <h5 class="card-title">${s.name}</h5>
-                <p class="card-text">${disc} при покупки на сумму свыше ${d.minOrder} рублей</p>
+                <p class="card-text">${disc} при покупке на сумму свыше ${d.minOrder} рублей</p>
             </div>
         </div>
         `);
@@ -48,64 +48,91 @@ async function getShop(id) {
     const data = await response.json();
     return data;
 }
+async function getShopNames() {
+    const response = await fetch("http://localhost:8888/api/discounts/get_owned_shops");
+    const data = await response.json();
+    console.log(data)
+    return data;
+}
 
-// Modal for discount creation
-let modal = null;
-function showModal() {
-    if(modalEditWrap != null) {
-        modalEditWrap.remove();
+async function createDiscount() {
+    let selectedShop = document.getElementById('shopsModal').value
+    let username = document.getElementById('usernameModal').value
+    let url = new URL("http://localhost:8888/api/discounts/add")
+    url.searchParams.append('shopname', selectedShop);
+    url.searchParams.append('username', username);
+
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json; charset=utf-8",
+        },
+
+        body: JSON.stringify({
+            minOrder: document.getElementById('orderModal').value,
+            percentage: document.getElementById('percentageModal').value,
+            fixedDiscount: document.getElementById('fixedDiscModal').value
+        })
+    })
+}
+
+async function getShopOptions() {
+    let shops = await getShopNames();
+    let count = 0;
+    let shopName;
+    for(let i =0; i<shops.length; i++) {
+        count++;
+        shopName = shops[i];
+        $(select_options).append(`
+        <option id="shop${count}" value="${shopName}">${shopName}</option>`)
     }
-    modal=document.createElement('div');
-    modal.innerHTML=`
-    <div class="modalForm">
-        <form method="put" onsubmit='createDiscount("${discount}, ${shops})'>
-        <div class="modal fade align-middle" id="editF" tabindex="-1">
-                <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Предоставить скидку</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body text-center fw-bold">
-                            <div class="d-flex justify-content-center">
-                                <div class="form-group w-50 mb-3 text-center align-items-center">
-                                    <label for="id" class="form-label">Минимальная сумма заказа</label>
-                                    <input type="number" class="form-control input-sm" id="orderModal" name="id" value="${id}" readonly/>
-                                </div>
-                            </div>
-                            <ch
-                            <div class="d-flex justify-content-center">
-                                <div class="form-group w-50 mb-3">
-                                    <label for="first_name" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="first_nameEdit" name="first_name" value="${first_name}" />
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-center">
-                                <div class="form-group w-50 mb-3">
-                                    <label for="last_name" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" id="last_nameEdit" name="last_name" value="${last_name}" />
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-center">
-                                <div class="form-group w-50 mb-3">
-                                    <label for="roles" class="form-label">Магазины</label>
-                                        <select class="form-select" multiple size="2" id="shopsModal" name="shopsModal" required>
-                                            <option id="shop${shopId}"></option>
-                                        </select>
-                                    </form:form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <input type="submit" class="btn btn-primary" value="Edit" />
-                        </div>
-                    </div>
-                </div>
-        </div>
-    </form>
-    </div>`
-    document.body.append(modal)
-    let modal = new bootstrap.Modal(modal.querySelector('.modal'));
-    modal.show();
-};
+}
+const discount_modal = $('#modalDiscount');
+const discount_open_modal_btn = $('#addDiscountButton');
+const discount_form = $('#discount_form');
+const select_options = $('#shopsModal');
+const create_discount_button = $('#create_discount_button');
+const percentage_check = $('#checkPercentage');
+const fixed_check = $('#checkFixed');
+
+$(document).ready(function () {
+    $(discount_open_modal_btn).on('click', function(e) {
+        e.preventDefault();
+        discount_modal.modal('show');
+    })
+
+    $(percentage_check, fixed_check).on('click', function (e) {
+        $(percentage_check, fixed_check).prop('checked', this.checked);
+    })
+
+    $(discount_modal).on('show.bs.modal', function (e) {
+        getShopOptions()
+    })
+    $(create_discount_button).on('click', function (e) {
+        discount_modal.modal('hide');
+        createDiscount();
+        location.reload();
+    })
+})
+
+
+// document.getElementById("addDiscountButton").addEventListener('click', showModal, false);
+// document.getElementById("addDiscountButton").addEventListener('click', getShopOptions, false);
+// // Modal for discount creation
+// let modalWrap = null;
+//
+// function showModal() {
+//     if(modalWrap != null) {
+//         modalWrap.remove();
+//     }
+//
+//     modalWrap=document.createElement('div');
+//     modalWrap.innerHTML=`
+//     `
+//     // document.getElementById("shopsModal").addEventListener('shown.bs.modal', getShopNames, false)
+//
+//     document.body.append(modalWrap)
+//     let modal = new bootstrap.Modal(modalWrap.querySelector('.modal'));
+//     modal.show();
+// };

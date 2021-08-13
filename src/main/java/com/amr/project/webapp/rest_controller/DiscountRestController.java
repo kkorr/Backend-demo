@@ -60,7 +60,7 @@ public class DiscountRestController {
         LOGGER.info(String.format("Пользователь с id %d получил список скидок", user.getId()));
         return ResponseEntity.ok().body(discountsDto);
     }
-    @GetMapping("/add")
+    @GetMapping("/get_owned_shops")
     public ResponseEntity<String[]> getOwnedShops(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
@@ -68,6 +68,7 @@ public class DiscountRestController {
         }
         User shopOwner = userService.findByUsername(authentication.getName()).get();
         Collection<Shop> shops = shopOwner.getShops();
+        LOGGER.info(String.format("Пользователь с id %d получил список магазинов для установки скидки", shopOwner.getId()));
         if (shops.isEmpty()) {
             return ResponseEntity.ok().body(new String[]{});
         } else {
@@ -78,16 +79,24 @@ public class DiscountRestController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Void> createDiscount(@RequestBody DiscountDto discountDto, @RequestParam String[] shops){
+    public ResponseEntity<Void> createDiscount(@RequestBody DiscountDto discountDto, @RequestParam String shopname,
+                                               @RequestParam String username){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
             throw new AccessDeniedException("Вам нужно авторизоваться для создания скидки");
         }
-        for (String s:shops) {
-            Shop shop = shopService.findShopByName(s);
-            discountDto.setShopId(shop.getId());
-            discountService.persist(discountMapper.fromDto(discountDto));
+        User shopOwner = userService.findByUsername(authentication.getName()).get();
+        Shop shop = shopService.getByName(shopname);
+        Optional<User> user = userService.findByUsername(username);;
+        if (!user.isPresent()) {
+            LOGGER.info(String.format("Ошибка добавления скидки, пользователь с указанным юзернеймом %s не был найден", username));
+            return ResponseEntity.badRequest().body(null);
         }
+        discountDto.setShopId(shop.getId());
+        discountDto.setUserId(user.get().getId());
+        System.out.println(discountDto);
+        discountService.persist(discountMapper.fromDto(discountDto));
+        LOGGER.info(String.format("Пользователь с id %d успешно создал скидку", shopOwner.getId()));
         return ResponseEntity.ok().body(null);
     }
 }
