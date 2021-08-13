@@ -25,8 +25,7 @@
 
                 <div class="text-end">
 
-                    <a sec:authorize="isAnonymous()" th:href="@{cart}"><button type="button" class="btn btn-outline-light me-2">Корзина</button></a>
-                    <a sec:authorize="isAnonymous()" th:href="@{favorites}"><button type="button" class="btn btn-outline-light me-2">Избранное</button></a>
+
                     <button sec:authorize="isAnonymous()" type="button" id="user_open_modal_btn" class="btn btn-outline-light me-2">Войти</button>
                     <button sec:authorize="isAnonymous()" type="button" class="btn btn-warning">Зарегистрироваться</button>
                     <script>
