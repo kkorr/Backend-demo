@@ -8,11 +8,13 @@ import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Service
+@Transactional
 public class OrderServiceImpl extends ReadWriteServiceImpl<Order, Long> implements OrderService {
     private OrderDao orderDao;
     private ItemMapper itemMapper;
@@ -25,25 +27,26 @@ public class OrderServiceImpl extends ReadWriteServiceImpl<Order, Long> implemen
     }
 
     /**
-     * Используется на странице OrderRestController метод POST, для сохранения нового заказа
+     * Используется на странице(order page) OrderRestController метод POST, для сохранения нового заказа
      *
      * @param items
-     * @param userOp
+     * @param user
      * @return
      */
     @Override
-    public Order collectOrderByUserAndItems(List<ItemDto> items, User userOp) {
+    public Order collectOrderByUserAndItems(List<ItemDto> items, User user) {
         Order order = new Order();
         order.setItems(itemMapper.toItems(items));
-        order.setAddress(userOp.getAddress());
-        order.setUser(userOp);
-        order.setBuyerName(userOp.getFirstName());
-        order.setBuyerPhone(userOp.getPhone());
+        order.setAddress(user.getAddress());
+        order.setUser(user);
+        order.setBuyerName(user.getFirstName());
+        order.setBuyerPhone(user.getPhone());
 
         BigDecimal total = items.stream()
                 .map(i -> i.getPrice())
                 .reduce((s1, s2) -> s1.add(s2))
                 .get();
+
         order.setTotal(total);
         super.persist(order);
         return order;
