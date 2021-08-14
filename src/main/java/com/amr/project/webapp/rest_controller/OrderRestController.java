@@ -17,8 +17,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,27 +52,14 @@ public class OrderRestController {
     public ResponseEntity<OrderDto> saveOrder(@RequestBody List<ItemDto> items) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> userOp = userService.findByUsername(authentication.getName());
+
         if(authentication.isAuthenticated() && userOp.isPresent()) {
-            Order order = new Order();
-            User user = userOp.get();
-            order.setItems(itemMapper.toItems(items));
-            order.setAddress(user.getAddress());
-            order.setUser(user);
-            order.setBuyerName(user.getFirstName());
-            order.setBuyerPhone(user.getPhone());
-
-            BigDecimal total = items.stream()
-                    .map(i -> i.getPrice())
-                    .reduce((s1,s2) -> s1.add(s2))
-                    .get();
-            order.setTotal(total);
-            orderService.persist(order);
-
-            return new ResponseEntity<>(orderMapper.orderToDto(order), HttpStatus.OK);
+            Order order = orderService.collectOrderByUserAndItems(items, userOp.get());
+            return new ResponseEntity<>(orderMapper.orderToDto(order),
+                    HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-
     }
 
     @PutMapping
