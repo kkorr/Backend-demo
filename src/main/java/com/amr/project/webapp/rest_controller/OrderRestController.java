@@ -70,7 +70,7 @@ public class OrderRestController {
     }
 
     @DeleteMapping("/{orderId}")
-    public ResponseEntity<OrderDto> delete(@PathVariable("orderId") Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("orderId") Long id) {
         orderService.deleteByKeyCascadeIgnore(id);
         LOGGER.info(String.format("Пользователь удалил заказ с id %d", orderService.getByKey(id)));
         return new ResponseEntity<>(HttpStatus.OK);
