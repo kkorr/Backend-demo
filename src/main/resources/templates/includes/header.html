@@ -27,7 +27,7 @@
 
 
                     <button sec:authorize="isAnonymous()" type="button" id="user_open_modal_btn" class="btn btn-outline-light me-2">Войти</button>
-                    <button sec:authorize="isAnonymous()" type="button" class="btn btn-warning">Зарегистрироваться</button>
+                    <a sec:authorize="isAnonymous()" th:href="@{/registration}" type="button" class="btn btn-warning">Зарегистрироваться</a>
                     <script>
                         $(document).ready(function () {
                             if(window.location.href !== 'http://localhost:8888/') {
@@ -42,7 +42,7 @@
                             <strong th:text="${user.getUsername()}"></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow" id="dropdown_user" style="position: absolute; top:45px; left:0; margin: 0px; ">
-                            <li><a class="dropdown-item" th:href="@{/user/${user.getId()}}">Мой профиль</a></li>
+                            <li><a class="dropdown-item" th:href="@{/user/{id}(id=${user.getId()})}">Мой профиль</a></li>
                             <li><a class="dropdown-item" th:href="@{/cart}">Корзина</a></li>
                             <li><a class="dropdown-item" th:href="@{/favorites}">Избранное</a></li>
                             <li><hr class="dropdown-divider"></li>

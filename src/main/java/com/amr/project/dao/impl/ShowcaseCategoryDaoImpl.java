@@ -18,13 +18,8 @@ public class ShowcaseCategoryDaoImpl extends ReadWriteDAOImpl<Category, Long> im
      */
     @Override
     public List<Category> findCategoryByShopId(Long shopId) {
-        return entityManager.createQuery("SELECT i FROM Item i JOIN i.shop s on s.id = :shopId", Item.class)
+        return entityManager.createNativeQuery("select distinct сategory.id, сategory.name from сategory join item_category join shop_item join item on сategory.id = item_category.category_id and item_category.item_id = shop_item.item_id and shop_item.shop_id = :shopId and item_category.item_id = item.id and item.is_moderated = true and item.is_moderate_accept = true;", Category.class)
                 .setParameter("shopId", shopId)
-                .getResultList()
-                .stream()
-                .map(i -> i.getCategories())
-                .flatMap(cs -> cs.stream())
-                .distinct()
-                .collect(Collectors.toList());
+                .getResultList();
     }
 }
