@@ -26,8 +26,8 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    String dignity = "-"; //плюсы
-    String flaw = "-"; //минусы
+    String dignity; //плюсы
+    String flaw; //минусы
     String text;
     Date date;
     int rating;
@@ -42,6 +42,7 @@ public class Review {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "item_review", joinColumns = @JoinColumn(name = "review_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
     private Item item;
 
     @Column
