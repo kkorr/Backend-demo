@@ -49,16 +49,8 @@ public class DiscountRestController {
             throw new AccessDeniedException("Вам нужно авторизоваться для доступа к списку скидок");
         }
         User user = userService.findByUsername(authentication.getName()).get();
-        List<Discount> discounts = discountService.findByUser(user);
-        if(discounts == null) {
-            LOGGER.info(String.format("Пользователь с id %d получил пустой список скидок", user.getId()));
-            return ResponseEntity.ok().body(new ArrayList<>());
-        }
-        List<DiscountDto> discountsDto = discounts.stream().map(d -> discountMapper.toDto(d))
-                .filter(s-> (s.getFixedDiscount()) !=0 || (s.getPercentage() !=0))
-                .collect(Collectors.toList());
-        LOGGER.info(String.format("Пользователь с id %d получил список скидок", user.getId()));
-        return ResponseEntity.ok().body(discountsDto);
+        List<DiscountDto> discounts = discountService.findByUser(user);
+        return ResponseEntity.ok().body(discounts);
     }
     @GetMapping("/get_owned_shops")
     public ResponseEntity<String[]> getOwnedShops(){
@@ -94,7 +86,6 @@ public class DiscountRestController {
         }
         discountDto.setShopId(shop.getId());
         discountDto.setUserId(user.get().getId());
-        System.out.println(discountDto);
         discountService.persist(discountMapper.fromDto(discountDto));
         LOGGER.info(String.format("Пользователь с id %d успешно создал скидку", shopOwner.getId()));
         return ResponseEntity.ok().body(null);

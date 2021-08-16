@@ -1,5 +1,6 @@
 package com.amr.project.service.abstracts;
 
+import com.amr.project.model.dto.DiscountDto;
 import com.amr.project.model.entity.Discount;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.model.entity.User;
@@ -9,10 +10,10 @@ import java.util.Optional;
 
 public interface DiscountService extends ReadWriteService<Discount, Long> {
 
-    List<Discount> findByUser(User user);
+    List<DiscountDto> findByUser(User user);
 
-    List<Discount> findByShop(Shop shop);
+    List<DiscountDto> findByShop(Shop shop);
 
-    Optional<Discount> findByUserAndShop(Long userId, Long shopId);
+    DiscountDto findByUserAndShop(Long userId, Long shopId);
 
 }
