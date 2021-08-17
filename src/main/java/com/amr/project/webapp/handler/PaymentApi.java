@@ -23,7 +23,7 @@ public class PaymentApi {
 
     public HttpEntity<BillResponse> payUrl(Order order){
         CreateBillInfo billInfo = new CreateBillInfo(
-                UUID.randomUUID().toString(),
+                order.getId().toString(),
                 new MoneyAmount(order.getTotal(),
                         Currency.getInstance("RUB")
                 ),
@@ -47,15 +47,15 @@ public class PaymentApi {
     }
     //Лучше сделать цикл при вызове метода, а из метода
     //возвращать статус
-    public Boolean getStatus(String billId){
-        String status = client.getBillInfo(billId).getStatus().getValue().toString();
+    public Boolean getStatus(String orderId){
+        String status = client.getBillInfo(orderId).getStatus().getValue().toString();
         while (!status.contains("PAID")) {
             try {
                 Thread.sleep(10000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            status = client.getBillInfo(billId).getStatus().getValue().toString();
+            status = client.getBillInfo(orderId).getStatus().getValue().toString();
         }
         return true;
 
