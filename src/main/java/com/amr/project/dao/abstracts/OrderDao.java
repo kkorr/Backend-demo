@@ -8,4 +8,5 @@ public interface OrderDao extends ReadWriteDAO<Order, Long> {
 //    Order findOrderByName(String name);
 //
 //    List<Order> getOrdersById(Long id);
+    void deleteItemInOrder(Long orderId, Long itemId);
 }

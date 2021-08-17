@@ -2,6 +2,7 @@ package com.amr.project.webapp.rest_controller;
 
 import com.amr.project.converter.ItemMapper;
 import com.amr.project.converter.OrderMapper;
+import com.amr.project.model.dto.AddressDto;
 import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.dto.OrderDto;
 import com.amr.project.model.entity.Order;
@@ -43,6 +44,7 @@ public class OrderRestController {
 
     @GetMapping("/{orderId}")
     public ResponseEntity<OrderDto> getOrder(@PathVariable("orderId") Long orderId) {
+        LOGGER.info("Пользователь получил заказ с id" + orderId.toString());
         return new ResponseEntity<>(orderMapper.orderToDto(orderService.getByKey(orderId)),
                 HttpStatus.OK);
     }
@@ -55,24 +57,31 @@ public class OrderRestController {
 
         if(authentication.isAuthenticated() && userOp.isPresent()) {
             Order order = orderService.collectOrderByUserAndItems(items, userOp.get());
+            LOGGER.info("Пользователь создал заказ с id = " + order.getId().toString());
             return new ResponseEntity<>(orderMapper.orderToDto(order),
                     HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            LOGGER.warn("Ошибка при создании заказа");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @PutMapping
-    public ResponseEntity<Long> updateOrder(@RequestBody OrderDto orderDto) {
-        Order order = orderMapper.dtoToOrder(orderDto);
-        orderService.persist(order);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @PutMapping("/{orderId}")
+    public ResponseEntity<?> updateOrder(@PathVariable("orderId") Long id, @RequestBody OrderDto orderDto) {
+        orderService.updateAddressAndUserInfo(id, orderDto);
+        LOGGER.info("Пользователь обновил заказ с id = " + id.toString());
+        return ResponseEntity.noContent().build();
     }
-
+    @DeleteMapping("/deleteItem/{orderId}/{itemId}")
+    public ResponseEntity<?> deleteItemInOrder(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId) {
+        orderService.deleteItemInOrder(orderId, itemId);
+        LOGGER.info("Пользователь удалил итем с id = " + itemId.toString() + " из заказа с id = " + orderId.toString());
+        return ResponseEntity.noContent().build();
+    }
     @DeleteMapping("/{orderId}")
-    public ResponseEntity<OrderDto> delete(@PathVariable("orderId") Long id) {
+    public ResponseEntity<?> delete(@PathVariable("orderId") Long id) {
         orderService.deleteByKeyCascadeIgnore(id);
-        LOGGER.info(String.format("Пользователь удалил заказ с id %d", orderService.getByKey(id)));
-        return new ResponseEntity<>(HttpStatus.OK);
+        LOGGER.info("Пользователь удалил заказ с id = " + id.toString());
+        return ResponseEntity.noContent().build();
     }
 }

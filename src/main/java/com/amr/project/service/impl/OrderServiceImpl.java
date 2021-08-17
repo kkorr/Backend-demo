@@ -3,36 +3,45 @@ package com.amr.project.service.impl;
 import com.amr.project.converter.ItemMapper;
 import com.amr.project.dao.abstracts.OrderDao;
 import com.amr.project.model.dto.ItemDto;
-import com.amr.project.model.entity.Order;
-import com.amr.project.model.entity.User;
-import com.amr.project.service.abstracts.OrderService;
+import com.amr.project.model.dto.OrderDto;
+import com.amr.project.model.entity.*;
+import com.amr.project.service.abstracts.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class OrderServiceImpl extends ReadWriteServiceImpl<Order, Long> implements OrderService {
     private OrderDao orderDao;
     private ItemMapper itemMapper;
+    private CountryService countryService;
+    private CityService cityService;
+    private AddressService addressService;
+    private ItemService itemService;
 
     @Autowired
-    public OrderServiceImpl(OrderDao orderDao, ItemMapper itemMapper) {
+    public OrderServiceImpl(OrderDao orderDao,
+                            ItemMapper itemMapper,
+                            CountryService countryService,
+                            CityService cityService,
+                            AddressService addressService,
+                            ItemService itemService) {
         super(orderDao);
         this.orderDao = orderDao;
         this.itemMapper = itemMapper;
+        this.countryService = countryService;
+        this.cityService = cityService;
+        this.addressService = addressService;
+        this.itemService = itemService;
     }
-
-    /**
-     * Используется на странице(order page) OrderRestController метод POST, для сохранения нового заказа
-     *
-     * @param items
-     * @param user
-     * @return
-     */
+    //Методы используются на странице order page
     @Override
     public Order collectOrderByUserAndItems(List<ItemDto> items, User user) {
         Order order = new Order();
@@ -51,4 +60,37 @@ public class OrderServiceImpl extends ReadWriteServiceImpl<Order, Long> implemen
         super.persist(order);
         return order;
     }
+
+    @Override
+    public void updateAddressAndUserInfo(Long id, OrderDto orderDto) {
+        Order order = super.getByKey(id);
+        if(order != null) {
+            order.setBuyerName(orderDto.getBuyerName());
+            order.setBuyerPhone(orderDto.getBuyerPhone());
+            Address address = order.getAddress();
+            if(address != null) {
+                Country country = address.getCountry();
+                City city = address.getCity();
+                country.setName(orderDto.getCountry());
+                city.setName(orderDto.getCity());
+                address.setStreet(orderDto.getStreet());
+                address.setHouse(orderDto.getHouse());
+                countryService.update(country);
+                cityService.update(city);
+                addressService.update(address);
+            }
+            super.update(order);
+        }
+    }
+
+    @Override
+    public void deleteItemInOrder(Long orderId, Long itemId) {
+        Order order = super.getByKey(orderId);
+        Item item = itemService.getByKey(itemId);
+        order.setTotal(order.getTotal().subtract(item.getPrice()));
+        super.update(order);
+        orderDao.deleteItemInOrder(orderId, itemId);
+    }
+    //=========================================================
+
 }

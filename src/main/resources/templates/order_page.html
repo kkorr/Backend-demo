@@ -43,8 +43,8 @@
                             <div id="street_checker" class="form-text" style="color:#a40000;"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="home_input" class="form-label">Дом:</label>
-                            <input id="home_input" type="number" name="home" class="form-control" placeholder="Введите дом:">
+                            <label for="house_input" class="form-label">Дом:</label>
+                            <input id="house_input" type="number" name="house" class="form-control" placeholder="Введите дом:">
                             <div id="home_checker" class="form-text" style="color:#a40000;"></div>
                         </div>
                         <div class="mb-2">
@@ -52,24 +52,18 @@
                         </div>
                         <div class="mb-3">
                             <label for="name_input" class="form-label">Имя:</label>
-                            <input id="name_input" type="text" name="name" class="form-control" placeholder="Введите имя:">
+                            <input id="name_input" type="text" name="buyerName" class="form-control" placeholder="Введите имя:">
                             <div id="name_checker" class="form-text" style="color:#a40000;"></div>
                         </div>
                         <div class="mb-3">
                             <label for="phone_input" class="form-label">Телефон:</label>
-                            <input id="phone_input" type="text" name="phone" class="form-control" placeholder="Введите телефон:">
+                            <input id="phone_input" type="text" name="buyerPhone" class="form-control" placeholder="Введите телефон:">
                             <div id="phone_checker" class="form-text" style="color:#a40000;"></div>
                         </div>
-                        <div class="mb-3">
-                            <label for="email_input" class="form-label">Email:</label>
-                            <input id="email_input" type="email" name="phone" class="form-control" placeholder="Введите email:">
-                            <div id="email_checker" class="form-text" style="color:#a40000;"></div>
-                        </div>
-
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                        <button type="submit" id="user_signin_btn" class="btn btn-primary">Изменить</button>
+                        <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <button type="button" id="order_edit_btn" class="btn btn-primary" data-bs-dismiss="modal">Изменить</button>
                     </div>
                 </form>
             </div>
@@ -120,7 +114,7 @@
                     </table>
                 </div>
                 <div class="col-12 d-flex justify-content-end px-4">
-                    <button type="button" class="btn btn-secondary">Отменить заказ</button>
+                    <button type="button" id="delete_order" class="btn btn-secondary">Отменить заказ</button>
                     <button type="button" class="btn btn-primary ms-2" id="complete_order">Оплатить</button>
                 </div>
             </div>
@@ -132,14 +126,70 @@
 <script>
     const orderId = window.location.href.replace('http://localhost:8888/order/', '');
 
+
     $(document).ready(function () {
         getOrder().then((o) => addOrderInfoOnPage(o));
+        //Обработчик кнопки открытия модального окна
         $('#order_edit_open_btn').on('click', function(e) {
             e.preventDefault();
             $('#order_info_modal').modal('show');
+            getOrder().then((o) => addOrderInfoOnModal(o));
         })
-    })
+        //Обработчик на кнопке изменения информации пользователя в заказе (модальное окно)
+        $('#order_edit_btn').on('click', function () {
+            updateOrderInfo($('#order_edit_form'));
+        })
+        //Обработчик на кнопке удаление товара
+        $('#insert_items_by_order').on('click', '.delete_item_in_order', function (e) {
+            deleteItemInOrder($(this).attr("id"));
+        })
+        //Удаление ордера в случае закрытия страницы, перехода назад или нажатия кнопки закрыть
+        window.onbeforeunload = function() {
+            deleteOrder();
+        };
+        window.onhashchange = function() {
+            deleteOrder();
+        };
+        $('#delete_order').on('click', function (e) {
+            e.preventDefault();
+            deleteOrder();
+            location.replace("/");
+        })
+        //=======================================================================================
 
+    })
+    //Удаляем итем из ордера
+    async function deleteItemInOrder(itemId) {
+        const response = await fetch("/api/order/deleteItem/" + orderId + "/" + itemId, {
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+            method: 'delete',
+        })
+        if(response.ok) {
+            getOrder().then((o) => addOrderInfoOnPage(o));
+        } else {
+            alert("Не удалось удалить товар из вашего заказа!");
+        }
+    }
+    /**
+     * обновляем информацию заказа через модальное окно
+     */
+    async function updateOrderInfo(form) {
+        let json = {};
+        let data = $(form).serializeArray();
+        for(let i = 0; i < data.length; i++) {
+            json[data[i].name] = data[i].value;
+        }
+        let response = await fetch('/api/order/' + orderId, {
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+            method: 'put',
+            body: JSON.stringify(json)
+        })
+        if(response.ok) {
+            getOrder().then((o) => addOrderInfoOnPage(o));
+        } else {
+            alert("Ошибка при обновлении заказа!")
+        }
+    }
     /**
      * получаем заказ
      * @returns {Promise<void>}
@@ -151,15 +201,42 @@
         }
     }
 
-    function addOrderInfoOnPage(e) {
+    /**
+     * удаляет заказ
+     * @param e
+     */
+    async function deleteOrder() {
+        await fetch('/api/order/' + orderId, {
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+            method: 'delete'
+        })
+    }
+    //Вставляем информацию пользователя в формы на модалке
+    function addOrderInfoOnModal(e) {
+        $('#country_input').val(e.country);
+        $('#city_input').val(e.city);
+        $('#street_input').val(e.street);
+        $('#house_input').val(e.house);
+        $('#name_input').val(e.buyerName);
+        $('#phone_input').val(e.buyerPhone);
+    }
+    //Вставляем информацию о заказе на страницу
+    async function addOrderInfoOnPage(e) {
         const items = e.items;
-        console.log(e);
+
+        $('#order_name').html('');
         $('#order_name').html(e.buyerName);
+        $('#order_phone').html('');
         $('#order_phone').html(e.buyerPhone);
+        $('#order_total').html('');
         $('#order_total').html(e.total);
+        $('#order_country').html('');
         $('#order_country').html(e.country);
+        $('#order_city').html('');
         $('#order_city').html('г. ' + e.city);
+        $('#order_street').html('');
         $('#order_street').html('ул. ' + e.street);
+        $('#order_house').html('');
         $('#order_house').html('д. ' + e.house);
         let inner_items = '';
         for(let i = 0; i < items.length; i++) {
@@ -169,7 +246,7 @@
                 '                            <td>' + items[i].categories[0].name + '</td>\n' +
                 '                            <td>' + items[i].price + '</td>\n' +
                 '                            <td>\n' +
-                '                                <button type="button" id="delete_item_in_order" href="' + items[i].id +  '" class="btn btn-danger">удалить</button>\n' +
+                '                                <button type="button" id="' + items[i].id +  '" class="btn btn-danger delete_item_in_order">удалить</button>\n' +
                 '                            </td>\n' +
                 '                        </tr>';
         }
