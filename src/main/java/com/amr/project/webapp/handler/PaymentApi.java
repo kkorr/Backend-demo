@@ -17,8 +17,8 @@ import java.util.UUID;
 
 @Component
 public class PaymentApi {
-    private String secretKey = "eyJ2ZXJzaW9uIjoiUDJQIiwiZGF0YSI6eyJwYXlpbl9tZXJjaGFudF9zaXRlX3VpZCI6ImJtd256cC0wMCIsInVzZXJfaWQiOiI3OTk5NDk1NjYzNiIsInNlY3JldCI6IjYxMWU3ODM0ZDk2YTNmMDIxZjU0MDVhOGQzNjAzY2YyYjczOTMxODY5NjA5NGRmMTVjNzZiY2UyNWViZGI3NDYifX0=";
-    private BillPaymentClient client = BillPaymentClientFactory.createDefault(secretKey);
+    private final String secretKey = "eyJ2ZXJzaW9uIjoiUDJQIiwiZGF0YSI6eyJwYXlpbl9tZXJjaGFudF9zaXRlX3VpZCI6ImJtd256cC0wMCIsInVzZXJfaWQiOiI3OTk5NDk1NjYzNiIsInNlY3JldCI6IjYxMWU3ODM0ZDk2YTNmMDIxZjU0MDVhOGQzNjAzY2YyYjczOTMxODY5NjA5NGRmMTVjNzZiY2UyNWViZGI3NDYifX0=";
+    private final BillPaymentClient client = BillPaymentClientFactory.createDefault(secretKey);
 
 
     public HttpEntity<BillResponse> payUrl(Order order){
