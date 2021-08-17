@@ -7,16 +7,11 @@ import com.qiwi.billpayments.sdk.model.MoneyAmount;
 import com.qiwi.billpayments.sdk.model.in.CreateBillInfo;
 import com.qiwi.billpayments.sdk.model.in.Customer;
 import com.qiwi.billpayments.sdk.model.out.BillResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
-
-import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.time.ZonedDateTime;
-import java.util.Collections;
 import java.util.Currency;
 import java.util.UUID;
 
@@ -26,13 +21,13 @@ public class PaymentApi {
     private BillPaymentClient client = BillPaymentClientFactory.createDefault(secretKey);
 
 
-    public HttpEntity<BillResponse> payUrl(Order order) throws URISyntaxException {
+    public HttpEntity<BillResponse> payUrl(Order order){
         CreateBillInfo billInfo = new CreateBillInfo(
                 UUID.randomUUID().toString(),
                 new MoneyAmount(order.getTotal(),
                         Currency.getInstance("RUB")
                 ),
-                "oplata zakaza",
+                "oplata zakaza " + order.getDate(),
                 ZonedDateTime.now().plusDays(45),
                 new Customer(
                         order.getUser().getEmail(),
@@ -41,13 +36,28 @@ public class PaymentApi {
                 ),
                 "http://localhost:8888/home"
         );
-        BillResponse response = client.createBill(billInfo);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Authorization", " Bearer " + secretKey);
-        httpHeaders.set("Content-Type", "application/json");
-        httpHeaders.set("Accept", "application/json");
-        HttpEntity<BillResponse> billResponse = new HttpEntity<>(response, httpHeaders);
-        return billResponse;
+        BillResponse response = null;
+        try {
+            response = client.createBill(billInfo);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return new HttpEntity<>(response);
+
+    }
+    //Лучше сделать цикл при вызове метода, а из метода
+    //возвращать статус
+    public Boolean getStatus(String billId){
+        String status = client.getBillInfo(billId).getStatus().getValue().toString();
+        while (!status.contains("PAID")) {
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            status = client.getBillInfo(billId).getStatus().getValue().toString();
+        }
+        return true;
 
     }
 }
