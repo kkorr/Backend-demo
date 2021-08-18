@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/home")
+@RequestMapping("/")
 public class MainPageController {
     private final MainPageItemService mainPageItemService;
     private final MainPageShopService mainPageShopService;
