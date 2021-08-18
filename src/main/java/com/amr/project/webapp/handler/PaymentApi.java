@@ -21,7 +21,7 @@ public class PaymentApi {
     private final BillPaymentClient client = BillPaymentClientFactory.createDefault(secretKey);
 
 
-    public HttpEntity<BillResponse> payUrl(Order order){
+    public String payUrl(Order order) {
         CreateBillInfo billInfo = new CreateBillInfo(
                 order.getId().toString(),
                 new MoneyAmount(order.getTotal(),
@@ -36,18 +36,19 @@ public class PaymentApi {
                 ),
                 "http://localhost:8888/home"
         );
-        BillResponse response = null;
+        BillResponse billResponse = null;
         try {
-            response = client.createBill(billInfo);
+            billResponse = client.createBill(billInfo);
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        return new HttpEntity<>(response);
+        return billResponse.getPayUrl();
 
     }
+
     //Лучше сделать цикл при вызове метода, а из метода
     //возвращать статус
-    public Boolean getStatus(String orderId){
+    public Boolean getStatus(String orderId) {
         String status = client.getBillInfo(orderId).getStatus().getValue().toString();
         while (!status.contains("PAID")) {
             try {
