@@ -191,6 +191,10 @@ public class FavoriteRestController {
             Collection<Shop> shops = new ArrayList<>();
             favorite.setShops(shops);
         }
+        Shop shop = shopService.getByKey(id);
+        if (!favorite.getShops().contains(shop)) {
+            favorite.getShops().add(shop);
+        }
         favorite.getShops().add(shopService.getByKey(id));
         favoriteService.update(favorite);
         LOGGER.info(String.format("Пользователь с id %d успешно добавил товар в избранное", user.getId()));
