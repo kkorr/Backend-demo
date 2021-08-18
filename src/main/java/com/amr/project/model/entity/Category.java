@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "сategory")
+@Table(name = "category")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter

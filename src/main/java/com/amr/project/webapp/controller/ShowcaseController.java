@@ -4,10 +4,13 @@ import com.amr.project.converter.ShopMapper;
 import com.amr.project.dao.abstracts.ShowcaseCategoryDao;
 import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.dto.ShopDto;
+import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Контроллер страницы витрины магазина
@@ -27,20 +31,28 @@ public class ShowcaseController {
     private ShowcaseShopService showcaseShopService;
     private ShowcaseItemService showcaseItemService;
     private ShowcaseCategoryService showcaseCategoryService;
+    private UserService userService;
     @Autowired
     public ShowcaseController(ShowcaseItemService showcaseItemService,
                               ShowcaseShopService showcaseShopService,
-                              ShowcaseCategoryService showcaseCategoryService) {
+                              ShowcaseCategoryService showcaseCategoryService,
+                              UserService userService) {
 
         this.showcaseCategoryService = showcaseCategoryService;
         this.showcaseItemService = showcaseItemService;
         this.showcaseShopService = showcaseShopService;
+        this.userService = userService;
     }
     public ShowcaseController() {}
 
 
     @GetMapping
     public String getShowcaseView(Model model, @PathVariable("shopId") Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> user = userService.findByUsername(authentication.getName());
+        if(authentication.isAuthenticated() && user.isPresent()) {
+            model.addAttribute("user", user.get());
+        }
         model.addAttribute("shop", showcaseShopService.getByKey(id));
         model.addAttribute("categories", showcaseCategoryService.findCategoryByShopId(id));
         return "showcase";

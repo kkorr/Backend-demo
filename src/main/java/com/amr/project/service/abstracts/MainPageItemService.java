@@ -8,4 +8,5 @@ import java.util.List;
 public interface MainPageItemService extends ReadWriteService<Item, Long> {
     List<ItemDto> findPopularItems();
     List<ItemDto> findItemsByCategoryId(Long categoryId);
+    List<ItemDto> findItems();
 }
