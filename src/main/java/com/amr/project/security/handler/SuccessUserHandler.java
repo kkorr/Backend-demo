@@ -1,4 +1,4 @@
-package com.amr.project.security;
+package com.amr.project.security.handler;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
