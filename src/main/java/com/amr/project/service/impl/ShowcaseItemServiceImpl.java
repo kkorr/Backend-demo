@@ -35,9 +35,7 @@ public class ShowcaseItemServiceImpl extends ReadWriteServiceImpl<Item, Long> im
      */
     @Override
     public List<ItemDto> findPopularItemsByShopId(Long shopId) {
-        return itemMapper.toItemsDto(showcaseItemDao.findItemsByShopId(shopId)
-                .stream().sorted(Comparator.comparing(Item::getCount, Comparator.reverseOrder()))
-                .limit(10).collect(Collectors.toList()));
+        return itemMapper.toItemsDto(showcaseItemDao.findPopularItemsBYShopId(shopId));
     }
 
     /**
