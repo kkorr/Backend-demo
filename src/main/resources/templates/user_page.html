@@ -182,7 +182,7 @@
                 '                                    </tr>\n' +
                 '                                    </thead>\n' +
                 '                                       <tbody id="insert_items_by_order">\n';
-            for(let t = 0; t < orders[i].items; t++) {
+            for(let t = 0; t < orders[i].items.length; t++) {
                 insert_html += '<tr>\n' +
                     '              <td><img src="' + orders[i].items[t].images[0].url + '" alt="item_img" width="80px" height="45px"></td>\n' +
                     '              <td>' + orders[i].items[t].name + '</td>\n' +
