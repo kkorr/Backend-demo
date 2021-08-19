@@ -1,4 +1,4 @@
-USE `platform`;
+/*USE `platform`;
 
 INSERT INTO user
 VALUES (1, 30, '10.01.1991', 'name1@mail.ru', 'name1', 1, 'lastname1', '12345', '12345678901', 'name1@mail.ru');
@@ -83,7 +83,7 @@ INSERT INTO shop_item
 VALUES (2, 2);
 INSERT INTO shop_item
 VALUES (3, 3);
-
+*/
 
 
 

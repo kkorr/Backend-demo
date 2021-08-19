@@ -143,19 +143,13 @@
         $('#insert_items_by_order').on('click', '.delete_item_in_order', function (e) {
             deleteItemInOrder($(this).attr("id"));
         })
-        //Удаление ордера в случае закрытия страницы, перехода назад или нажатия кнопки закрыть
-        window.onbeforeunload = function() {
-            deleteOrder();
-        };
-        window.onhashchange = function() {
-            deleteOrder();
-        };
+        //Удаление ордера
         $('#delete_order').on('click', function (e) {
             e.preventDefault();
             deleteOrder();
             location.replace("/");
         })
-        //=======================================================================================
+        //===============
 
     })
     //Удаляем итем из ордера
