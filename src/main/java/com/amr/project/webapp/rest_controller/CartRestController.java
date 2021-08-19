@@ -69,10 +69,6 @@ public class CartRestController {
         if(!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
             throw new AccessDeniedException("Вам нужно авторизоваться для доступа к корзине");
         }
-        if (cartItem.getId() != id ) {
-            throw new IllegalArgumentException(String.format("Переданный параметр строки id %d не соответствует" +
-                    "параметру json id %d", id, cartItem.getId()));
-        }
         cartItemService.getByKey(id).setQuantity(cartItem.getQuantity());
         return ResponseEntity.ok().body(null);
     }

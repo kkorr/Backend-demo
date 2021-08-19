@@ -18,4 +18,17 @@ public class MainPageItemsDaoImpl extends ReadWriteDAOImpl<Item, Long> implement
         return entityManager.createQuery("SELECT i FROM Item i JOIN i.categories c where c.id = :id", Item.class)
                 .setParameter("id", categoryId).getResultList();
     }
+
+    @Override
+    public List<Item> findPopularItems() {
+        return entityManager.createQuery("SELECT i FROM Item i WHERE i.isModerateAccept = true AND i.isModerated = true ORDER BY i.count DESC", Item.class)
+                .setMaxResults(5)
+                .getResultList();
+    }
+
+    @Override
+    public List<Item> findItems() {
+        return entityManager.createQuery("SELECT i FROM Item i WHERE i.isModerateAccept = true AND i.isModerated = true")
+                .getResultList();
+    }
 }
