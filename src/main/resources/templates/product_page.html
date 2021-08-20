@@ -47,7 +47,7 @@
         <hr/>
         <!-- Product Pricing -->
         <div class="product-price">
-          <p th:text="${item.getPrice() - discount.getPercentage()}">Стоимость товара</p>
+          <p th:text="${item.getPrice()}">Стоимость товара</p>
           <p><b>Ваша скидка составила:</b></p>
           <!--          <p th:text="${discount.getPercentage()}">%</p>-->
           <!--          <p th:text="${discount.getFixedDiscount()}">%</p>-->
@@ -61,16 +61,17 @@
         <!--        <div class="form-group">-->
         <!--          <button class="btn btn-primary btn-block" th:attr="onclick=|addCartItem('${item.id}','${shop.id}')|">В корзину</button>-->
         <!--        </div>-->
-        <div class="form-group" id="favoriteButton">
+        <div class="form-group">
           <button class="btn btn-info btn-block" th:attr="onclick=|addItemToFavorites('${item.id}')|">Добавить в
             избранное
           </button>
         </div>
 
-        <div class="form-group" id="cartFromFavoritesButton">
+        <div class="form-group">
           <button class="btn btn-primary btn-block" th:attr="onclick=|addCartItem('${item.id}','${shop.id}')|">Добавить
             в корзину
           </button>
+
         </div>
         <div class="form-group">
           <a href="cart">
