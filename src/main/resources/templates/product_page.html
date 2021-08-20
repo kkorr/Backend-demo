@@ -14,12 +14,15 @@
 </head>
 <body>
 
+<!--HEADER-->
+<div th:replace="/includes/header :: header"></div>
+
 <div class="row no-gutters vh-100">
   <!---------- Left Column / Image ---------->
   <div class="col-md-6 bg-light">
     <div class="product-image">
       <a href="">
-         <img th:src= "${item.getImages()[0]}">
+        <img height="669" th:src="${item.getImages()[0]}" width="669">
       </a>
     </div>
   </div>
@@ -44,18 +47,43 @@
         <hr/>
         <!-- Product Pricing -->
         <div class="product-price">
-          <p th:text="${item.getPrice()}">Стоимость товара</p>
+          <p th:text="${item.getPrice() - discount.getPercentage()}">Стоимость товара</p>
+          <p><b>Ваша скидка составила:</b></p>
+          <!--          <p th:text="${discount.getPercentage()}">%</p>-->
+          <!--          <p th:text="${discount.getFixedDiscount()}">%</p>-->
         </div>
         <div>
           <label for="itemQuant">Количество:</label>
-          <input type="number" id="itemQuant" th:value="${cartItem!=null}?${cartItem.getQuantity()} :1" class="form-control" min="1">
+          <input type="number" id="itemQuant" th:value="${cartItem!=null}?${cartItem.getQuantity()} :1"
+                 class="form-control" min="1">
+        </div>
+
+        <!--        <div class="form-group">-->
+        <!--          <button class="btn btn-primary btn-block" th:attr="onclick=|addCartItem('${item.id}','${shop.id}')|">В корзину</button>-->
+        <!--        </div>-->
+        <div class="form-group" id="favoriteButton">
+          <button class="btn btn-info btn-block" th:attr="onclick=|addItemToFavorites('${item.id}')|">Добавить в
+            избранное
+          </button>
+        </div>
+
+        <div class="form-group" id="cartFromFavoritesButton">
+          <button class="btn btn-primary btn-block" th:attr="onclick=|addCartItem('${item.id}','${shop.id}')|">Добавить
+            в корзину
+          </button>
         </div>
         <div class="form-group">
-          <button class="btn btn-primary btn-block" th:attr="onclick=|addCartItem('${item.id}','${shop.id}')|">В корзину</button>
+          <a href="cart">
+            <button class="btn btn-primary btn-block" id="toCart">Перейти в корзину</button>
+          </a>
         </div>
-        <div class="form-group" id="favoriteButton">
-<!--          <button class="btn btn-info btn-block" th:attr="onclick=|addItemToFavorites('${item.id}')|">Добавить в избранное</button>-->
+        <div class="form-group">
+          <a href="home">
+            <button class="btn btn-secondary btn-block" id="toHome">На главную страницу</button>
+          </a>
         </div>
+
+
       </div>
     </div>
   </div>

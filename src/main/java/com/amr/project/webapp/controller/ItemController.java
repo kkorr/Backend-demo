@@ -8,10 +8,9 @@ import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.CartItemService;
+import com.amr.project.service.abstracts.DiscountService;
 import com.amr.project.service.abstracts.ItemService;
-import com.amr.project.service.abstracts.ShopService;
 import com.amr.project.service.abstracts.UserService;
-import com.amr.project.service.impl.ItemServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,16 +29,18 @@ public class ItemController {
     private ItemMapper itemMapper;
     private CartItemMapper cartItemMapper;
     private ShopMapper shopMapper;
+    private DiscountService discountService;
 
     @Autowired
     public ItemController(ItemService itemService, CartItemService cartItemService, UserService userService,
-                          ItemMapper itemMapper, CartItemMapper cartItemMapper, ShopMapper shopMapper) {
+                          ItemMapper itemMapper, CartItemMapper cartItemMapper, ShopMapper shopMapper, DiscountService discountService) {
         this.itemService = itemService;
         this.cartItemService = cartItemService;
         this.userService = userService;
         this.itemMapper = itemMapper;
         this.cartItemMapper = cartItemMapper;
         this.shopMapper = shopMapper;
+        this.discountService = discountService;
     }
 
 
@@ -53,6 +54,9 @@ public class ItemController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
             User user = userService.findByUsername(authentication.getName()).get();
+
+            // if (itemService.getByDiscountInUserId(user.getId(), item.getShop().getId())) != 0) {......}
+            model.addAttribute("discount", discountService.findByUserAndShop(user.getId(), item.getShop().getId()));// стоимость со скидкой
             if (cartItemService.findByItemAndShopAndUser(id, user.getId(), item.getShop().getId()).isPresent()) {
                 CartItem cartItem = cartItemService.findByItemAndShopAndUser(id, user.getId(), item.getShop().getId()).get();
                 model.addAttribute("cartItem", cartItemMapper.cartItemToDto(cartItem));
