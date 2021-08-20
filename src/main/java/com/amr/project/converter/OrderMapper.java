@@ -22,4 +22,6 @@ public interface OrderMapper {
     @Mapping(source = "street", target = "address.street")
     @Mapping(source = "house", target = "address.house")
     Order dtoToOrder(OrderDto orderDto);
+    List<OrderDto> listOrderToDto(List<Order> orders);
+    List<Order> listDtoToOrder(List<OrderDto> orderDtos);
 }
