@@ -4,35 +4,43 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Registration form</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
 </head>
 <body>
 <div class="container text-center fw-bold">
     <h1>Форма регистрации</h1>
+    <b th:text="${usernameExists}">Пользователь с таким username уже существует.</b>
+    <b th:text="${emailExists}">Пользователь с такой электронной почтой уже существует.</b>
     <form onsubmit="saveUser()">
         <div class="row justify-content-center">
             <div class="form-group col-6">
-                <label class="form-label" for="first_nameSave">Имя пользователя</label>
-                <input class="form-control" type="text" value="" id="usernameSave" required minlength="4" placeholder="Введите имя пользователя">
+                <label class="form-label" for="usernameSave">Имя пользователя</label>
+                <input class="form-control" type="text" value="" id="usernameSave" required minlength="4"
+                       placeholder="Введите имя пользователя">
             </div>
         </div>
         <div class="row justify-content-center">
             <div class="form-group col-6">
                 <label class="form-label" for="emailSave">Адрес электронной почты</label>
-                <input class="form-control" type="email" value="" id="emailSave" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" title="в формате user@example.com" required placeholder="Введите адрес электронной почты">
+                <input class="form-control" type="email" value="" id="emailSave"
+                       pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" title="в формате user@example.com" required
+                       placeholder="Введите адрес электронной почты">
             </div>
         </div>
         <div class="row justify-content-center">
             <div class="form-group col-6">
                 <label class="form-label" for="passwordSave">Пароль</label>
-                <input class="form-control" type="password" value="" id="passwordSave" required minlength="6"  placeholder="Введите пароль">
+                <input class="form-control" type="password" value="" id="passwordSave" required minlength="6"
+                       placeholder="Введите пароль">
             </div>
         </div>
         <div class="row justify-content-center">
             <div class="form-group col-6">
                 <label class="form-label" for="phoneSave">Номер телефона</label>
-                <input class="form-control" type="text" value="" id="phoneSave" required minlength="11" pattern="[0-9]+" title="указать цифрами" placeholder="Введите номер телефона">
+                <input class="form-control" type="text" value="" id="phoneSave" required minlength="11" pattern="[0-9]+"
+                       title="указать цифрами" placeholder="Введите номер телефона">
             </div>
         </div>
         <div class="row justify-content-center">
@@ -99,7 +107,50 @@
         </div>
     </form>
 </div>
-<script type="text/javascript" th:src="@{js/registration.js}" src="../static/js/registration.js" ></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{js/registration.js}" src="../static/js/registration.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
 </body>
 </html>
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="utf-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
+<!--    <title>Registration form</title>-->
+<!--    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"-->
+<!--          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">-->
+<!--    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container text-center fw-bold">-->
+<!--    <h1>Форма регистрации</h1>-->
+<!--    <form th:method="POST" th:action="@{/registration}" th:object="${registerUser}">-->
+<!--        <label for="usernameSave"></label>-->
+<!--        <input name="username" type="text" th:field="*{name}" id="usernameSave" placeholder="Введите имя пользователя"/>-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <label for="surname"></label>-->
+<!--        <input name="surname" type="text" th:field="*{email}" id="surname" placeholder="Введите email"/>-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <label for="password"></label>-->
+<!--        <input name="password" type="text" id="password" placeholder="Введите пароль"/>-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <label for="phonenumber"></label>-->
+<!--        <input name="phonenumber" type="text" id="phonenumber" placeholder="Введите номер телефона"/>-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <label for="name"></label>-->
+<!--        <input name="name" type="text" id="name" placeholder="Введите имя"/>-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <input type="submit" value="Сохранить"/>-->
+<!--    </form>-->
+<!--</div>-->
+<!--</body>-->
+
+<!--</html>-->
