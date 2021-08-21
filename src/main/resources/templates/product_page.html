@@ -49,6 +49,7 @@
         <!-- Product Pricing -->
         <div class="product-price">
           <p th:text="${item.getPrice()}">Стоимость товара</p>
+
           <p><b>С учетом скидки:</b></p>
           <div
                   th:if="${discount.getPercentage > 0}"
