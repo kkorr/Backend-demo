@@ -4,13 +4,14 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <title>Product page</title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-  <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
-  <script th:src="@{'https://code.jquery.com/jquery-3.5.1.slim.min.js'}"
+  <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+        integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" rel="stylesheet">
+  <link crossorigin="anonymous" href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet"/>
+  <script crossorigin="anonymous"
           integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-          crossorigin="anonymous"></script>
+          th:src="@{'https://code.jquery.com/jquery-3.5.1.slim.min.js'}"></script>
 </head>
 <body>
 
@@ -47,6 +48,7 @@
         <hr/>
         <!-- Product Pricing -->
         <div class="product-price">
+
           <p th:text="${item.getPrice()}">Стоимость товара</p>
           <p><b>Ваша скидка составила:</b></p>
           <!--          <p th:text="${discount.getPercentage()}">%</p>-->
@@ -54,77 +56,80 @@
         </div>
         <div>
           <label for="itemQuant">Количество:</label>
-          <input type="number" id="itemQuant" th:value="${cartItem!=null}?${cartItem.getQuantity()} :1"
-                 class="form-control" min="1">
+          <input class="form-control" id="itemQuant" min="1"
+                 th:value="${cartItem!=null}?${cartItem.getQuantity()} :1" type="number">
         </div>
 
-        <!--        <div class="form-group">-->
-        <!--          <button class="btn btn-primary btn-block" th:attr="onclick=|addCartItem('${item.id}','${shop.id}')|">В корзину</button>-->
-        <!--        </div>-->
         <div class="form-group">
-          <button class="btn btn-info btn-block" th:attr="onclick=|addItemToFavorites('${item.id}')|">Добавить в
-            избранное
+          <button class="btn btn-info btn-block" th:attr="onclick=|addItemToFavorites('${item.id}')|">
+            Добавить в избранное
           </button>
         </div>
 
         <div class="form-group">
-          <button class="btn btn-primary btn-block" th:attr="onclick=|addCartItem('${item.id}','${shop.id}')|">Добавить
+          <button class="btn btn-primary btn-block"
+                  th:attr="onclick=|addCartItem('${item.id}','${shop.id}')|">Добавить
             в корзину
           </button>
-
         </div>
         <div class="form-group">
+          <!--                    <p><a href="http://localhost:8888/cart">Перейти в корзину</a></p>-->
           <a href="cart">
             <button class="btn btn-primary btn-block" id="toCart">Перейти в корзину</button>
           </a>
+          <!--                  с этой кнопкой переход на /product/cart , а надо просто на /cart не смогла исправить-->
         </div>
         <div class="form-group">
+          <!--                    <p><a href="http://localhost:8888/home">На главную страницу</a></p>-->
           <a href="home">
             <button class="btn btn-secondary btn-block" id="toHome">На главную страницу</button>
           </a>
+          <!--                  с этой кнопкой переход на /product/home , а надо просто на /home не смогла исправить-->
         </div>
-
 
       </div>
     </div>
   </div>
   <div id="favItem" th:data-itemId="${item.getId()}"></div>
 </div>
-  <script>
-    $(async function (){
-      await favoriteItem()
-    })
 
-    async function favoriteItem() {
-      let form = $("#favItem");
-      let itemId = form.attr("data-itemId");
+<script>
+  $(async function () {
+    await favoriteItem()
+  })
 
-      await favoriteButtonItem(itemId);
-    }
+  async function favoriteItem() {
+    let form = $("#favItem");
+    let itemId = form.attr("data-itemId");
 
-    async function addCartItem(itemId, shopId) {
-      let quant = document.getElementById("itemQuant").value;
-      let url = new URL("http://localhost:8888/api/cart/add")
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json; charset=utf-8",
+    await favoriteButtonItem(itemId);
+  }
+
+  async function addCartItem(itemId, shopId) {
+    let quant = document.getElementById("itemQuant").value;
+    let url = new URL("http://localhost:8888/api/cart/add")
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify({
+        quantity: quant,
+        item: {
+          id: itemId
         },
-        body: JSON.stringify({
-          quantity: quant,
-          item: {
-            id: itemId
-          },
-          shop: {
-            id: shopId
-          },
-        })
+        shop: {
+          id: shopId
+        },
       })
-    }
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-  <script type="text/javascript" th:src="@{/js/favorites.js}" src="../static/js/favorites.js"></script>
+    })
+  }
+</script>
+<script crossorigin="anonymous"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+<script src="../static/js/favorites.js" th:src="@{/js/favorites.js}" type="text/javascript"></script>
 
 </body>
 </html>
