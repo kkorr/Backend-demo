@@ -50,7 +50,6 @@
         <div class="product-price">
           <p th:text="${item.getPrice()}">Стоимость товара</p>
           <p><b>С учетом скидки:</b></p>
-          <!--          <p th:text="${discount.getPercentage()}">%</p>-->
           <div
                   th:if="${discount.getPercentage > 0}"
                   th:text="${((100 - discount.getPercentage) * item.getPrice())/100}">
