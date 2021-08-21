@@ -50,9 +50,13 @@
         <div class="product-price">
 
           <p th:text="${item.getPrice()}">Стоимость товара</p>
-          <p><b>Ваша скидка составила:</b></p>
+          <p><b>С учетом скидки:</b></p>
           <!--          <p th:text="${discount.getPercentage()}">%</p>-->
-          <!--          <p th:text="${discount.getFixedDiscount()}">%</p>-->
+                    <div
+                            th:if ="${item.getPrice() > discount.getMinOrder()}" th:text="${item.getPrice() - discount.getFixedDiscount()}">
+
+                      </div>
+
         </div>
         <div>
           <label for="itemQuant">Количество:</label>
@@ -74,14 +78,14 @@
         </div>
         <div class="form-group">
           <!--                    <p><a href="http://localhost:8888/cart">Перейти в корзину</a></p>-->
-          <a href="cart">
+          <a th:href="@{/cart}">
             <button class="btn btn-primary btn-block" id="toCart">Перейти в корзину</button>
           </a>
           <!--                  с этой кнопкой переход на /product/cart , а надо просто на /cart не смогла исправить-->
         </div>
         <div class="form-group">
           <!--                    <p><a href="http://localhost:8888/home">На главную страницу</a></p>-->
-          <a href="home">
+          <a th:href="@{/home}">
             <button class="btn btn-secondary btn-block" id="toHome">На главную страницу</button>
           </a>
           <!--                  с этой кнопкой переход на /product/home , а надо просто на /home не смогла исправить-->
