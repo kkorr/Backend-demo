@@ -35,7 +35,7 @@ public class ShopRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ShopDto> getAddress(@PathVariable("id") Long id) {
+    public ResponseEntity<ShopDto> getShop(@PathVariable("id") Long id) {
         return new ResponseEntity<>(ShopMapper.INSTANCE.shopToShopDto(shopService.getByKey(id)), HttpStatus.OK);
     }
 

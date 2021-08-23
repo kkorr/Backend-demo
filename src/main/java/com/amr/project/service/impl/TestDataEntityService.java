@@ -48,6 +48,9 @@ public class TestDataEntityService {
     @Autowired
     private ReviewService reviewService;
 
+    @Autowired
+    private DiscountService discountService;
+
 
     public void createEntity() {
         createImageEntity();
@@ -59,6 +62,54 @@ public class TestDataEntityService {
         createShopEntity();
         createItemEntity();
         createReviewEntity();
+        createDiscountEntity();
+    }
+
+    @SneakyThrows
+    private void createDiscountEntity() {
+        Discount discount1 = Discount.builder()
+                .fixedDiscount(1000)
+                .percentage(0)
+                .minOrder(5000)
+                .shop(shopService.getByKey(1L))
+                .user(userService.getByKey(2L))
+                .build();
+        discountService.persist(discount1);
+        Discount discount2 = Discount.builder()
+                .fixedDiscount(200)
+                .percentage(0)
+                .minOrder(2000)
+                .shop(shopService.getByKey(2L))
+                .user(userService.getByKey(2L))
+                .build();
+        discountService.persist(discount2);
+        Discount discount3 = Discount.builder()
+                .fixedDiscount(0)
+                .percentage(5)
+                .minOrder(3000)
+                .shop(shopService.getByKey(3L))
+                .user(userService.getByKey(2L))
+                .build();
+        discountService.persist(discount3);
+        Discount discount4 = Discount.builder()
+                .fixedDiscount(200)
+                .percentage(0)
+                .minOrder(1500)
+                .shop(shopService.getByKey(2L))
+                .user(userService.getByKey(2L))
+                .build();
+        discountService.persist(discount4);
+        Discount discount5 = Discount.builder()
+                .fixedDiscount(0)
+                .percentage(15)
+                .minOrder(5000)
+                .shop(shopService.getByKey(4L))
+                .user(userService.getByKey(2L))
+                .build();
+        discountService.persist(discount5);
+        User user = userService.getByKey(2L);
+        user.setDiscounts(new ArrayList<>(List.of(discount1, discount2, discount3, discount4, discount5)));
+        userService.update(user);
     }
 
     @SneakyThrows

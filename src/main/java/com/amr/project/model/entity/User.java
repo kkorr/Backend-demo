@@ -91,8 +91,11 @@ public class User implements UserDetails {
             inverseJoinColumns = {@JoinColumn(name = "coupon_id")})
     private Collection<Coupon> coupons;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Collection<Item> cart;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_cart",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "cart_id")})
+    private Collection<CartItem> cart;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "user_orders")
