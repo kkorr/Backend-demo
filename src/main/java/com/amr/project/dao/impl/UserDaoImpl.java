@@ -23,7 +23,6 @@ public class UserDaoImpl extends ReadWriteDAOImpl<User, Long> implements UserDao
                 .setParameter("email", email).getResultList()
                 .stream()
                 .findAny();
-
     }
 }
 
