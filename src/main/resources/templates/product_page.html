@@ -52,6 +52,7 @@
           <p th:text="${item.getPrice()}">Стоимость товара</p>
 
           <!--------------   этот блок с рассчетом скидки для авторизованных пользователей-->
+          <div sec:authorize="isAuthenticated()">
           <div>
             <p><b>С учетом скидки:</b></p>
             <div
@@ -62,6 +63,7 @@
                     th:if="${item.getPrice() > discount.getMinOrder() && discount.getFixedDiscount() == 0}"
                     th:text="${((100 - discount.getPercentage()) * item.getPrice()) / 100}">
             </div>
+          </div>
           </div>
           <!-------------------------------------------------------------------------------------------------------->
         </div>
