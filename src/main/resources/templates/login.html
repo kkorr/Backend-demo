@@ -3,7 +3,10 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
   <title>Login</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link   rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous">
   <style>
     .photo {
       display: block;
@@ -46,15 +49,24 @@
         </div>
         <hr>
         <p align="center">или войдите с помощью:</p>
-        <table>
-          <tr>
-            <td><a href=""><img src="https://free-png.ru/wp-content/uploads/2020/11/b64cc812d68e951149b3e1a21c9a49e7-35dd74d8.png" width="50px"></a></td>
-            <td><a href=""><img src="https://lh3.googleusercontent.com/proxy/8SKJttH6Noo7U3FSQOhld0IUQ_2OxJJxRI_oJYC4taf0uptrFZtfYtbQcbW1SO-P8XQ4Rqj8D2oJB-a5VV9Y5alOs1DhWXE7cyQAvudXbiF2" width="70px"></a></td>
-            <td><a href=""><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1200px-Facebook_Logo_%282019%29.png" width="50px"></a></td>
-          </tr>
-        </table>
+          <div class="form-group" style="margin-left: 12px ">
+                <div class="col-md-3">
+                    <a class="btn btn-outline-dark" href="/oauth2/authorization/google" role="button" style="text-transform:none">
+                        <img width="20px" style="margin-bottom:3px; margin-right:12px; margin-left:10px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                        Login with google
+                    </a>
+                </div>
+            </div>
+            <div class="form-group" style="margin-left: 12px ">
+                <div class="col-md-3">
+                    <a class="btn btn-outline-dark" href="/oauth2/authorization/github" role="button" style="text-transform:none">
+                        <img width="20px" style="margin-bottom:3px; margin-right:15px; margin-left:10px" src="https://wodensoft.co.uk/wp-content/uploads/2020/05/Github.png" />
+                        Login with github
+                    </a>
+                </div>
+            </div>
         <hr>
-        <p align="center">если вы у нас впервые:</p>
+        <p align="center">если вы у нас впервые:    </p>
         <p align="center"><a th:href="@{/registration}">зарегистрироваться</a></p>
       </form>
     </div>
