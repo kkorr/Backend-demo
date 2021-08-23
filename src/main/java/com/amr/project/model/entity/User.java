@@ -52,7 +52,6 @@ public class User implements UserDetails {
     private String activationCode;
 
     @Column(unique = true)
-    @NotBlank(message = "enter your phone number")
     @Length(min = 11, message = "phone number must be at least 11 characters")
     private String phone;
 

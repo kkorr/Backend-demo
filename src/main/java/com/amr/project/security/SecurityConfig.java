@@ -1,5 +1,8 @@
 package com.amr.project.security;
 
+import com.amr.project.security.handler.SuccessUserHandler;
+import com.amr.project.service.impl.CustomOAuth2UserService;
+import com.amr.project.security.handler.OAuth2LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +12,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
@@ -21,12 +23,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
     private final SuccessUserHandler successUserHandler;
+    private final CustomOAuth2UserService oAuth2UserService;
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
     // userDetailsServiceImpl - его еще нет, нужен ли он будет?
     @Autowired
-    public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, SuccessUserHandler successUserHandler) {
+    public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, SuccessUserHandler successUserHandler, CustomOAuth2UserService oAuth2UserService, OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) {
         this.userDetailsService = userDetailsService;
         this.successUserHandler = successUserHandler;
+        this.oAuth2UserService = oAuth2UserService;
+        this.oAuth2LoginSuccessHandler = oAuth2LoginSuccessHandler;
     }
 
     @Autowired
@@ -34,27 +40,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
-
     @Override
     // antMatchers() с указанием страниц и ролей пока не пишу, чтобы пока не мешали
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests()
+        http.authorizeRequests()
+                .antMatchers("/oauth2/**").permitAll()
                 .antMatchers("/**").permitAll()
-                .and()
-                .formLogin()
-                .loginProcessingUrl("/login")
-                .loginPage("/login")
-                .successHandler(successUserHandler)
+                .and().formLogin().successHandler(successUserHandler)
+                .loginPage("/login") .loginProcessingUrl("/login")
                 // Указываем параметры логина и пароля с формы логина
                 .usernameParameter("j_username")
                 .passwordParameter("j_password")
-                .permitAll()
+                .and().rememberMe()
+                .and().formLogin().successHandler(successUserHandler)
                 .and()
-                .logout()
-                .logoutSuccessUrl("/")
-                .permitAll();
+                .oauth2Login()
+                    .loginPage("/login")
+                    .userInfoEndpoint().userService(oAuth2UserService)
+                    .and()
+                    .successHandler(oAuth2LoginSuccessHandler);
 
+        http.csrf().disable();
     }
 
     @Bean
