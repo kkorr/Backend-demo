@@ -94,7 +94,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                    <button type="submit" id="user_signin_btn" class="btn btn-primary">Сохранить</button>
+                    <button type="submit" id="user_update_btn" class="btn btn-primary">Сохранить</button>
                 </div>
             </form>
         </div>
@@ -193,7 +193,7 @@
     const userId = $('#user_id').val();
     const editProfile = $('#edit_profile_btn');
     const user_form = $('#update_user_form');
-
+    const userUpdateBtn = $('#user_update_btn');
     $(document).ready(function() {
 
         getShopsByUserId(userId);
@@ -201,10 +201,13 @@
         $('.collapse').on('show.bs.collapse hide.bs.collapse', function (e) {
             e.preventDefault();
         })
+        $(user_update_btn).on('click', function () {
+
+        })
 
         $(editProfile).on('click', function () {
             $('#edit_modal').modal("show");
-            getUser();
+            getUserOnModal();
         })
 
         $(shopViewBtn).on('click', function (e) {
@@ -221,7 +224,7 @@
             $(userPanelHead).html('Ваши заказы:');
         })
     })
-    async function getUser() {
+    async function getUserOnModal() {
         const response = await fetch("/api/userPage/user");
         if(response.ok) {
             const user = await response.json();
@@ -243,6 +246,23 @@
         $('#birthdaySave').val(e.birthday);
         $('#usernameSave').val(e.username);
 
+    }
+    function getJsonFromFormUpdate() {
+        const userJson = {
+            username: $('#usernameSave').val(),
+            firstName: $('#first_nameSave').val(),
+            lastName: $('#last_nameSave').val(),
+            email: $('#emailSave').val(),
+            phone: $('#phoneSave').val(),
+            age: $('#ageSave').val(),
+            address: {
+                country: $('#countrySave').val(),
+                street: $('#streetSave').val(),
+                city: $('#citySave').val(),
+                cityIndex: $('#cityIndexSave').val(),
+                house: $('#houseSave').val();
+            }
+        }
     }
     async function getOrdersByUserId(userId) {
         const response = await fetch("/api/userPage/orders/" + userId);

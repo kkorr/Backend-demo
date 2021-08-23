@@ -15,10 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -51,6 +48,14 @@ public class UserPageRestController {
             return new ResponseEntity<>(userMapper.userToDto(user.get()), HttpStatus.OK);
         }
         return new ResponseEntity<>(new UserDto(), HttpStatus.NOT_FOUND);
+    }
+    @PutMapping("/user")
+    public ResponseEntity<?> updateUser(@RequestBody UserDto user) {
+        if(user != null) {
+            userService.update(userMapper.dtoToUser(user));
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
     @GetMapping("/orders/{userId}")
     public ResponseEntity<List<OrderDto>> getOrdersByUserId(@PathVariable("userId") Long userId) {
