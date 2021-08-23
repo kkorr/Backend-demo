@@ -280,9 +280,14 @@ public class TestDataEntityService {
                 .name("USER")
                 .build();
 
+        Role unregisteredRole = Role.builder()
+                .name("UNREGISTERED")
+                .build();
+
         Set<Role> roles = new HashSet<>();
         roles.add(adminRole);
         roles.add(userRole);
+        roles.add(unregisteredRole);
 
 
         User admin = User.builder()
