@@ -38,16 +38,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     // antMatchers() с указанием страниц и ролей пока не пишу, чтобы пока не мешали
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.csrf().disable()
+                .authorizeRequests()
                 .antMatchers("/**").permitAll()
-                .and().formLogin().successHandler(successUserHandler)
-                .loginPage("/login") .loginProcessingUrl("/login")
+                .and()
+                .formLogin()
+                .loginProcessingUrl("/login")
+                .loginPage("/login")
+                .successHandler(successUserHandler)
                 // Указываем параметры логина и пароля с формы логина
                 .usernameParameter("j_username")
                 .passwordParameter("j_password")
-                .and().rememberMe()
-                .and().formLogin().successHandler(successUserHandler);
-        http.csrf().disable();
+                .permitAll()
+                .and()
+                .logout()
+                .logoutSuccessUrl("/")
+                .permitAll();
+
     }
 
     @Bean

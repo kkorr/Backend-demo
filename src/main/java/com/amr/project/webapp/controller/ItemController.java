@@ -8,6 +8,7 @@ import com.amr.project.service.abstracts.CartItemService;
 import com.amr.project.service.abstracts.DiscountService;
 import com.amr.project.service.abstracts.ItemService;
 import com.amr.project.service.abstracts.UserService;
+import com.amr.project.service.abstracts.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,7 +16,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ItemController {
@@ -27,10 +30,11 @@ public class ItemController {
     private CartItemMapper cartItemMapper;
     private ShopMapper shopMapper;
     private DiscountService discountService;
+    private final ReviewService reviewService;
 
     @Autowired
     public ItemController(ItemService itemService, CartItemService cartItemService, UserService userService,
-                          ItemMapper itemMapper, CartItemMapper cartItemMapper, ShopMapper shopMapper, DiscountService discountService) {
+                          ItemMapper itemMapper, CartItemMapper cartItemMapper, ShopMapper shopMapper, DiscountService discountService, ReviewService reviewService) {
         this.itemService = itemService;
         this.cartItemService = cartItemService;
         this.userService = userService;
@@ -38,6 +42,7 @@ public class ItemController {
         this.cartItemMapper = cartItemMapper;
         this.shopMapper = shopMapper;
         this.discountService = discountService;
+        this.reviewService = reviewService;
     }
 
 
@@ -47,6 +52,8 @@ public class ItemController {
         Shop shop = item.getShop();
         model.addAttribute("item", itemMapper.itemToItemDto(item));
         model.addAttribute("shop", shopMapper.shopToShopDto(shop));
+        model.addAttribute("reviews", itemService.getByKey(id).getReviews());
+        model.addAttribute("newReview", new Review());
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
@@ -59,5 +66,18 @@ public class ItemController {
             }
         }
         return "product_page";
+    }
+
+    @PostMapping("/product/{id}")
+    public String saveReview(@PathVariable("id") Long id, @ModelAttribute("newReview") Review review, @ModelAttribute("rating") int rating) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByUsername(authentication.getName()).get();
+        review.setRating(rating);
+        review.setDate(new java.sql.Date(System.currentTimeMillis()));
+        review.setId(null);
+        review.setItem(itemService.getByKey(id));
+        review.setUser(user);
+        reviewService.persist(review);
+        return "redirect:/product/" + id;
     }
 }

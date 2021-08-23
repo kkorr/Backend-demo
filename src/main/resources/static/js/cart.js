@@ -27,7 +27,7 @@ function insertCartItemRow(cartItem) {
         quantity: cartItem.quantity,
         item: cartItem.item,
         shop: cartItem.shop,
-        user: cartItem.user
+        user: cartItem.user,
     };
     i++;
     document.querySelector('#cartItems').insertAdjacentHTML('beforeend', `

@@ -15,7 +15,7 @@ public class ShowcaseItemDaoImpl extends ReadWriteDAOImpl<Item, Long> implements
      */
     @Override
     public List<Item> findItemsByShopId(Long shopId) {
-        return entityManager.createQuery("SELECT i FROM Item i JOIN i.shop s on s.id = :id", Item.class)
+        return entityManager.createQuery("SELECT i FROM Item i JOIN i.shop s on s.id = :id WHERE i.isModerateAccept = true AND i.isModerated = true", Item.class)
                 .setParameter("id", shopId)
                 .getResultList();
     }
@@ -27,7 +27,7 @@ public class ShowcaseItemDaoImpl extends ReadWriteDAOImpl<Item, Long> implements
      */
     @Override
     public List<Item> findItemsByCategoryIdAndShopId(Long categoryId, Long shopId) {
-        return entityManager.createQuery("SELECT i FROM Item i JOIN i.categories c on c.id = :categoryId JOIN i.shop s on s.id = :shopId", Item.class)
+        return entityManager.createQuery("SELECT i FROM Item i JOIN i.categories c on c.id = :categoryId JOIN i.shop s on s.id = :shopId WHERE i.isModerateAccept = true AND i.isModerated = true", Item.class)
                 .setParameter("categoryId", categoryId)
                 .setParameter("shopId", shopId)
                 .getResultList();
@@ -41,9 +41,21 @@ public class ShowcaseItemDaoImpl extends ReadWriteDAOImpl<Item, Long> implements
      */
     @Override
     public List<Item> searchItemsByName(Long shopId, String itemName) {
-        return entityManager.createQuery("SELECT i FROM Item i JOIN i.shop s on s.id = :shopId WHERE i.name LIKE :itemName")
+        return entityManager.createQuery("SELECT i FROM Item i JOIN i.shop s on s.id = :shopId WHERE i.isModerateAccept = true AND i.isModerated = true AND i.name LIKE :itemName", Item.class)
                 .setParameter("shopId", shopId)
                 .setParameter("itemName", "%" + itemName + "%")
                 .getResultList();
+    }
+
+    /**
+     * Ищет популярные товары по id магазина
+     * @param shopId
+     * @return
+     */
+    @Override
+    public List<Item> findPopularItemsBYShopId(Long shopId) {
+        return entityManager.createQuery("SELECT i FROM Item i JOIN i.shop s on s.id = :shopId WHERE i.isModerateAccept = true AND i.isModerated = true ORDER BY i.count DESC", Item.class)
+                .setMaxResults(5)
+                .setParameter("shopId", shopId).getResultList();
     }
 }
