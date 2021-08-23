@@ -7,6 +7,99 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
+
+<!--Модалка изменения информации юзера-->
+<div class="modal fade" id="edit_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 700px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Изменение данных пользователя</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="update_user_form">
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="first_nameSave">Имя пользователя</label>
+                        <input class="form-control" type="text" value="" id="usernameSave" required minlength="4" placeholder="Введите имя пользователя">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="emailSave">Адрес электронной почты</label>
+                        <input class="form-control" type="email" value="" id="emailSave" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" title="в формате user@example.com" required placeholder="Введите адрес электронной почты">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="phoneSave">Номер телефона</label>
+                        <input class="form-control" type="text" value="" id="phoneSave" required minlength="11" pattern="[0-9]+" title="указать цифрами" placeholder="Введите номер телефона">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="first_nameSave">Имя</label>
+                        <input class="form-control" type="text" value="" id="first_nameSave" placeholder="Введите имя">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="last_nameSave">Фамилия</label>
+                        <input class="form-control" type="text" value="" id="last_nameSave" placeholder="Введите фамилию">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="ageSave">Возраст</label>
+                        <input class="form-control" type="number" value="" id="ageSave" placeholder="Введите возраст">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-3">
+                        <label class="form-label" for="countrySave">Страна</label>
+                        <input class="form-control" type="text" value="" id="countrySave" placeholder="Введите страну">
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label" for="citySave">Город</label>
+                        <input class="form-control" type="text" value="" id="citySave" placeholder="Введите город">
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label" for="cityIndexSave">Индекс города</label>
+                        <input class="form-control" type="text" value="" id="cityIndexSave" placeholder="Введите индекс города">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-3">
+                        <label class="form-label" for="streetSave">Улица</label>
+                        <input class="form-control" type="text" value="" id="streetSave" placeholder="Введите улицу">
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label" for="houseSave">Номер дома</label>
+                        <input class="form-control" type="text" value="" id="houseSave" placeholder="Введите номер дома">
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label" for="birthdaySave">Дата рождения</label>
+                        <input class="form-control" type="date" value="" id="birthdaySave">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-6">
+                        <label class="form-label" for="genderSave">Выберите пол:</label>
+                        <br>
+                        <select class="form-select" size="3" id="genderSave" name="gender" required>
+                            <option id="ManSave" value="MALE">Мужчина</option>
+                            <option id="WomanSave" value="FEMALE">Женщина</option>
+                            <option id="NoGenderSave" value="UNKNOWN">Не определен</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" id="user_signin_btn" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <!--HEADER /includes/header.html-->
 <div th:replace="/includes/header :: header"></div>
 <!--Main container-->
@@ -41,12 +134,12 @@
     </div>
 
     <!--Main Body-->
-    <div class="container-fluid" style="padding-top: 30px; padding-left: 35px;">
+    <div class="container-fluid" style="padding-top: 30px; padding-left: 35px; padding-right:35px; ">
         <div class="row">
             <div class="col-12 p-0">
                 <h1 id="user_panel_head">Ваши магазины:</h1>
             </div>
-            <div class="col-12 mt-4 p-0">
+            <div class="col-12 mt-4 p-0 d-flex justify-content-between">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
                         <a class="nav-link active" id="shop_view_btn" aria-current="page"  href="#1">Магазины</a>
@@ -55,6 +148,7 @@
                         <a class="nav-link" href="#2" id="orers_view_btn">Заказы</a>
                     </li>
                 </ul>
+                <button type="button" class="btn btn-success" id="edit_profile_btn">Изменить профиль</button>
             </div>
         </div>
         <!--панель заказов и магазинов-->
@@ -86,6 +180,8 @@
 </section>
 <!-- JavaScript Bundle with Popper -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script>
     const shopViewBtn = $('#shop_view_btn');
     const orderViewBtn = $('#orers_view_btn');
@@ -95,6 +191,8 @@
     const shopContentConteiner = $('#shop_content_container');
     const orderContentConteiner = $('#orders_container');
     const userId = $('#user_id').val();
+    const editProfile = $('#edit_profile_btn');
+    const user_form = $('#update_user_form');
 
     $(document).ready(function() {
 
@@ -102,6 +200,11 @@
 
         $('.collapse').on('show.bs.collapse hide.bs.collapse', function (e) {
             e.preventDefault();
+        })
+
+        $(editProfile).on('click', function () {
+            $('#edit_modal').modal("show");
+            getUser();
         })
 
         $(shopViewBtn).on('click', function (e) {
@@ -118,6 +221,29 @@
             $(userPanelHead).html('Ваши заказы:');
         })
     })
+    async function getUser() {
+        const response = await fetch("/api/userPage/user");
+        if(response.ok) {
+            const user = await response.json();
+            console.log(user);
+            addUserInfoOnModal(user);
+        }
+    }
+    function addUserInfoOnModal(e) {
+        $('#first_nameSave').val(e.firstName);
+        $('#last_nameSave').val(e.lastName);
+        $('#emailSave').val(e.email);
+        $('#phoneSave').val(e.phone);
+        $('#ageSave').val(e.age);
+        $('#countrySave').val(e.address.country);
+        $('#citySave').val(e.address.city);
+        $('#cityIndexSave').val(e.address.cityIndex);
+        $('#streetSave').val(e.address.street);
+        $('#houseSave').val(e.address.house);
+        $('#birthdaySave').val(e.birthday);
+        $('#usernameSave').val(e.username);
+
+    }
     async function getOrdersByUserId(userId) {
         const response = await fetch("/api/userPage/orders/" + userId);
         if(response.ok) {
@@ -201,6 +327,7 @@
         orderContentConteiner.html('');
         orderContentConteiner.html(insert_html);
     }
+
     function toggleUserPanel(e1,e2,p1,p2) {
         $(e1).addClass('active');
         $(e2).removeClass('active');

@@ -6,7 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.stereotype.Component;
 
-@Component
+/*@Component
 @ConditionalOnMissingClass({"org.springframework.boot.test.context.SpringBootTest"})
 public class InitDB implements CommandLineRunner {
 
@@ -17,4 +17,4 @@ public class InitDB implements CommandLineRunner {
     public void run(String... args) throws Exception {
         testDataEntityService.createEntity();
     }
-}
+}*/

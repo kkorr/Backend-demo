@@ -1,7 +1,8 @@
 let checkFetch = 0;
 async function getItems() {
-    const response = await fetch("/api/cart")
+    const response = await fetch("/api/cart");
     const data = await response.json();
+
     if(data.length > 0) {
         checkPaymentButton()
     }
@@ -27,7 +28,7 @@ function insertCartItemRow(cartItem) {
         quantity: cartItem.quantity,
         item: cartItem.item,
         shop: cartItem.shop,
-        user: cartItem.user
+        user: cartItem.user,
     };
     i++;
     document.querySelector('#cartItems').insertAdjacentHTML('beforeend', `
