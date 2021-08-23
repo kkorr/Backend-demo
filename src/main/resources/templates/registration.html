@@ -13,7 +13,8 @@
     <h1>Форма регистрации</h1>
     <b th:text="${usernameExists}">Пользователь с таким username уже существует.</b>
     <b th:text="${emailExists}">Пользователь с такой электронной почтой уже существует.</b>
-    <form onsubmit="saveUser()">
+    <div id="modalForm">
+    <form action="">
         <div class="row justify-content-center">
             <div class="form-group col-6">
                 <label class="form-label" for="usernameSave">Имя пользователя</label>
@@ -106,6 +107,7 @@
             </div>
         </div>
     </form>
+    </div>
 </div>
 <script type="text/javascript" th:src="@{js/registration.js}" src="../static/js/registration.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
@@ -114,43 +116,3 @@
 </body>
 </html>
 
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--    <meta charset="utf-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
-<!--    <title>Registration form</title>-->
-<!--    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"-->
-<!--          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">-->
-<!--    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div class="container text-center fw-bold">-->
-<!--    <h1>Форма регистрации</h1>-->
-<!--    <form th:method="POST" th:action="@{/registration}" th:object="${registerUser}">-->
-<!--        <label for="usernameSave"></label>-->
-<!--        <input name="username" type="text" th:field="*{name}" id="usernameSave" placeholder="Введите имя пользователя"/>-->
-<!--        <br>-->
-<!--        <br>-->
-<!--        <label for="surname"></label>-->
-<!--        <input name="surname" type="text" th:field="*{email}" id="surname" placeholder="Введите email"/>-->
-<!--        <br>-->
-<!--        <br>-->
-<!--        <label for="password"></label>-->
-<!--        <input name="password" type="text" id="password" placeholder="Введите пароль"/>-->
-<!--        <br>-->
-<!--        <br>-->
-<!--        <label for="phonenumber"></label>-->
-<!--        <input name="phonenumber" type="text" id="phonenumber" placeholder="Введите номер телефона"/>-->
-<!--        <br>-->
-<!--        <br>-->
-<!--        <label for="name"></label>-->
-<!--        <input name="name" type="text" id="name" placeholder="Введите имя"/>-->
-<!--        <br>-->
-<!--        <br>-->
-<!--        <input type="submit" value="Сохранить"/>-->
-<!--    </form>-->
-<!--</div>-->
-<!--</body>-->
-
-<!--</html>-->
