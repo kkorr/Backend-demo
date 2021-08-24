@@ -1,12 +1,19 @@
 let checkFetch = 0;
 async function getItems() {
     const response = await fetch("/api/cart")
-    const data = await response.json();
-    if(data.length > 0) {
+    const cartItems = await response.json();
+
+    if(cartItems.length > 0) {
         checkPaymentButton()
+
+        for(let i = 0; i < cartItems.length; i++) {
+            let desc = await fetch("/api/discounts/" + cartItems[i].shop.id);
+            cartItems[i].desc = await desc.json();
+        }
+    console.log(cartItems);
     }
     if(document.getElementById("cartItems")) {
-        data.forEach(cartItem=> insertCartItemRow(cartItem))
+        cartItems.forEach(cartItem=> insertCartItemRow(cartItem))
     }
 }
 getItems()
@@ -27,7 +34,8 @@ function insertCartItemRow(cartItem) {
         quantity: cartItem.quantity,
         item: cartItem.item,
         shop: cartItem.shop,
-        user: cartItem.user
+        user: cartItem.user,
+        desc: cartItem.desc
     };
     i++;
     document.querySelector('#cartItems').insertAdjacentHTML('beforeend', `
@@ -54,6 +62,8 @@ function insertCartItemRow(cartItem) {
           <div name = "itemPrice">
             <span>X</span>
             <span id="itemPrice">${ci.item.price}</span>
+            <p>Стоимость со скидкой: </p>
+            <p>${ci.item.price - ci.desc.fixedDiscount}</p>
           </div>
           <div>
             <span>= </span>
