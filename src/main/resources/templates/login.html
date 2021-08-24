@@ -4,6 +4,11 @@
 <head>
   <title>Login</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://bootstraptema.ru/plugins/2015/bootstrap3/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://bootstraptema.ru/plugins/font-awesome/4-4-0/font-awesome.min.css" />
+  <script src="https://bootstraptema.ru/plugins/jquery/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="https://bootstraptema.ru/plugins/2015/b-v3-3-6/bootstrap.min.js"></script>
+  <script src="https://bootstraptema.ru/_sf/3/394.js" type="text/javascript"></script>
   <style>
     .photo {
       display: block;
@@ -11,6 +16,80 @@
     }
     table {
       margin: auto;
+    }
+
+    .animated {
+      -webkit-animation-duration: 1s;
+      -moz-animation-duration: 1s;
+      -o-animation-duration: 1s;
+      animation-duration: 1s;
+      -webkit-animation-fill-mode: both;
+      -moz-animation-fill-mode: both;
+      -o-animation-fill-mode: both;
+      animation-fill-mode: both;
+    }
+
+    @-webkit-keyframes shake {
+      0%, 100% {-webkit-transform: translateX(0);}
+      10%, 30%, 50%, 70%, 90% {-webkit-transform: translateX(-10px);}
+      20%, 40%, 60%, 80% {-webkit-transform: translateX(10px);}
+    }
+
+    @-moz-keyframes shake {
+      0%, 100% {-moz-transform: translateX(0);}
+      10%, 30%, 50%, 70%, 90% {-moz-transform: translateX(-10px);}
+      20%, 40%, 60%, 80% {-moz-transform: translateX(10px);}
+    }
+
+    @-o-keyframes shake {
+      0%, 100% {-o-transform: translateX(0);}
+      10%, 30%, 50%, 70%, 90% {-o-transform: translateX(-10px);}
+      20%, 40%, 60%, 80% {-o-transform: translateX(10px);}
+    }
+
+    @keyframes shake {
+      0%, 100% {transform: translateX(0);}
+      10%, 30%, 50%, 70%, 90% {transform: translateX(-10px);}
+      20%, 40%, 60%, 80% {transform: translateX(10px);}
+    }
+
+    .login .modal-dialog{
+      width: 350px;
+    }
+
+    .login .modal-body{
+      /* background-color: #eeeeee; */
+    }
+
+    .login .form-control{
+      border-radius: 3px;
+      background-color: rgba(0, 0, 0, 0.09);
+      box-shadow: 0 1px 0px 0px rgba(0, 0, 0, 0.09) inset;
+      color: #FFFFFF;
+    }
+    .login .form-control:hover{
+      background-color: rgba(0,0,0,.16);
+    }
+    .login .form-control:focus{
+      box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.04) inset;
+      background-color: rgba(0,0,0,0.23);
+      color: #FFFFFF;
+    }
+    .login .box .form input[type="text"], .login .box .form input[type="password"] {
+      border-radius: 3px;
+      border: none;
+      color: #333333;
+      font-size: 16px;
+      height: 46px;
+      margin-bottom: 5px;
+      padding: 13px 12px;
+      width: 100%;
+    }
+
+    @media (max-width:400px){
+      .login .modal-dialog{
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -55,10 +134,122 @@
         </table>
         <hr>
         <p align="center">если вы у нас впервые:</p>
-        <p align="center"><a th:href="@{/registration}">зарегистрироваться</a></p>
+
+       <p th:align="center"><a class="btn btn-default" data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal();">Зарегистрироваться</a>
+        </p>
       </form>
     </div>
   </div>
 </div>
+<div class="modal fade login" id="loginModal">
+  <div class="modal-dialog login animated">
+    <div class="modal-content" style="width:750px;">
+      <div class="modal-body">
+        <div class="box">
+          <div class="content">
+            <div class="form loginBox">
+              <b th:text="${usernameExists}">Пользователь с таким username уже существует.</b>
+              <b th:text="${emailExists}">Пользователь с такой электронной почтой уже существует.</b>
+              <form onsubmit="saveUser()">
+                <div class="row justify-content-center">
+                  <div class="form-group col-6">
+                    <label class="form-label" for="usernameSave">Имя пользователя</label>
+                    <input class="form-control" type="text" value="" id="usernameSave" required minlength="4"
+                           placeholder="Введите имя пользователя">
+                  </div>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="form-group col-6">
+                    <label class="form-label" for="emailSave">Адрес электронной почты</label>
+                    <input class="form-control" type="email" value="" id="emailSave"
+                           pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" title="в формате user@example.com" required
+                           placeholder="Введите адрес электронной почты">
+                  </div>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="form-group col-6">
+                    <label class="form-label" for="passwordSave">Пароль</label>
+                    <input class="form-control" type="password" value="" id="passwordSave" required minlength="6"
+                           placeholder="Введите пароль">
+                  </div>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="form-group col-6">
+                    <label class="form-label" for="phoneSave">Номер телефона</label>
+                    <input class="form-control" type="text" value="" id="phoneSave" required minlength="11" pattern="[0-9]+"
+                           title="указать цифрами" placeholder="Введите номер телефона">
+                  </div>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="form-group col-6">
+                    <label class="form-label" for="first_nameSave">Имя</label>
+                    <input class="form-control" type="text" value="" id="first_nameSave" placeholder="Введите имя">
+                  </div>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="form-group col-6">
+                    <label class="form-label" for="last_nameSave">Фамилия</label>
+                    <input class="form-control" type="text" value="" id="last_nameSave" placeholder="Введите фамилию">
+                  </div>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="form-group col-6">
+                    <label class="form-label" for="ageSave">Возраст</label>
+                    <input class="form-control" type="number" value="" id="ageSave" placeholder="Введите возраст">
+                  </div>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="form-group col-2">
+                    <label class="form-label" for="countrySave">Страна</label>
+                    <input class="form-control" type="text" value="" id="countrySave" placeholder="Введите страну">
+                  </div>
+                  <div class="form-group col-2">
+                    <label class="form-label" for="citySave">Город</label>
+                    <input class="form-control" type="text" value="" id="citySave" placeholder="Введите город">
+                  </div>
+                  <div class="form-group col-2">
+                    <label class="form-label" for="cityIndexSave">Индекс города</label>
+                    <input class="form-control" type="text" value="" id="cityIndexSave" placeholder="Введите индекс города">
+                  </div>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="form-group col-2">
+                    <label class="form-label" for="streetSave">Улица</label>
+                    <input class="form-control" type="text" value="" id="streetSave" placeholder="Введите улицу">
+                  </div>
+                  <div class="form-group col-2">
+                    <label class="form-label" for="houseSave">Номер дома</label>
+                    <input class="form-control" type="text" value="" id="houseSave" placeholder="Введите номер дома">
+                  </div>
+                  <div class="form-group col-2">
+                    <label class="form-label" for="birthdaySave">Дата рождения</label>
+                    <input class="form-control" type="date" value="" id="birthdaySave">
+                  </div>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="form-group col-6">
+                    <label class="form-label" for="genderSave">Выберите пол:</label>
+                    <br>
+                    <select class="form-select" size="3" id="genderSave" name="gender" required>
+                      <option id="ManSave" value="MALE">Мужчина</option>
+                      <option id="WomanSave" value="FEMALE">Женщина</option>
+                      <option id="NoGenderSave" value="UNKNOWN">Не определен</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="form-group col-6">
+                    <input type="submit" class="btn btn-primary" value="Зарегистрироваться"/>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" th:src="@{js/registration.js}" src="../static/js/registration.js"></script>
 </body>
 </html>
