@@ -82,28 +82,30 @@
               Добавить в избранное
             </button>
           </div>
-          <br/>
-
           <div class="form-group">
             <button class="btn btn-primary btn-block"
                     th:attr="onclick=|addCartItem('${item.id}','${shop.id}')|">Добавить
               в корзину
             </button>
           </div>
-          <br/>
-
           <div class="form-group">
             <a th:href="@{/cart}">
               <button class="btn btn-primary btn-block" id="toCart">Перейти в корзину</button>
             </a>
           </div>
-          <br/>
         </div>
         <!--        -------------------------------------------------------------------------------------->
         <div class="form-group">
           <a th:href="@{/}">
             <button class="btn btn-secondary btn-block" id="toHome">На главную страницу</button>
           </a>
+        </div>
+        <div sec:authorize="!isAuthenticated()">
+          <form>
+            <fieldset>
+              <a href="/login">Авторизуйтесь</a>, чтобы оставить отзыв или добавить товар в корзину
+            </fieldset>
+          </form>
         </div>
       </div>
     </div>
@@ -164,13 +166,7 @@
     </fieldset>
   </form>
 </div>
-<div sec:authorize="!isAuthenticated()">
-  <form>
-    <fieldset>
-      <a href="/login">Авторизуйтесь</a>, чтобы оставить отзыв
-    </fieldset>
-  </form>
-</div>
+
 <script>
   $(async function () {
     await favoriteItem()
