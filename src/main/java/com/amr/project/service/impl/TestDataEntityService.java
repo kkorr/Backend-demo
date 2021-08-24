@@ -14,7 +14,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.time.Instant;
 import java.util.*;
 
 @Service
@@ -335,10 +334,15 @@ public class TestDataEntityService {
                 .name("UNREGISTERED")
                 .build();
 
+        Role moderatorRole = Role.builder()
+                .name("MODERATOR")
+                .build();
+
         Set<Role> roles = new HashSet<>();
         roles.add(adminRole);
         roles.add(userRole);
         roles.add(unregisteredRole);
+        roles.add(moderatorRole);
 
 
         User admin = User.builder()
