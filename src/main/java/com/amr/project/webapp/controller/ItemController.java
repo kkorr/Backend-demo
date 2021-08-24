@@ -58,6 +58,7 @@ public class ItemController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
              User user = userService.findByUsername(authentication.getName()).get();
+             model.addAttribute("user", user);
 
             model.addAttribute("discount", discountService.findByUserAndShop(user.getId(), item.getShop().getId()));
             if (cartItemService.findByItemAndShopAndUser(id, user.getId(), item.getShop().getId()).isPresent()) {

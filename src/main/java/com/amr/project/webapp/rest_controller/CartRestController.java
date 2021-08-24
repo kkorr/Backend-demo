@@ -6,24 +6,19 @@ import com.amr.project.model.dto.CartItemDto;
 import com.amr.project.model.entity.CartItem;
 import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.*;
-import org.mapstruct.control.MappingControl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,16 +31,18 @@ public class CartRestController {
     private final ItemService itemService;
     private final CartItemMapper cartItemMapper;
     private final UserMapper userMapper;
+    private final DiscountService discountService;
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     public CartRestController(CartItemService cartItemService, UserService userService,
-                              ItemService itemService, CartItemMapper cartItemMapper, UserMapper userMapper) {
+                              ItemService itemService, CartItemMapper cartItemMapper, UserMapper userMapper, DiscountService discountService) {
         this.cartItemService = cartItemService;
         this.userService = userService;
         this.itemService = itemService;
         this.cartItemMapper = cartItemMapper;
         this.userMapper = userMapper;
+        this.discountService = discountService;
     }
 
     @Transactional
