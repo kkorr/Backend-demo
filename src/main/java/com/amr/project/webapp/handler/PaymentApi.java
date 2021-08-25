@@ -39,8 +39,11 @@ public class PaymentApi {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        assert billResponse != null;
-        return billResponse.getPayUrl();
+        if (billResponse != null) {
+            return billResponse.getPayUrl();
+        }else {
+            return null;
+        }
 
     }
 
