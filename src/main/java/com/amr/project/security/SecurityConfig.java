@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
 
@@ -60,7 +61,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                     .successHandler(oAuth2LoginSuccessHandler);
 
-        http.csrf().disable();
+        http.logout().permitAll()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/")
+                .and().csrf().disable();
     }
 
     @Bean

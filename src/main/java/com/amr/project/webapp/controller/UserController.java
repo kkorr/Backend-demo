@@ -13,12 +13,6 @@ public class UserController {
     @Autowired
     private EmailService emailService;
 
-    @GetMapping("/registration")
-    public String registerUser() {
-        return "registration";
-    }
-
-
     @GetMapping("/activate/{code}")
     public String activate(Model model, @PathVariable String code) {
         boolean isActivated = emailService.activateUser(code);
