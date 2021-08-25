@@ -8,6 +8,7 @@
         <version>2.5.2</version>
         <relativePath></relativePath> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>com.amr</groupId>
     <artifactId>project</artifactId>
     <version>0.0.1-SNAPSHOT</version>
