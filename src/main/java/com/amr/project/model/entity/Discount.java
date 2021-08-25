@@ -1,8 +1,7 @@
 package com.amr.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,6 +10,10 @@ import javax.persistence.*;
 @Table(name = "discount")
 @Data
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class Discount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

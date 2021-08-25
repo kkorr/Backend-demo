@@ -11,7 +11,7 @@
     <!--HEADER-->
     <header class="bg-dark text-white" style="height: 44px;">
         <div class="container" style="height: 44px;">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start" style="height: 44px;">
+            <div class="d-flex align-items-center justify-content-center justify-content-lg-start" style="height: 44px;">
                 <a href="/" class="d-flex align-items-center mb-lg-0 text-white text-decoration-none">
                     <h5 style="margin: 0;">LOGO</h5>
                 </a>
@@ -24,16 +24,44 @@
                 </ul>
 
                 <div class="text-end">
-                    <!--ссылка и информация пользователя-->
-                    <a th:href="@{/user/${user.getId()}}" sec:authorize="isAuthenticated()" class="d-flex">
-                        <img th:src="${user.getImages()}" alt="user_img" width="35px" height="35px" style="border-radius: 50%;">
-                        <p th:text="${user.getUsername()}" style="margin-left: 6px;"></p>
-                    </a>
-                    <a href="#" class="btn btn-outline-light me-2" sec:authorize="isAuthenticated()">Выход</a>
-                    <a href="cart"><button type="button" class="btn btn-outline-light me-2">Корзина</button></a>
-                    <a href="favorites"><button type="button" class="btn btn-outline-light me-2">Избранное</button></a>
+
+
                     <button sec:authorize="isAnonymous()" type="button" id="user_open_modal_btn" class="btn btn-outline-light me-2">Войти</button>
-                    <button sec:authorize="isAnonymous()" type="button" class="btn btn-warning">Зарегистрироваться</button>
+                    <a sec:authorize="isAnonymous()" th:href="@{/registration}" type="button" class="btn btn-warning">Зарегистрироваться</a>
+                    <script>
+                        $(document).ready(function () {
+                            if(window.location.href !== 'http://localhost:8888/') {
+                                $('#user_open_modal_btn').hide();
+                            }
+                        })
+                    </script>
+                    <!--ссылка и информация пользователя при аутентификации-->
+                    <div class="dropdown" sec:authorize="isAuthenticated()" style="position: relative; ">
+                        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle show text-white" id="dropdownUser_btn">
+                            <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                            <strong th:text="${user.getUsername()}"></strong>
+                        </a>
+                        <ul class="dropdown-menu text-small shadow" id="dropdown_user" style="position: absolute; top:45px; left:0; margin: 0px; ">
+                            <li><a class="dropdown-item" th:href="@{/user/{id}(id=${user.getId()})}">Мой профиль</a></li>
+                            <li><a class="dropdown-item" th:href="@{/cart}">Корзина</a></li>
+                            <li><a class="dropdown-item" th:href="@{/favorites}">Избранное</a></li>
+                            <li><a class="dropdown-item" th:href="@{/discounts}">Скидки</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" th:href="@{/logout}">Sign out</a></li>
+                        </ul>
+                        <script>
+                            /**
+                             * переключение окна dropdown
+                             */
+                            $(document).ready(function () {
+                                $('#dropdownUser_btn').on('click', function(e) {
+                                    e.preventDefault();
+                                    $('#dropdown_user').toggleClass('show');
+                                })
+                            })
+
+                        </script>
+                    </div>
                 </div>
             </div>
         </div>
