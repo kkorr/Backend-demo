@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @project platform
  */
 
-@RequestMapping("/moderator/")
+@RequestMapping("/moderator")
 @Controller
 public class ModeratorController {
 
