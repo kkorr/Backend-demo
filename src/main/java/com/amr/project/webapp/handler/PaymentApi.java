@@ -7,7 +7,7 @@ import com.qiwi.billpayments.sdk.model.MoneyAmount;
 import com.qiwi.billpayments.sdk.model.in.CreateBillInfo;
 import com.qiwi.billpayments.sdk.model.in.Customer;
 import com.qiwi.billpayments.sdk.model.out.BillResponse;
-import org.springframework.http.*;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.net.URISyntaxException;
@@ -17,39 +17,37 @@ import java.util.UUID;
 
 @Component
 public class PaymentApi {
-    private final String secretKey = "eyJ2ZXJzaW9uIjoiUDJQIiwiZGF0YSI6eyJwYXlpbl9tZXJjaGFudF9zaXRlX3VpZCI6ImJtd256cC0wMCIsInVzZXJfaWQiOiI3OTk5NDk1NjYzNiIsInNlY3JldCI6IjYxMWU3ODM0ZDk2YTNmMDIxZjU0MDVhOGQzNjAzY2YyYjczOTMxODY5NjA5NGRmMTVjNzZiY2UyNWViZGI3NDYifX0=";
-    private final BillPaymentClient client = BillPaymentClientFactory.createDefault(secretKey);
-
+    private final BillPaymentClient client = BillPaymentClientFactory.createDefault("payment.secretKey");
 
     public String payUrl(Order order) {
         CreateBillInfo billInfo = new CreateBillInfo(
                 order.getId().toString(),
                 new MoneyAmount(order.getTotal(),
-                        Currency.getInstance("RUB")
+                        Currency.getInstance("currency")
                 ),
                 "oplata zakaza " + order.getDate(),
-                ZonedDateTime.now().plusDays(45),
+                ZonedDateTime.now().plusDays(3),
                 new Customer(
                         order.getUser().getEmail(),
                         UUID.randomUUID().toString(),
                         order.getBuyerPhone()
                 ),
-                "http://localhost:8888/home"
-        );
+                "http://localhost:8888/home");
         BillResponse billResponse = null;
         try {
             billResponse = client.createBill(billInfo);
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
+        assert billResponse != null;
         return billResponse.getPayUrl();
 
     }
 
-    //Лучше сделать цикл при вызове метода, а из метода
-    //возвращать статус
-    public Boolean getStatus(String orderId) {
+    @Async
+    public void getStatus(String orderId) {
         String status = client.getBillInfo(orderId).getStatus().getValue().toString();
+        // Когда будет готов OrderService здесь необходимо записать встатус "WAITING"(Ожидает оплаты)
         while (!status.contains("PAID")) {
             try {
                 Thread.sleep(10000);
@@ -58,7 +56,6 @@ public class PaymentApi {
             }
             status = client.getBillInfo(orderId).getStatus().getValue().toString();
         }
-        return true;
-
+        // А здесь записать в статус "PAID"(Оплачено)
     }
 }
