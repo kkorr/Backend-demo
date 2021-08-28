@@ -32,7 +32,7 @@ public class PaymentApi {
                         UUID.randomUUID().toString(),
                         order.getBuyerPhone()
                 ),
-                "http://localhost:8888/home");
+                "http://localhost:8888");
         BillResponse billResponse = null;
         try {
             billResponse = client.createBill(billInfo);

@@ -14,7 +14,7 @@ async function getItems() {
     const cartItems = await response.json();
 
     if(cartItems.length > 0) {
-        checkPaymentButton()
+
 
         for(let i = 0; i < cartItems.length; i++) {
             let desc = await fetch("/api/discounts/" + cartItems[i].shop.id);
@@ -54,15 +54,6 @@ async function addItemsToOrder() {
         }
     }
 }
-
-function checkPaymentButton() {
-    let rowsDiv = document.getElementsByName("cartItemRow");
-    let paymentDiv = document.getElementById("paymentButton");
-    console.log(rowsDiv.length)
-    paymentDiv.innerHTML =
-        `<input type="submit" class="btn btn-primary" id="inactivePaymentButton" value="Перейти к оформлению заказа" />`;
-}
-
 
 let i = 0;
 function insertCartItemRow(cartItem) {

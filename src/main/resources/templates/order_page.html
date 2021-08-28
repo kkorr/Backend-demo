@@ -150,7 +150,9 @@
             location.replace("/");
         })
         //===============
-
+        $('#complete_order').on('click', function () {
+            location.replace("http://localhost:8888/payment/" + orderId);
+        })
     })
     //Удаляем итем из ордера
     async function deleteItemInOrder(itemId) {
