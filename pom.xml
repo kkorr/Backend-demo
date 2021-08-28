@@ -8,6 +8,7 @@
         <version>2.5.2</version>
         <relativePath></relativePath> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>com.amr</groupId>
     <artifactId>project</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -170,6 +171,11 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-bean-validators</artifactId>
             <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.qiwi</groupId>
+            <artifactId>bill-payments-java-sdk</artifactId>
+            <version>1.5.0</version>
         </dependency>
 
         <!--для валидации при регистрации        -->
