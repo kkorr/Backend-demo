@@ -108,7 +108,7 @@ async function acceptShop(id) {
                                 <div class="row card-body">
                                     <div class="col-sm-6">
                           <h5 class="card-title"><b>Все магазины отмодерированы!</h5>
-                           <p class="card-text" id="cardText"><b>Больше магазиновов нет, но есть замечательный кот!<br>
+                           <p class="card-text" id="cardText"><b>Больше магазинов нет, но есть замечательный кот!<br>
                         
                             </p>
                   
