@@ -18,4 +18,6 @@ public interface ItemService extends ReadWriteService<Item, Long> {
     List<Item> getUnmoderatedItems();
 
     List<Item> findModeratedShops();
+
+    void makeItemPretendentToBeDeletedById(Long id);
 }

@@ -29,4 +29,11 @@ public class UserPageShopServiceImpl extends ReadWriteServiceImpl<Shop,Long> imp
     public List<ShopDto> getShopsByUserId(Long userId) {
         return shopMapper.toShopDto(userPageShopDao.getShopsByUserId(userId));
     }
+
+    @Override
+    public void maikShopPretendentToBeDeletedById(Long id) {
+        Shop shop = super.getByKey(id);
+        shop.setPretendentToBeDeleted(true);
+        super.update(shop);
+    }
 }

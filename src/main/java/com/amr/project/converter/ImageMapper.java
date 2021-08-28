@@ -2,6 +2,7 @@ package com.amr.project.converter;
 
 import com.amr.project.model.entity.Image;
 import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,6 +14,9 @@ import java.util.Collection;
 
 @Mapper(componentModel = "spring")
 public interface ImageMapper {
+
+    ImageMapper INSTANCE = Mappers.getMapper(ImageMapper.class);
+
 
     default String[] map(Collection<Image> images) {
         if (images == null) {

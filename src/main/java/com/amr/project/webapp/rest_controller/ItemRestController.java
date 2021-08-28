@@ -48,7 +48,7 @@ public class ItemRestController {
                 } else {
                     images.add(Image.builder()
                             .url(itemDto.getImages()[i])
-                            .picture(itemDto.getImagesArray()[i].getBytes())
+                            .picture(new byte[0])
                             .isMain(i == 0)
                             .build());
                 }

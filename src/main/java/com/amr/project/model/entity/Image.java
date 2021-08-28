@@ -13,6 +13,8 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @ApiIgnore
 @Builder
 public class Image {

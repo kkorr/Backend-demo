@@ -41,15 +41,17 @@ public class ShopRestController {
 
     @PutMapping("/save")
     public ResponseEntity<Shop> saveItem(@RequestBody ShopDto shopDto) {
+
+        Shop shop = shopMapper.shopDtoToShop(shopDto);
+
         Image image = Image.builder()
-                .url(shopDto.getLogo())
-                .picture(shopDto.getLogoarray().getBytes())
+                .url(shop.getLogo().getUrl())
+                .picture(shop.getLogo().getPicture())
                 .isMain(true)
                 .build();
 
 
-        Shop shop = shopMapper.shopDtoToShop(shopDto);
-        Shop oldShop = shopService.findShopById(shopDto.getId());
+        Shop oldShop = shopService.getByKey(shop.getId());
         shop.setLocation(countryService.getByName(shopDto.getLocation()));
         shop.setUser(userService.findByUsername(shopDto.getUsername()).get());
         shop.setItems(oldShop.getItems());

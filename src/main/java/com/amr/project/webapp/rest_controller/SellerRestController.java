@@ -48,7 +48,7 @@ public class SellerRestController {
     @GetMapping("/{shopIdOrName}/settings")
     public ResponseEntity<ShopDto> getShop(@PathVariable("shopIdOrName") String shopIdOrName) {
         if (isNumeric(shopIdOrName)) {
-            return new ResponseEntity<>(shopMapper.shopToShopDto(shopService.findShopById(Long.parseLong(shopIdOrName))), HttpStatus.OK);
+            return new ResponseEntity<>(shopMapper.shopToShopDto(shopService.getByKey(Long.parseLong(shopIdOrName))), HttpStatus.OK);
         }
         return new ResponseEntity<>(shopMapper.shopToShopDto(shopService.findShopByName(shopIdOrName)), HttpStatus.OK);
     }
@@ -78,7 +78,7 @@ public class SellerRestController {
 
     @GetMapping(value = "/{shopIdOrName}/product/{productIdOrName}/edit")
     public ResponseEntity<ItemDto> getProduct(@PathVariable String productIdOrName, @PathVariable String shopIdOrName) {
-        Shop shop = isNumeric(shopIdOrName) ? shopService.findShopById(Long.parseLong(shopIdOrName)) : shopService.findShopByName(shopIdOrName);
+        Shop shop = isNumeric(shopIdOrName) ? shopService.getByKey(Long.parseLong(shopIdOrName)) : shopService.findShopByName(shopIdOrName);
         Item item = isNumeric(productIdOrName) ? itemService.findItemById(Long.parseLong(productIdOrName)) : itemService.findItemByName(productIdOrName);
         boolean isShopItem = shop.getItems().contains(item);
         return isShopItem ? new ResponseEntity<>(itemMapper.itemToItemDto(item), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -101,7 +101,7 @@ public class SellerRestController {
 
     @DeleteMapping(value = "/{shopIdOrName}/product/{productIdOrName}/edit")
     public ResponseEntity<Void> deleteProduct(@PathVariable String shopIdOrName, @PathVariable String productIdOrName) {
-        Shop shop = isNumeric(shopIdOrName) ? shopService.findShopById(Long.parseLong(shopIdOrName)) : shopService.findShopByName(shopIdOrName);
+        Shop shop = isNumeric(shopIdOrName) ? shopService.getByKey(Long.parseLong(shopIdOrName)) : shopService.findShopByName(shopIdOrName);
         Item item = isNumeric(productIdOrName) ? itemService.findItemById(Long.parseLong(productIdOrName)) : itemService.findItemByName(productIdOrName);
         boolean isShopItem = shop.getItems().contains(item);
         if (isShopItem) {

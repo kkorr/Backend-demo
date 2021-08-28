@@ -4,6 +4,7 @@ import com.amr.project.dao.abstracts.ItemDao;
 import com.amr.project.model.entity.Item;
 import com.amr.project.service.abstracts.ItemService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  */
 
 @Service
+@Transactional
 public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long>
         implements ItemService {
     private final ItemDao itemDao;
@@ -45,6 +47,13 @@ public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long>
     @Override
     public List<Item> findModeratedShops() {
         return itemDao.getModeratedItems();
+    }
+
+    @Override
+    public void makeItemPretendentToBeDeletedById(Long id) {
+        Item item = super.getByKey(id);
+        item.setPretendentToBeDeleted(true);
+        super.update(item);
     }
 }
 

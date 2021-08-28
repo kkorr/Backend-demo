@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface UserPageShopService extends ReadWriteService<Shop, Long> {
     List<ShopDto> getShopsByUserId(Long userId);
+    void maikShopPretendentToBeDeletedById(Long id);
 }

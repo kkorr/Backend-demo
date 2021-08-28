@@ -14,11 +14,6 @@ public class ShopDaoImpl extends ReadWriteDAOImpl<Shop, Long> implements ShopDao
     }
 
     @Override
-    public Shop findShopById(Long id) {
-        return null;
-    }
-
-    @Override
     public List<Shop> findUnmoderatedShops() {
         return entityManager.createQuery("SELECT s from Shop s where s.isModerateAccept = false and s.isModerated = false", Shop.class)
                 .getResultList();

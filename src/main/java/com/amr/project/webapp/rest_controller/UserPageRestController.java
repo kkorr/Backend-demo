@@ -1,10 +1,13 @@
 package com.amr.project.webapp.rest_controller;
 
+import com.amr.project.converter.AddressMapper;
 import com.amr.project.converter.UserMapper;
+import com.amr.project.model.dto.AddressDto;
 import com.amr.project.model.dto.OrderDto;
 import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.dto.UserDto;
 import com.amr.project.model.entity.User;
+import com.amr.project.service.abstracts.ItemService;
 import com.amr.project.service.abstracts.UserPageOrderService;
 import com.amr.project.service.abstracts.UserPageShopService;
 import com.amr.project.service.abstracts.UserService;
@@ -28,17 +31,24 @@ public class UserPageRestController {
     private UserPageOrderService userPageOrderService;
     private UserService userService;
     private UserMapper userMapper;
+    private AddressMapper addressMapper;
+    private ItemService itemService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     public UserPageRestController(UserPageOrderService userPageOrderService,
                                   UserPageShopService userPageShopService,
                                   UserService userService,
-                                  UserMapper userMapper) {
+                                  UserMapper userMapper,
+                                  AddressMapper addressMapper,
+                                  ItemService itemService) {
+        this.itemService = itemService;
+        this.addressMapper = addressMapper;
         this.userService = userService;
         this.userMapper = userMapper;
         this.userPageOrderService = userPageOrderService;
         this.userPageShopService = userPageShopService;
+
     }
     @GetMapping("/user")
     public ResponseEntity<UserDto> getUser() {
@@ -50,23 +60,53 @@ public class UserPageRestController {
         return new ResponseEntity<>(new UserDto(), HttpStatus.NOT_FOUND);
     }
     @PutMapping("/user")
-    public ResponseEntity<?> updateUser(@RequestBody UserDto user) {
-        if(user != null) {
-            userService.update(userMapper.dtoToUser(user));
+    public ResponseEntity<?> updateUser(@RequestBody UserDto userDto) {
+
+        if(userDto != null) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Optional<User> userOp = userService.findByUsername(authentication.getName());
+            if(authentication.isAuthenticated() && userOp.isPresent()) {
+               User user = userOp.get();
+               userService.updateUserOnUserPage(user, userDto);
+            }
+
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.badRequest().build();
     }
-    @GetMapping("/orders/{userId}")
-    public ResponseEntity<List<OrderDto>> getOrdersByUserId(@PathVariable("userId") Long userId) {
-        logger.info("Пользователь с id = " + userId.toString() + " получил список своих заказов");
-        return new ResponseEntity<>(userPageOrderService.getOrdersByUserId(userId), HttpStatus.OK);
+    @GetMapping("/orders")
+    public ResponseEntity<List<OrderDto>> getOrdersByUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> userOp = userService.findByUsername(authentication.getName());
+        if(authentication.isAuthenticated() && userOp.isPresent()) {
+            User user = userOp.get();
+            logger.info("Пользователь с id = " + user.getId().toString() + " получил список своих заказов");
+            return new ResponseEntity<>(userPageOrderService.getOrdersByUserId(user.getId()), HttpStatus.OK);
+        }
+        return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/shops/{userId}")
-    public ResponseEntity<List<ShopDto>> getShopsByUserId(@PathVariable("userId") Long userId) {
-        logger.info("Пользователь с id = " + userId.toString() + " получил список своих магазинов");
-        return new ResponseEntity<>(userPageShopService.getShopsByUserId(userId), HttpStatus.OK);
+    @GetMapping("/shops")
+    public ResponseEntity<List<ShopDto>> getShopsByUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> userOp = userService.findByUsername(authentication.getName());
+        if(authentication.isAuthenticated() && userOp.isPresent()) {
+            User user = userOp.get();
+            logger.info("Пользователь с id = " + user.getId().toString() + " получил список своих магазинов");
+            return new ResponseEntity<>(userPageShopService.getShopsByUserId(user.getId()), HttpStatus.OK);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/deleteShop/{id}")
+    public ResponseEntity<?> makeShopPretendentToBeDeletedById(@PathVariable Long id) {
+        userPageShopService.maikShopPretendentToBeDeletedById(id);
+        return ResponseEntity.noContent().build();
+    }
+    @PutMapping("/deleteItem/{id}")
+    public ResponseEntity<?> makeItemPretendentToBeDeletedById(@PathVariable Long id) {
+        itemService.makeItemPretendentToBeDeletedById(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

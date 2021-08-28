@@ -25,7 +25,7 @@ public class Favorite {
             inverseJoinColumns = {@JoinColumn(name = "shop_id")})
     private Collection<Shop> shops;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinTable(name = "favorite_item",
             joinColumns = {@JoinColumn(name = "favorite_id")},
             inverseJoinColumns = {@JoinColumn(name = "item_id")})
