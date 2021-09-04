@@ -124,7 +124,7 @@ public class Mail {
                 status = "Оформление";
                 break;
             case COMPLETE:
-                status = "Укомлектован";
+                status = "Укомплектован";
                 break;
             case SENT:
                 status = "Отправлен";
@@ -141,7 +141,7 @@ public class Mail {
 
     private String changeMainFiledUserMessage(User originalUser, User changeUser) {
         StringBuilder message = new StringBuilder(String.format(
-                "Пользователь %s! \n" + "Ваши следующие данные были изменнены: \n",
+                "Пользователь %s! \n" + "Ваши следующие данные были изменены: \n",
                 originalUser.getUsername()));
         boolean wereChanges = false;
         if (!Objects.equals(originalUser.getUsername(), changeUser.getUsername()) && !changeUser.getUsername().equals("")) {

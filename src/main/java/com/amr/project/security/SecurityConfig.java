@@ -27,7 +27,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomOAuth2UserService oAuth2UserService;
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
-    // userDetailsServiceImpl - его еще нет, нужен ли он будет?
     @Autowired
     public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, SuccessUserHandler successUserHandler, CustomOAuth2UserService oAuth2UserService, OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) {
         this.userDetailsService = userDetailsService;
