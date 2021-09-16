@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(uses = AddressMapper.class, componentModel = "spring")
 public interface OrderMapper {
 
@@ -22,6 +24,8 @@ public interface OrderMapper {
     @Mapping(source = "street", target = "address.street")
     @Mapping(source = "house", target = "address.house")
     Order dtoToOrder(OrderDto orderDto);
+
     List<OrderDto> listOrderToDto(List<Order> orders);
+
     List<Order> listDtoToOrder(List<OrderDto> orderDtos);
 }
