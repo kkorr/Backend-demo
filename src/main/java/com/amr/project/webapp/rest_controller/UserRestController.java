@@ -68,12 +68,12 @@ public class UserRestController {
         try {
             Country country = countryService.getByName(userDto.getAddress().getCountry());
             user.getAddress().setCountry(country);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         try {
             City city = cityService.getByName(userDto.getAddress().getCity());
             user.getAddress().setCity(city);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
         emailService.addUser(user);
