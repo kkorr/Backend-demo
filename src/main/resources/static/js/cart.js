@@ -1,8 +1,17 @@
+
+$(document).ready(function() {
+
+    getItems();
+
+    $('#order_btn').on('click', function (e) {
+        e.preventDefault();
+        addItemsToOrder().then((id) => location.replace("/order/" + id));
+    })
+})
 let checkFetch = 0;
 async function getItems() {
-    const response = await fetch("/api/cart");
+    const response = await fetch("/api/cart")
     const data = await response.json();
-
     if(data.length > 0) {
         checkPaymentButton()
     }
@@ -29,6 +38,7 @@ function insertCartItemRow(cartItem) {
         item: cartItem.item,
         shop: cartItem.shop,
         user: cartItem.user,
+        desc: cartItem.desc
     };
     i++;
     document.querySelector('#cartItems').insertAdjacentHTML('beforeend', `
@@ -55,6 +65,8 @@ function insertCartItemRow(cartItem) {
           <div name = "itemPrice">
             <span>X</span>
             <span id="itemPrice">${ci.item.price}</span>
+            <p>Стоимость со скидкой: </p>
+            <p>${ci.item.price - ci.desc.fixedDiscount}</p>
           </div>
           <div>
             <span>= </span>

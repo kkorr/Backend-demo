@@ -1,14 +1,11 @@
 package com.amr.project.service.impl;
 
 import com.amr.project.converter.DiscountMapper;
-import com.amr.project.dao.abstracts.CartItemDao;
 import com.amr.project.dao.abstracts.DiscountDao;
 import com.amr.project.model.dto.DiscountDto;
-import com.amr.project.model.entity.CartItem;
 import com.amr.project.model.entity.Discount;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.model.entity.User;
-import com.amr.project.service.abstracts.CartItemService;
 import com.amr.project.service.abstracts.DiscountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,10 +60,11 @@ public class DiscountServiceImpl extends ReadWriteServiceImpl<Discount, Long> im
     @Override
     public DiscountDto findByUserAndShop(Long userId, Long shopId) {
         Optional<Discount> discount = discountDao.findByUserAndShop(userId, shopId);
-        if (!discount.isPresent()){
-            throw new IllegalArgumentException(String.format("Скидки для пользователя с Id %d и Id магазина %d не существует",
-                    userId, shopId));
-        };
+        if (!discount.isPresent()) {
+//            throw new IllegalArgumentException(String.format("Скидки для пользователя с Id %d и Id магазина %d не существует",
+//                    userId, shopId));
+            return new DiscountDto();
+        }
         return discountMapper.toDto(discount.get());
     }
 }

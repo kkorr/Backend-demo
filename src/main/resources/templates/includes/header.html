@@ -27,11 +27,16 @@
 
 
                     <button sec:authorize="isAnonymous()" type="button" id="user_open_modal_btn" class="btn btn-outline-light me-2">Войти</button>
-                    <a sec:authorize="isAnonymous()" th:href="@{/registration}" type="button" class="btn btn-warning">Зарегистрироваться</a>
+                    <button sec:authorize="isAnonymous()" type="button" id="user_open_modal_reg" class="btn btn-warning">Зарегистрироваться</button>
                     <script>
                         $(document).ready(function () {
                             if(window.location.href !== 'http://localhost:8888/') {
                                 $('#user_open_modal_btn').hide();
+                            }
+                        })
+                        $(document).ready(function () {
+                            if(window.location.href !== 'http://localhost:8888/') {
+                                $('#user_open_modal_reg').hide();
                             }
                         })
                     </script>

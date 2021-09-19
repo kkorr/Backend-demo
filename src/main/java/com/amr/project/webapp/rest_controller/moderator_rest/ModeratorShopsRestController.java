@@ -5,6 +5,7 @@ import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.CountryService;
+import com.amr.project.service.abstracts.EmailService;
 import com.amr.project.service.abstracts.ShopService;
 import com.amr.project.service.abstracts.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,11 +34,14 @@ public class ModeratorShopsRestController {
 
     private final UserService userService;
 
-    public ModeratorShopsRestController(ShopService shopService, ShopMapper shopMapper, CountryService countryService, UserService userService) {
+    private final EmailService emailService;
+
+    public ModeratorShopsRestController(ShopService shopService, ShopMapper shopMapper, CountryService countryService, UserService userService, EmailService emailService) {
         this.shopService = shopService;
         this.shopMapper = shopMapper;
         this.countryService = countryService;
         this.userService = userService;
+        this.emailService = emailService;
     }
 
 
@@ -58,6 +62,11 @@ public class ModeratorShopsRestController {
 
     @GetMapping("/getOneUnmoderatedShop/{id}")
     public ResponseEntity<ShopDto> getOneUnmoderatedItem(@PathVariable("id") Long id) {
+
+        Shop shop = shopService.getByKey(id);
+        if (shop.getActivity() != 0) {
+            emailService.notifyShopApproval(shop);
+        }
         return shopService.getByKey(id).isModerated() ?
                 new ResponseEntity<>(HttpStatus.NOT_FOUND) :
                 new ResponseEntity<>(shopMapper.shopToShopDto(shopService.getByKey(id)), HttpStatus.OK);

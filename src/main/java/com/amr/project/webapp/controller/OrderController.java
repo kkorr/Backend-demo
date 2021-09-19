@@ -4,13 +4,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
 @Controller
-@RequestMapping("/login")
-public class LoginController {
+@RequestMapping("/order/{id}")
+public class OrderController {
 
-    @GetMapping()
-    public String getLoginPage() {
-        return "redirect:/";
+    @GetMapping
+    public String orderPage() {
+        return "order_page";
     }
 }

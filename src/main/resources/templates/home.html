@@ -4,11 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Главная</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
-
+<div th:if="${param.error}">
+    Invalid username and password.
+</div>
+<div th:if="${param.logout}">
+    You have been logged out.
+</div>
 <!-- модалка для входа юзеру -->
 <div class="modal fade" id="user_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -21,27 +28,169 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="username_input" class="form-label">Введите email:</label>
-                        <input id="username_input" type="text" name="j_username" class="form-control" placeholder="Username">
+                        <input id="username_input" type="text" name="j_username" class="form-control"
+                               placeholder="Username">
                         <div id="username_checker" class="form-text" style="color:#a40000;"></div>
                     </div>
                     <div class="mb-3">
                         <label for="password_input" class="form-label">Введите пароль:</label>
-                        <input id="password_input" type="password" name="j_password" class="form-control" placeholder="Password">
+                        <input id="password_input" type="password" name="j_password" class="form-control"
+                               placeholder="Password">
                         <div id="password_checker" class="form-text" style="color:#a40000;"></div>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="remember-me"  id="flexCheckChecked" checked>
+                        <input class="form-check-input" type="checkbox" name="remember-me" id="flexCheckChecked"
+                               checked>
                         <label class="form-check-label" for="flexCheckChecked">
                             Запомнить пароль
                         </label>
                     </div>
-
+                    <br>
+                    <p align="center">или войдите с помощью:</p>
+                    <div class="form-group" align="center">
+                        <div class="col-md-3">
+                            <a class="btn btn-outline-dark" href="/oauth2/authorization/google" role="button" style="text-transform:none">
+                                <img width="20px" style="margin-bottom:3px; margin-right:10px; margin-left:30px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                                Login with google
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group" align="center">
+                        <div class="col-md-3">
+                            <a class="btn btn-outline-dark" href="/oauth2/authorization/github" role="button" style="text-transform:none" w>
+                                <img width="20px" style="margin-bottom:3px; margin-right:10px; margin-left:30px" src="https://wodensoft.co.uk/wp-content/uploads/2020/05/Github.png" />
+                                Login with github
+                            </a>
+                        </div>
+                    </div>
+                    <hr>
+                    <p align="center">если вы у нас впервые:</p>
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
                     <button type="submit" id="user_signin_btn" class="btn btn-primary">Войти</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:750px;">
+            <div class="modal-body">
+                <div class="box">
+                    <div class="form loginBox">
+                        <b th:text="${usernameExists}">Пользователь с таким username уже существует.</b>
+                        <b th:text="${emailExists}">Пользователь с такой электронной почтой уже существует.</b>
+                        <form onsubmit="saveUser()">
+                            <div class="row justify-content-center">
+                                <div class="form-group col-6">
+                                    <label class="form-label" for="usernameSave">Имя пользователя</label>
+                                    <input class="form-control" type="text" value="" id="usernameSave" required
+                                           minlength="4"
+                                           placeholder="Введите имя пользователя">
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="form-group col-6">
+                                    <label class="form-label" for="emailSave">Адрес электронной почты</label>
+                                    <input class="form-control" type="email" value="" id="emailSave"
+                                           pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}"
+                                           title="в формате user@example.com" required
+                                           placeholder="Введите адрес электронной почты">
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="form-group col-6">
+                                    <label class="form-label" for="passwordSave">Пароль</label>
+                                    <input class="form-control" type="password" value="" id="passwordSave" required
+                                           minlength="6"
+                                           placeholder="Введите пароль">
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="form-group col-6">
+                                    <label class="form-label" for="phoneSave">Номер телефона</label>
+                                    <input class="form-control" type="text" value="" id="phoneSave" required
+                                           minlength="11" pattern="[0-9]+"
+                                           title="указать цифрами" placeholder="Введите номер телефона">
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="form-group col-6">
+                                    <label class="form-label" for="first_nameSave">Имя</label>
+                                    <input class="form-control" type="text" value="" id="first_nameSave"
+                                           placeholder="Введите имя">
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="form-group col-6">
+                                    <label class="form-label" for="last_nameSave">Фамилия</label>
+                                    <input class="form-control" type="text" value="" id="last_nameSave"
+                                           placeholder="Введите фамилию">
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="form-group col-6">
+                                    <label class="form-label" for="ageSave">Возраст</label>
+                                    <input class="form-control" type="number" value="" id="ageSave"
+                                           placeholder="Введите возраст">
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="form-group col-2">
+                                    <label class="form-label" for="countrySave">Страна</label>
+                                    <input class="form-control" type="text" value="" id="countrySave"
+                                           placeholder="Введите страну">
+                                </div>
+                                <div class="form-group col-2">
+                                    <label class="form-label" for="citySave">Город</label>
+                                    <input class="form-control" type="text" value="" id="citySave"
+                                           placeholder="Введите город">
+                                </div>
+                                <div class="form-group col-2">
+                                    <label class="form-label" for="cityIndexSave">Индекс города</label>
+                                    <input class="form-control" type="text" value="" id="cityIndexSave"
+                                           placeholder="Введите индекс города">
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="form-group col-2">
+                                    <label class="form-label" for="streetSave">Улица</label>
+                                    <input class="form-control" type="text" value="" id="streetSave"
+                                           placeholder="Введите улицу">
+                                </div>
+                                <div class="form-group col-2">
+                                    <label class="form-label" for="houseSave">Номер дома</label>
+                                    <input class="form-control" type="text" value="" id="houseSave"
+                                           placeholder="Введите номер дома">
+                                </div>
+                                <div class="form-group col-2">
+                                    <label class="form-label" for="birthdaySave">Дата рождения</label>
+                                    <input class="form-control" type="date" value="" id="birthdaySave">
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="form-group col-6">
+                                    <label class="form-label" for="genderSave">Выберите пол:</label>
+                                    <br>
+                                    <select class="form-select" size="3" id="genderSave" name="gender" required="">
+                                        <option id="ManSave" value="MALE">Мужчина</option>
+                                        <option id="WomanSave" value="FEMALE">Женщина</option>
+                                        <option id="NoGenderSave" value="UNKNOWN">Не определен</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="form-group col-6">
+                                    <input type="submit" class="btn btn-primary" value="Зарегистрироваться"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -73,7 +222,8 @@
 
                         <th:block th:each="category : ${categories}">
                             <li class="nav-item">
-                                <a th:text="${category.getName()}" th:id="${category.getId()}" href="#" class="nav-link link-dark" aria-current="page">
+                                <a th:text="${category.getName()}" th:id="${category.getId()}" href="#"
+                                   class="nav-link link-dark" aria-current="page">
                                     Одежда
                                     </font></font></a>
                             </li>
@@ -89,7 +239,8 @@
         <div class="row">
             <div class="col-12">
                 <form style="width: 650px;" class="d-flex">
-                    <input id="search_input" type="search" class="form-control" name="search" placeholder="Поиск по наименованию:">
+                    <input id="search_input" type="search" class="form-control" name="search"
+                           placeholder="Поиск по наименованию:">
                     <button id="search_btn" type="button" class="btn btn-success" style="width: 150px;">Поиск</button>
                 </form>
             </div>
@@ -97,7 +248,7 @@
             <!--Контейнер для динамического контента (js)-->
             <div class="collapse" id="dinamic_content">
                 <div class="col-12" style="margin-top: 30px;">
-                    <h4 id="dinamic_head"> </h4>
+                    <h4 id="dinamic_head"></h4>
                 </div>
                 <!--сюда генерируются товары-->
                 <div class="col-12 d-flex flex-wrap mt-3" id="dinamic_content_inner">
@@ -116,16 +267,20 @@
                 <div class="col-12 d-flex flex-wrap mt-3">
                     <th:block th:each="item : ${items}">
                         <div class="card" style="width: 18rem; margin-right: 15px; margin-top: 20px;">
-                            <img th:src="${item.getImages()[0]}" class="card-img-top" alt="popular_item" style="height: 180px;">
+                            <img th:src="${item.getImages()[0]}" class="card-img-top" alt="popular_item"
+                                 style="height: 180px;">
                             <div class="card-body">
                                 <h5 th:text="${item.getName()}" class="card-title">Заголовок товара</h5>
                                 <p th:text="${item.getDescription()}" class="card-text">Описание товара:</p>
                                 <div class="d-flex">
-                                    <a href="#" class="btn btn-danger" th:attr="onclick=|addCartItem('${item.id}','${item.shopId}')|" style="width: 150px;">В корзину</a>
-                                    <a th:href="@{/product/{id}(id = ${item.getId()})}" class="btn btn-primary" style="margin-left: 10px;">Смотреть</a>
+                                    <a href="#" class="btn btn-danger"
+                                       th:attr="onclick=|addCartItem('${item.id}','${item.shopId}')|"
+                                       style="width: 150px;">В корзину</a>
+                                    <a th:href="@{/product/{id}(id = ${item.getId()})}" class="btn btn-primary"
+                                       style="margin-left: 10px;">Смотреть</a>
                                 </div>
                                 <div class="mt-2 d-flex" th:id="'favoriteButton'+${item.id}">
-<!--                                    <button class="btn btn-info btn-block" th:attr="onclick=|addItemToFavorites('${item.id}')|">Добавить в избранное</button>-->
+                                    <!--                                    <button class="btn btn-info btn-block" th:attr="onclick=|addItemToFavorites('${item.id}')|">Добавить в избранное</button>-->
                                 </div>
                                 <div th:name="favItems" th:id="'favItem'+${item.id}"></div>
                             </div>
@@ -143,11 +298,13 @@
                 <div class="col-12 d-flex flex-wrap mt-3">
                     <th:block th:each="shop : ${shops}">
                         <div class="card" style="width: 18rem; margin-right: 15px; margin-top: 20px; overflow: hidden;">
-                            <img th:src="${shop.getLogo()}" class="card-img-top" alt="popular_shop" style="height: 180px;">
+                            <img th:src="${shop.getLogo()}" class="card-img-top" alt="popular_shop"
+                                 style="height: 180px;">
                             <div class="card-body">
                                 <h5 th:text="${shop.getName()}" class="card-title">Заголовок магазины</h5>
                                 <p th:text="${shop.getDescription()}" class="card-text">Описание магазина:</p>
-                                <a th:href="@{/showcase/{id}(id = ${shop.getId})}" class="btn btn-danger">Перейти в магазин</a>
+                                <a th:href="@{/showcase/{id}(id = ${shop.getId})}" class="btn btn-danger">Перейти в
+                                    магазин</a>
                             </div>
                         </div>
                     </th:block>
@@ -159,9 +316,12 @@
 </section>
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <!-- JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 <script>
     /**
      * связано с статическим контентом
@@ -189,6 +349,8 @@
     const password_input = $('#password_input');
     const username_checker = $('#username_checker');
     const password_checker = $('#password_checker');
+    const loginModal = $('#loginModal');
+    const user_open_modal_reg = $('#user_open_modal_reg');
 
     $(document).ready(function () {
 
@@ -196,15 +358,15 @@
          * обработчик
          * проверка корректности отправленой формы
          */
-        $(user_signin_form).on('submit', function(e) {
+        $(user_signin_form).on('submit', function (e) {
             username_checker.html('');
             password_checker.html('');
             let username = username_input.val();
             let password = password_input.val();
-            if(username === "" || username === " ") {
+            if (username === "" || username === " ") {
                 username_checker.html('Поле username не должно быть пустым');
                 e.preventDefault();
-            } else if(password === "" || password === " ") {
+            } else if (password === "" || password === " ") {
                 password_checker.html('Поле password не должно быть пустым')
                 e.preventDefault();
             }
@@ -215,9 +377,13 @@
          * обработчик
          * открытие модального окна входа в систему
          */
-        $(user_open_modal_btn).on('click', function(e) {
+        $(user_open_modal_btn).on('click', function (e) {
             e.preventDefault();
             user_modal.modal('show');
+        })
+        $(user_open_modal_reg).on('click', function (e) {
+            e.preventDefault();
+            loginModal.modal('show');
         })
 
         /**
@@ -235,7 +401,7 @@
              * обрабочтик
              * проверка на пустое значение поиска
              */
-            if(valueSearch === '') {
+            if (valueSearch === '') {
                 dinamic_head.html('');
                 dinamic_head.html('Все товары')
             } else {
@@ -258,7 +424,7 @@
          * обработчик
          * обработчик на все кнопки в навбар кроме "популярное"
          */
-        $('.link-dark').on('click', function(e) {
+        $('.link-dark').on('click', function (e) {
             e.preventDefault();
             /**
              * переключение стилей кнопок навбара и контейнера с контентом
@@ -288,13 +454,13 @@
     async function searchByCategory(e) {
         const categoryId = $(e).attr("id");
         const response = await fetch("/category/" + categoryId);
-        if(response.ok) {
+        if (response.ok) {
             let items = await response.json();
             /**
              * Добавляем итемы по категориям на страницу
              * */
             let itemsByCategoryHTML = "";
-            for(let i = 0; i < items.length; i++) {
+            for (let i = 0; i < items.length; i++) {
                 itemsByCategoryHTML += '<div class="card" style="width: 18rem; margin-right: 15px; margin-top: 20px;">\n' +
                     '                       <img src="' + items[i].images[0] + '" class="card-img-top" alt="popular_item" style="height: 180px;">' +
                     '                           <div class="card-body">\n' +
@@ -316,7 +482,7 @@
      * функция переключения классов контейнера с контентом
      */
     function toggleClassesContent(e) {
-        if($(e).is(popular_show_btn)) {
+        if ($(e).is(popular_show_btn)) {
             popular_show_content.addClass('show');
             dinamic_show_content.removeClass('show');
             dinamic_inner_content.html("");
@@ -355,19 +521,22 @@
             })
         })
     }
-    $(async function (){
+
+    $(async function () {
         await favoriteItem()
     })
+
     async function favoriteItem() {
         let items = document.getElementsByName("favItems")
         for (let i = 0; i < items.length; i++) {
             let itemDivID = items[i].id;
-            let itemId = itemDivID.substr(itemDivID.indexOf("m")+1, itemDivID.length - itemDivID.indexOf("m")+1)
+            let itemId = itemDivID.substr(itemDivID.indexOf("m") + 1, itemDivID.length - itemDivID.indexOf("m") + 1)
             await favoriteButtonItem(itemId);
         }
     }
 
 </script>
 <script type="text/javascript" th:src="@{/js/favoriteHome.js}" src="../static/js/favoriteHome.js"></script>
+<script type="text/javascript" th:src="@{js/registration.js}" src="../static/js/registration.js"></script>
 </body>
 </html>
