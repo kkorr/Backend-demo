@@ -8,6 +8,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,17 +27,34 @@ public interface ShopMapper {
     @Mappings({
             @Mapping(source = "user.username", target = "username"),
             @Mapping(source = "logo.url", target = "logo"),
-            @Mapping(source = "location.name", target = "location")
+            @Mapping(source = "location.name", target = "location"),
+            @Mapping(source = "logo.picture", target = "logoarray")
     })
     ShopDto shopToShopDto(Shop shop);
 
     @Mappings({
             @Mapping(source = "username", target = "user.username"),
             @Mapping(source = "location", target = "location.name"),
-            @Mapping(source = "logo", target = "logo.url")
+            @Mapping(source = "logo", target = "logo.url"),
+            @Mapping(source = "logoarray", target = "logo.picture")
     })
     Shop shopDtoToShop(ShopDto shopDto);
 
+    default String map(byte[] picture) {
+        String str = Arrays.toString(picture);
+        str.replace("[", "");
+        str.replace("[", "");
+        return str;
+    }
+
+    default byte[] map(String logoarray) {
+        String[] stringBytesArray = logoarray.split(",");
+        byte[] picture = new byte[stringBytesArray.length];
+        for(int i = 0; i < picture.length; i++) {
+            picture[i] = Byte.parseByte(stringBytesArray[i].trim());
+        }
+        return picture;
+    }
 
     default Long map(Shop shop) {
         return shop.getId();

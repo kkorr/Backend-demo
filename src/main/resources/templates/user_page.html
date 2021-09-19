@@ -2,11 +2,241 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Market</title>
+    <title>Мой профиль</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
+<!--Модалка изменения информации итема-->
+<div class="modal fade" id="edit_item_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 700px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Изменение данных товара</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="update_item_form">
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="imageItemSave">Фото товара</label>
+                        <input class="form-control" type="file" value="" id="imageItemSave"  placeholder="Фотография магазина">
+                        <input type="hidden" id="logoarrayItemSave">
+                        <input type="hidden" id="logoItemSave">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="nameItemSave">Название товара</label>
+                        <input class="form-control" type="text" value="" id="nameItemSave"  placeholder="Введите название товара">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="descriptionItemSave">Описание</label>
+                        <input class="form-control" type="text" value="" id="descriptionItemSave" placeholder="Введите описание">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="priceItemSave">Цена</label>
+                        <input class="form-control" type="number" value="" id="priceItemSave" placeholder="Введите цену">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="button" id="item_edit_btn" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--Модалка для показа итемов магазина-->
+<div class="modal fade" id="item_view_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 900px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Товары магазина <b id="item_view_name"></b></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="row px-3" >
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="text-center">Фото</th>
+                        <th scope="col" class="text-center">Название</th>
+                        <th scope="col" class="text-center">Описание</th>
+                        <th scope="col" class="text-center">Рейтинг</th>
+                        <th scope="col" class="text-center">Цена</th>
+                        <th scope="col" class="text-center">Изменить</th>
+                        <th scope="col" class="text-center">Удалить</th>
+                    </tr>
+                    </thead>
+                    <tbody id="item_view_insert">
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--Модалка для удаления мгазина-->
+<div class="modal fade" id="delete_shop_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Вы уверены, что хотите удалить магазин: <b id="delete_shop_name"></b>?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" id="shop_delete_btn" class="btn btn-danger">Удалить</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--Модалка изменения информации магазина-->
+<div class="modal fade" id="edit_shop_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 700px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Изменение данных магазина</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="update_shop_form">
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="imageShopSave">Лого магазина</label>
+                        <input class="form-control" type="file" value="" id="imageShopSave"  placeholder="Фотография магазина">
+                        <input type="hidden" id="logoarrayShopSave">
+                        <input type="hidden" id="logoShopSave">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="nameShopSave">Название магазина</label>
+                        <input class="form-control" type="email" value="" id="nameShopSave"  placeholder="Введите название магазина">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="emailShopSave">Адрес электронной почты</label>
+                        <input class="form-control" type="email" value="" id="emailShopSave" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" title="в формате user@example.com" required placeholder="Введите адрес электронной почты">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="phoneShopSave">Номер телефона</label>
+                        <input class="form-control" type="text" value="" id="phoneShopSave"  placeholder="Введите номер телефона">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="descriptionShopSave">Описание</label>
+                        <input class="form-control" type="text" value="" id="descriptionShopSave" placeholder="Введите описание">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="locationShopSave">Страна</label>
+                        <input class="form-control" type="text" value="" id="locationShopSave" placeholder="Введите страну">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="button" id="shop_edit_btn" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--Модалка изменения информации юзера-->
+<div class="modal fade" id="edit_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 700px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Изменение данных пользователя</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="update_user_form">
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="emailSave">Адрес электронной почты</label>
+                        <input class="form-control" type="email" value="" id="emailSave" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" title="в формате user@example.com" required placeholder="Введите адрес электронной почты">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="phoneSave">Номер телефона</label>
+                        <input class="form-control" type="text" value="" id="phoneSave" required minlength="11" pattern="[0-9]+" title="указать цифрами" placeholder="Введите номер телефона">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="first_nameSave">Имя</label>
+                        <input class="form-control" type="text" value="" id="first_nameSave" placeholder="Введите имя">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="last_nameSave">Фамилия</label>
+                        <input class="form-control" type="text" value="" id="last_nameSave" placeholder="Введите фамилию">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="ageSave">Возраст</label>
+                        <input class="form-control" type="number" value="" id="ageSave" placeholder="Введите возраст">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-3">
+                        <label class="form-label" for="countrySave">Страна</label>
+                        <input class="form-control" type="text" value="" id="countrySave" placeholder="Введите страну">
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label" for="citySave">Город</label>
+                        <input class="form-control" type="text" value="" id="citySave" placeholder="Введите город">
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label" for="cityIndexSave">Индекс города</label>
+                        <input class="form-control" type="text" value="" id="cityIndexSave" placeholder="Введите индекс города">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-3">
+                        <label class="form-label" for="streetSave">Улица</label>
+                        <input class="form-control" type="text" value="" id="streetSave" placeholder="Введите улицу">
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label" for="houseSave">Номер дома</label>
+                        <input class="form-control" type="text" value="" id="houseSave" placeholder="Введите номер дома">
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label" for="birthdaySave">Дата рождения</label>
+                        <input class="form-control" type="date" value="" id="birthdaySave">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-6">
+                        <label class="form-label" for="genderSave">Выберите пол:</label>
+                        <br>
+                        <select class="form-select" size="3" id="genderSave" name="gender" required>
+                            <option id="ManSave" value="MALE">Мужчина</option>
+                            <option id="WomanSave" value="FEMALE">Женщина</option>
+                            <option id="NoGenderSave" value="UNKNOWN">Не определен</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="button" id="user_update_btn" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <!--HEADER /includes/header.html-->
 <div th:replace="/includes/header :: header"></div>
 <!--Main container-->
@@ -16,37 +246,41 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 d-flex align-items-center">
-                    <img th:src="${user.getImage().getUrl()}" alt="user_image" width="100px" height="100px">
+                    <img src="https://img.etimg.com/thumb/msid-79733946,width-300,imgsize-300305,,resizemode-4,quality-100/cyber.jpg" alt="user_image" width="100px" height="100px">
                 </div>
                 <div class="col-12 d-flex align-items-center">
-                    <h2 th:text="${user.getFirstName() + ' ' + user.getLastName()}">Alexandr Alexandrov</h2>
+                    <h2 id="user_fullName" th:text="${user.getFirstName() + ' ' + user.getLastName()}">Alexandr Alexandrov</h2>
                 </div>
 
                 <div class="col-12 d-flex justify-content-center">
                     <hr style="width: 100%; margin: 0;">
                 </div>
                 <!--User information-->
-                <div class="col-12 mt-4">
-                    <p>Username: <b th:text="${user.getUsername()}">user1</b></p>
-                    <p>Email: <b th:text="${user.getEmail()}">user@email.ru</b></p>
-                    <p>Номер телефона: <b th:text="${user.getPhone()}">8950432123</b></p>
-                    <p>Страна: <b th:text="${user.getAdress().getCountry().getName()}">Росссия</b></p>
-                    <p>Город: <b th:text="${user.getAdress().getCity().getName()}">Москва</b></p>
-                    <p>Улица: <b th:text="${user.getAdress().getStreet()}">Ленина</b></p>
-                    <p>Дом: <b th:text="${user.getAdress().getHouse()}">3а</b></p>
-                    <input type="hidden" th:value="${user.getId()}" id="user_id">
+                <div class="col-12 mt-4" id="user_information_cont">
+                    <p>Username: <b id="user_username"></b></p>
+                    <p>Email: <b id="user_email"></b></p>
+                    <p>Номер телефона: <b id="user_phone"></b></p>
+                    <p>Страна: <b id="user_country"></b></p>
+                    <p>Город: <b id="user_city"></b></p>
+                    <p>Улица: <b id="user_street"></b></p>
+                    <p>Дом: <b id="user_house"></b></p>
+                    <p>Индекс города: <b id="user_cityIndex"></b></p>
+                    <p>Гендер: <b id="user_gender"></b></p>
+                    <p>Возраст: <b id="user_age"></b></p>
+                    <p>Дата рождения: <b id="user_date"></b></p>
+                    <input type="hidden" id="user_id">
                 </div>
             </div>
         </div>
     </div>
 
     <!--Main Body-->
-    <div class="container-fluid" style="padding-top: 30px; padding-left: 35px;">
+    <div class="container-fluid" style="padding-top: 30px; padding-left: 35px; padding-right:35px; ">
         <div class="row">
             <div class="col-12 p-0">
                 <h1 id="user_panel_head">Ваши магазины:</h1>
             </div>
-            <div class="col-12 mt-4 p-0">
+            <div class="col-12 mt-4 p-0 d-flex justify-content-between">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
                         <a class="nav-link active" id="shop_view_btn" aria-current="page"  href="#1">Магазины</a>
@@ -55,6 +289,7 @@
                         <a class="nav-link" href="#2" id="orers_view_btn">Заказы</a>
                     </li>
                 </ul>
+                <button type="button" class="btn btn-success" id="edit_profile_btn">Изменить профиль</button>
             </div>
         </div>
         <!--панель заказов и магазинов-->
@@ -66,138 +301,15 @@
 
                 <!--магазины пользователя-->
                 <div id="shop_view_panel" class="col-12 collapse show">
-                    <div class="col-12 d-flex flex-wrap mt-3" id="content_container">
-                        <div class="card" style="width: 18rem; margin-right: 15px; margin-top: 20px;">
-                            <img src="" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Заголовок магазина</h5>
-                                <p class="card-text">Рейтинг магазина:</p>
-                                <a href="#" class="btn btn-danger">Перейти в магазин</a>
-                            </div>
-                        </div>
-                        <div class="card" style="width: 18rem; margin-right: 15px; margin-top: 20px;">
-                            <img src="" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Заголовок магазина</h5>
-                                <p class="card-text">Рейтинг магазина:</p>
-                                <a href="#" class="btn btn-danger">Перейти в магазин</a>
-                            </div>
-                        </div>
-                        <div class="card" style="width: 18rem; margin-right: 15px; margin-top: 20px;">
-                            <img src="" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Заголовок магазина</h5>
-                                <p class="card-text">Рейтинг магазина:</p>
-                                <a href="#" class="btn btn-danger">Перейти в магазин</a>
-                            </div>
-                        </div>
-                        <div class="card" style="width: 18rem; margin-right: 15px; margin-top: 20px;">
-                            <img src="" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Заголовок магазина</h5>
-                                <p class="card-text">Рейтинг магазина:</p>
-                                <a href="#" class="btn btn-danger">Перейти в магазин</a>
-                            </div>
-                        </div>
+                    <div class="col-12 d-flex flex-wrap mt-3" id="shop_content_container">
+
                     </div>
                 </div>
                 <!--заказы-->
                 <div id="order_view_panel" class="col-12 collapse">
                     <!--заказы генерируются сюда-->
                     <div id="orders_container">
-                        <div class="row my-2">
-                            <div class="col-12 d-flex justify-content-between px-4">
-                                <div>Дата заказа: <b>10.07.21</b></div>
-                                <b>В пути</b>
-                            </div>
-                            <div class="col-12 d-flex justify-content-between px-4">
-                                <div>Адрес доставки: <b>Россия, г.Москва, ул.Ленина, д.3</b></div>
-                            </div>
-                            <div class="col-12 d-flex justify-content-between px-4">
-                                <div>Сумма заказа: <b>8100р</b></div>
-                            </div>
-                            <div class="col-12 px-4">
-                                <table class="table table-striped" id="items_by_orders_table">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
-                                    </tr>
-                                    </thead>
 
-                                    <tbody id="insert_items_by_order">
-                                    <tr>
-                                        <td><img src="" alt="item_img" width="80px" height="45px"></td>
-                                        <td>Пальто</td>
-                                        <td>Одежда</td>
-                                        <td>6400р</td>
-                                        <td>
-                                            <a href="#">Страница товара</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src="" alt="item_img" width="80px" height="45px"></td>
-                                        <td>Свитер</td>
-                                        <td>Одежда</td>
-                                        <td>1700р</td>
-                                        <td>
-                                            <a href="#">Страница товара</a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="row my-2">
-                            <div class="col-12 d-flex justify-content-between px-4">
-                                <div>Дата заказа: <b>10.07.21</b></div>
-                                <b>В пути</b>
-                            </div>
-                            <div class="col-12 d-flex justify-content-between px-4">
-                                <div>Адрес доставки: <b>Россия, г.Москва, ул.Ленина, д.3</b></div>
-                            </div>
-                            <div class="col-12 d-flex justify-content-between px-4">
-                                <div>Сумма заказа: <b>8100р</b></div>
-                            </div>
-                            <div class="col-12 px-4">
-                                <table class="table table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
-                                    </tr>
-                                    </thead>
-
-                                    <tbody>
-                                    <tr>
-                                        <td><img src="" alt="item_img" width="80px" height="45px"></td>
-                                        <td>Пальто</td>
-                                        <td>Одежда</td>
-                                        <td>6400р</td>
-                                        <td>
-                                            <a href="#">Страница товара</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src="" alt="item_img" width="80px" height="45px"></td>
-                                        <td>Свитер</td>
-                                        <td>Одежда</td>
-                                        <td>1700р</td>
-                                        <td>
-                                            <a href="#">Страница товара</a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
                     </div>
 
                 </div>
@@ -209,16 +321,106 @@
 </section>
 <!-- JavaScript Bundle with Popper -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script>
+    const shopViewBtn = $('#shop_view_btn');
+    const orderViewBtn = $('#orers_view_btn');
+    const shopViewPanel = $('#shop_view_panel');
+    const orderViewPanel = $('#order_view_panel');
+    const userPanelHead = $('#user_panel_head');
+    const shopContentConteiner = $('#shop_content_container');
+    const orderContentConteiner = $('#orders_container');
+    const editProfile = $('#edit_profile_btn');
+    const user_form = $('#update_user_form');
+    const userUpdateBtn = $('#user_update_btn');
+
     $(document).ready(function() {
-        const shopViewBtn = $('#shop_view_btn');
-        const orderViewBtn = $('#orers_view_btn');
-        const shopViewPanel = $('#shop_view_panel');
-        const orderViewPanel = $('#order_view_panel');
-        const userPanelHead = $('#user_panel_head');
+        let editShop;
+        let oldItem;
+        getUser().then(u => addUserInformationOnPage(u));
+        getShops().then(shops => addShopsOnPage(shops));
+
+        $('#edit_modal').on('hide.bs.modal', function() {
+            getUser().then(u => addUserInformationOnPage(u));
+        })
+        $('#delete_shop_modal').on('hide.bs.modal'), function () {
+            getShops().then(shops => addShopsOnPage(shops));
+        }
 
         $('.collapse').on('show.bs.collapse hide.bs.collapse', function (e) {
             e.preventDefault();
+
+        })
+        $('#item_view_insert').on('click', '#item_edit_open_btn', function () {
+            $('#item_view_modal').modal('hide');
+            $('#edit_item_modal').modal('show');
+            getItemById($(this).attr('href')).then(i =>  {
+                insertItemInModal(i);
+                oldItem = i;
+            });
+        })
+        $('#item_edit_btn').on('click', function () {
+            let nItem = editOldItem(oldItem);
+            updateItem(nItem);
+        })
+        $('#item_view_insert').on('click', '#item_delete_btn', function () {
+            deleteItemById($(this).attr('href')).then(getShopById(oldShop.id).then(s => {
+                insertItemsInModal(s);
+                oldShop = s;
+            }));
+
+        })
+        //кнопка изменения магазина открывает модальное окно
+        $(shopContentConteiner).on('click', '#edit_shop_btn', function () {
+            $('#edit_shop_modal').modal('show');
+            getShopById($(this).attr('href')).then(s => {
+                    getShopInEditModal(s);
+                    editShop = s;
+            });
+
+        })
+        //кнопка удаления магазина открывает модальное окно
+        $(shopContentConteiner).on('click', '#delete_shop_btn', function () {
+            getShopById($(this).attr('href')).then(s => {
+                $('#delete_shop_name').html(s.name);
+                $('#shop_delete_btn').attr('href', s.id);
+            });
+            $('#delete_shop_modal').modal('show');
+        })
+        //кнопка просмотра итемов магазина открыает модальное окно
+        $(shopContentConteiner).on('click', '#view_product_brn', function () {
+            getShopById($(this).attr('href')).then(s => {
+                insertItemsInModal(s);
+                oldShop = s;
+            });
+            $('#item_view_modal').modal('show');
+        })
+        //кнопка удаления магазина на модальном окне
+        $('#shop_delete_btn').on('click', function() {
+            deleteShopById($(this).attr('href'));
+            $('#delete_shop_modal').modal('hide');
+        })
+        //кнопка изменения магазина на модальном окне
+        $('#shop_edit_btn').on('click',function() {
+            let updatedShop = editOldShop(editShop);
+            console.log(updatedShop);
+            saveUpdateShop(updatedShop);
+
+        })
+
+        //закрытие модального окна изменения магазина
+        $('#edit_shop_modal').on('hide.bs.modal', function () {
+            getShops().then(shops => addShopsOnPage(shops));
+        })
+
+        $(userUpdateBtn).on('click', function () {
+            updateUser();
+        })
+
+        $(editProfile).on('click', function () {
+            $('#edit_modal').modal("show");
+            getUser().then(u => addUserInfoOnModal(u));
         })
 
         $(shopViewBtn).on('click', function (e) {
@@ -229,11 +431,365 @@
         })
         $(orderViewBtn).on('click', function (e) {
             e.preventDefault();
+            getOrders().then(orders => addOrdersOnPage(orders));
             /*переключаем классы для отображения панели заказов и скрытия панели магазинов*/
             toggleUserPanel($(this),shopViewBtn,orderViewPanel,shopViewPanel);
             $(userPanelHead).html('Ваши заказы:');
         })
+        $('#imageItemSave').change(function () {
+            let image = $('#imageItemSave').prop('files')[0];
+            $('#logoItemSave').val(URL.createObjectURL(image).toString());
+        })
+        //изменяет данные картинки магазина
+        $('#imageShopSave').change(function () {
+            let image = $('#imageShopSave').prop('files')[0];
+            const reader = new FileReader();
+            let fileByteArray = [];
+            reader.readAsArrayBuffer(image);
+            reader.onloadend = (evt) => {
+                if (evt.target.readyState == FileReader.DONE) {
+                    var arrayBuffer = evt.target.result,
+                        array = new Uint8Array(arrayBuffer);
+                    for (var i = 0; i < array.length; i++) {
+                        if(array[i] <= 127) {
+                            fileByteArray.push(array[i]);
+                        } else {
+                            fileByteArray.push(array[i] - 256);
+                        }
+
+                    }
+                }
+                $('#logoarrayShopSave').val(fileByteArray.toString());
+                $('#logoShopSave').val(URL.createObjectURL(image).toString());
+            }
+
+        })
+
     })
+    //удаление итема
+    async function deleteItemById(id) {
+        const response = await fetch("/api/userPage/deleteItem/" + id, {
+            method:'put'
+        })
+    }
+    //изменяем старый итем
+    function editOldItem(oldItem) {
+        oldItem.name = $('#nameItemSave').val();
+        oldItem.price = $('#priceItemSave').val();
+        oldItem.description = $('#descriptionItemSave').val();
+        oldItem.images.push($('#logoItemSave').val());
+        return oldItem;
+    }
+    //update item
+    async function updateItem(item) {
+        console.log("Сохраняемый итем: ");
+        console.log(item);
+        const response = await fetch("/api/item/save" , {
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+            method: "put",
+            body: JSON.stringify(item)
+        })
+    }
+    //вставляем данные итема в форму
+    function insertItemInModal(item) {
+        $('#nameItemSave').val(item.name);
+        $('#priceItemSave').val(item.price);
+        $('#descriptionItemSave').val(item.description);
+        $('#logoItemSave').val(item.images[0]);
+    }
+    //получаем итем по id
+    async function getItemById(id) {
+        const response = await fetch("/api/item/" + id);
+        if(response.ok) {
+            const item = await response.json();
+            console.log(item);
+            return item;
+        }
+    }
+    //вставляем данные итемов магазина в модальное окно
+    function insertItemsInModal(shop) {
+        $('#item_view_name').html('');
+        $('#item_view_name').html(shop.name);
+        const items = shop.items;
+        let insert_html = '';
+        for(let i = 0; i < items.length; i++) {
+            if(items[i].pretendentToBeDeleted) {
+                continue;
+            }
+            insert_html += '<tr>\n' +
+                '                        <th><img src="' + items[i].images[0].url + '" alt="" width="80px" height="80px"></th>\n' +
+                '                        <td class="text-center">' + items[i].name + '</td>\n' +
+                '                        <td class="text-center">' + items[i].description + '</td>\n' +
+                '                        <td class="text-center">' + items[i].price + '</td>\n' +
+                '                        <td class="text-center">' + items[i].rating + '</td>\n' +
+                '                        <td class="text-center"><button class="btn btn-outline-primary" style="height: 38px;" id="item_edit_open_btn" href="' + items[i].id + '" type="button">Изменить</button></td>\n' +
+                '                        <td class="text-center"><button class="btn btn-outline-danger" style="height: 38px;" id="item_delete_btn" href="' + items[i].id + '" type="button">Удалить</button></td>\n' +
+                '                    </tr>';
+        }
+        $('#item_view_insert').html('');
+        $('#item_view_insert').html(insert_html);
+    }
+    //удаляем магазин по id
+    async function deleteShopById(shopId) {
+        fetch("/api/userPage/deleteShop/" + shopId, {
+            method: "put"
+        });
+    }
+    //получаем магазин по id
+    async function getShopById(shopId) {
+        const response = await fetch("/api/shop/" + shopId);
+        if(response.ok) {
+            const shop = await response.json();
+            return shop;
+        }
+        return null;
+    }
+    //заполняем инфо в модальном окне
+    function getShopInEditModal(shop) {
+        if(shop === null) {
+            alert("Ошибка при получении магазина");
+        } else {
+            $('#nameShopSave').val(shop.name);
+            $('#emailShopSave').val(shop.email);
+            $('#descriptionShopSave').val(shop.description);
+            $('#phoneShopSave').val(shop.phone);
+            $('#locationShopSave').val(shop.location);
+            $('#logoarrayShopSave').val(shop.logoarray);
+            $('#logoShopSave').val(shop.logo);
+        }
+    }
+    //изменение магазина
+    function editOldShop(oldShop) {
+        if(oldShop === null) {
+            alert("Ошибка изменения магазина");
+        } else {
+            oldShop.logoarray = $('#logoarrayShopSave').val();
+            oldShop.logo = $('#logoShopSave').val();
+            oldShop.name = $('#nameShopSave').val();
+            oldShop.email = $('#emailShopSave').val();
+            oldShop.description = $('#descriptionShopSave').val();
+            oldShop.location = $('#locationShopSave').val();
+            oldShop.phone = $('#phoneShopSave').val();
+
+            return oldShop;
+        }
+    }
+
+    //отправка изменений на сервер
+    async function saveUpdateShop(updateShop) {
+        await fetch("/api/shop/save", {
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+            method: "put",
+            body: JSON.stringify(updateShop)
+        });
+    }
+    //получаем авторизованого юзера
+    async function getUser() {
+        const response = await fetch("/api/userPage/user");
+        if(response.ok) {
+            const user = await response.json();
+            return user;
+        }
+    }
+    //Добавляет информацию юзера на страницу
+    function addUserInformationOnPage(e) {
+        $('#user_fullName').html('');
+        $('#user_fullName').html(e.firstName + ' ' + e.lastName);
+        $('#user_username').html('');
+        $('#user_username').html(e.username);
+        $('#user_email').html('');
+        $('#user_email').html(e.email);
+        $('#user_phone').html('');
+        $('#user_phone').html(e.phone);
+        $('#user_country').html('');
+        $('#user_country').html(e.address.country);
+        $('#user_city').html('');
+        $('#user_city').html(e.address.city);
+        $('#user_street').html('');
+        $('#user_street').html(e.address.street);
+        $('#user_house').html('');
+        $('#user_house').html(e.address.house);
+        $('#user_cityIndex').html('');
+        $('#user_cityIndex').html(e.address.cityIndex);
+        $('#user_gender').html('');
+        $('#user_gender').html(e.gender);
+        $('#user_age').html('');
+        $('#user_age').html(e.age);
+        $('#user_date').html('');
+        $('#user_date').html(e.birthday);
+    }
+    //добавляет информацию юзера в модальное окно
+    function addUserInfoOnModal(e) {
+        $('#first_nameSave').val(e.firstName);
+        $('#last_nameSave').val(e.lastName);
+        $('#emailSave').val(e.email);
+        $('#phoneSave').val(e.phone);
+        $('#ageSave').val(e.age);
+        $('#countrySave').val(e.address.country);
+        $('#citySave').val(e.address.city);
+        $('#cityIndexSave').val(e.address.cityIndex);
+        $('#streetSave').val(e.address.street);
+        $('#houseSave').val(e.address.house);
+        $('#birthdaySave').val(e.birthday);
+        $('#genderSave option').each(function () {
+            if($(this).val() === e.gender) {
+                $(this).prop("selected", true);
+            }
+        })
+
+
+    }
+    //обновляем юзера
+    async function updateUser() {
+        let response = await fetch("/api/userPage/user", {
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+            method: 'put',
+            body: JSON.stringify(getJsonFromFormUpdate())
+        })
+    }
+    //получаем данные юзера с формы в модальном окне обновления юзера
+    function getJsonFromFormUpdate() {
+        const userJson = {
+            username: $('#usernameSave').val(),
+            firstName: $('#first_nameSave').val(),
+            lastName: $('#last_nameSave').val(),
+            email: $('#emailSave').val(),
+            phone: $('#phoneSave').val(),
+            age: $('#ageSave').val(),
+            birthday: $('#birthdaySave').val(),
+            gender: $('#genderSave').val(),
+            address: {
+                country: $('#countrySave').val(),
+                street: $('#streetSave').val(),
+                city: $('#citySave').val(),
+                cityIndex: $('#cityIndexSave').val(),
+                house: $('#houseSave').val()
+            }
+        }
+        return userJson;
+    }
+    //получаем заказы по id юзера
+    async function getOrders() {
+        const response = await fetch("/api/userPage/orders");
+        if(response.ok) {
+            const orders = await response.json();
+            return orders;
+        }
+    }
+    //получаем магазины по id пользователя
+    async function getShops() {
+        const response = await fetch("/api/userPage/shops");
+        if(response.ok) {
+            const shops = await response.json();
+            return shops;
+        }
+    }
+    //добавляем информацию по магазинам пользователя
+    function addShopsOnPage(shops) {
+        let insert_html = '';
+        if(shops.length === 0) {
+            shopContentConteiner.html('');
+            shopContentConteiner.html('<h2>У вас пока нет магазинов</h2>');
+        }
+        console.log(shops);
+        let activity = '';
+        for(let i = 0; i < shops.length; i++) {
+            if(shops[i].pretendentToBeDeleted) {
+                activity = "<i style='color:red;'>Удалён</i>";
+            } else if(shops[i].moderated && shops[i].moderateAccept) {
+                activity = "<i style='color:green;'>Активен</i>";
+            } else if(shops[i].moderated && !shops[i].moderateAccept) {
+                activity = "<i style='color:red;'>Не прошёл проверку</i>";
+            } else {
+                activity = "<i style='color:blue;'>На проверке</i>";
+            }
+            insert_html += '<div class="col-12 shadow-sm px-2 py-3" style="margin-bottom: 20px;">\n' +
+                '                            <div class="row">\n' +
+                '                                <div class="col-12">\n' +
+                '                                    <img src="' + shops[i].logo + '" alt="" width="300px" height="150px">\n' +
+                '                                </div>\n' +
+                '                                <div class="col-12 d-flex justify-content-between">\n' +
+                '                                    <a href="/showcase/' + shops[i].id + '" style="color:#000;"><b>' + shops[i].name + '</b></a>\n' +
+                '                                    <b>' + activity + '</b>\n' +
+                '                                </div>\n' +
+                '                                <div class="col-12 mt-3">\n' +
+                '                                    <p>Email: <b>' + shops[i].email + '</b></p>\n' +
+                '                                </div>\n' +
+                '                                <div class="col-12">\n' +
+                '                                    <p>Номер телеона: <b>' + shops[i].phone + '</b></p>\n' +
+                '                                </div>\n' +
+                '                                <div class="col-12">\n' +
+                '                                    <p>Описание: <b>' + shops[i].description + '</b></p>\n' +
+                '                                </div>\n' +
+                '                                <div class="col-12">\n' +
+                '                                    <p>Страна: <b>' + shops[i].location + '</b></p>\n' +
+                '                                </div>\n' +
+                '                                <div class="col-12">\n' +
+                '                                    <p>Рейтинг: <b>' + shops[i].rating + '</b></p>\n' +
+                '                                </div>\n' +
+                '                                <div class="col-12">\n' +
+                '                                    <button type="button" id="view_product_brn" href="' + shops[i].id + '" class="btn btn-outline-success">Смотреть товары</button>\n' +
+                '                                    <button type="button" id="edit_shop_btn" href="' + shops[i].id + '" class="btn btn-outline-primary">Изменить</button>\n' +
+                '                                    <button type="button" id="delete_shop_btn" href="' + shops[i].id + '" class="btn btn-outline-danger">Удалить</button>\n' +
+                '                                </div>\n' +
+                '                            </div>\n' +
+                '                        </div>';
+
+        }
+        shopContentConteiner.html('');
+        shopContentConteiner.html(insert_html);
+    }
+    //добавляем информацию по заказам пользователя
+    function addOrdersOnPage(orders) {
+        let insert_html = '';
+        if(orders.length === 0) {
+            orderContentConteiner.html('');
+            orderContentConteiner.html('<h2>У вас пока нет заказов</h2>');
+        }
+        for(let i = 0; i < orders.length; i++) {
+            insert_html += '<div class="row my-2">\n' +
+                '                            <div class="col-12 d-flex justify-content-between px-4">\n' +
+                '                                <div>Дата заказа: <b>' + orders[i].date + '</b></div>\n' +
+                '                                <b>' + orders[i].status + '</b>\n' +
+                '                            </div>\n' +
+                '                            <div class="col-12 d-flex justify-content-between px-4">\n' +
+                '                                <div>Адрес доставки: <b>' + orders[i].country + ', г.' + orders[i].city + ', ул.' + orders[i].street + ', д.' + orders[i].house + '</b></div>\n' +
+                '                            </div>\n' +
+                '                            <div class="col-12 d-flex justify-content-between px-4">\n' +
+                '                                <div>Сумма заказа: <b>' + orders[i].total + '</b></div>\n' +
+                '                            </div>\n' +
+                '                            <div class="col-12 px-4">\n' +
+                '                                <table class="table table-striped" id="items_by_orders_table">\n' +
+                '                                    <thead>\n' +
+                '                                    <tr>\n' +
+                '                                        <th scope="col"></th>\n' +
+                '                                        <th scope="col"></th>\n' +
+                '                                        <th scope="col"></th>\n' +
+                '                                        <th scope="col"></th>\n' +
+                '                                        <th scope="col"></th>\n' +
+                '                                    </tr>\n' +
+                '                                    </thead>\n' +
+                '                                       <tbody id="insert_items_by_order">\n';
+            for(let t = 0; t < orders[i].items.length; t++) {
+                insert_html += '<tr>\n' +
+                    '              <td><img src="' + orders[i].items[t].images[0].url + '" alt="item_img" width="80px" height="45px"></td>\n' +
+                    '              <td>' + orders[i].items[t].name + '</td>\n' +
+                    '              <td>' + orders[i].items[t].categories[0].name + '</td>\n' +
+                    '              <td>' + orders[i].items[t].price + '</td>\n' +
+                    '              <td>\n' +
+                    '                 <a href="/product/' + orders[i].items[t].id + '">Страница товара</a>\n' +
+                    '              </td>\n' +
+                    '           </tr>'
+            }
+            insert_html += '                               </tbody>\n' +
+                '                                </table>\n' +
+                '                            </div>\n' +
+                '                        </div>';
+        }
+        orderContentConteiner.html('');
+        orderContentConteiner.html(insert_html);
+    }
+
     function toggleUserPanel(e1,e2,p1,p2) {
         $(e1).addClass('active');
         $(e2).removeClass('active');

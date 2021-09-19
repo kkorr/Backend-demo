@@ -11,8 +11,6 @@ import java.util.List;
 public interface ShopDao extends ReadWriteDAO<Shop, Long> {
     Shop findShopByName(String name);
 
-    Shop findShopById(Long id);
-
     List<Shop> findUnmoderatedShops();
 
     List<Shop> findModeratedShops();

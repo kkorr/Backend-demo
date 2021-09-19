@@ -14,8 +14,8 @@ public class AddressServiceImpl extends ReadWriteServiceImpl<Address, Long> impl
     private final AddressDao addressDao;
 
     @Autowired
-    public AddressServiceImpl(ReadWriteDAO<Address, Long> readWriteDAO, AddressDao addressDao) {
-        super(readWriteDAO);
+    public AddressServiceImpl(AddressDao addressDao) {
+        super(addressDao);
         this.addressDao = addressDao;
     }
 }
