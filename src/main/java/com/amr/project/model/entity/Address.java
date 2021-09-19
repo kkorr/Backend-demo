@@ -31,7 +31,7 @@ public class Address {
     private Country country;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "city_id")
     private City city;
 
