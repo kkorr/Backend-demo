@@ -22,8 +22,13 @@
       <th> Добро пожаловать администратор: </th>
       <span sec:authentication="name"></span>
     </div>
-    <a class="text-white-50 bg-dark text-end logout" id="logout" style="padding: 15px;">Выйти</a>
+    <form>
+      <input type="button" class="btn btn-info" value="Вернуться на главную" onClick='location.href="/"'>
+    </form>
+    <a class="text-white-50 bg-dark text-end logout" type="button" id="logout" style="padding: 15px;">Выйти</a>
+
   </div>
+
 </div>
 
 
