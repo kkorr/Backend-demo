@@ -3,8 +3,8 @@ package com.amr.project.security;
 import com.amr.project.security.handler.OAuth2LoginSuccessHandler;
 import com.amr.project.security.handler.SuccessUserHandler;
 import com.amr.project.service.impl.CustomOAuth2UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,20 +20,14 @@ import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
     private final SuccessUserHandler successUserHandler;
     private final CustomOAuth2UserService oAuth2UserService;
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
-
-    @Autowired
-    public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, SuccessUserHandler successUserHandler, CustomOAuth2UserService oAuth2UserService, OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) {
-        this.userDetailsService = userDetailsService;
-        this.successUserHandler = successUserHandler;
-        this.oAuth2UserService = oAuth2UserService;
-        this.oAuth2LoginSuccessHandler = oAuth2LoginSuccessHandler;
-    }
+    private final CustomWebAuthenticationDetailsSource authenticationDetailsSource;
 
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
@@ -50,18 +44,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/moderator").hasAnyAuthority("MODERATOR", "ADMIN")
                 .and().formLogin().successHandler(successUserHandler)
-                .loginPage("/login") .loginProcessingUrl("/login")
+                .loginPage("/login").loginProcessingUrl("/login")
                 // Указываем параметры логина и пароля с формы логина
                 .usernameParameter("j_username")
                 .passwordParameter("j_password")
                 .and().rememberMe()
-                .and().formLogin().successHandler(successUserHandler)
+                .and().oauth2Login()
+                .loginPage("/login")
+                .userInfoEndpoint().userService(oAuth2UserService)
                 .and()
-                .oauth2Login()
-                    .loginPage("/login")
-                    .userInfoEndpoint().userService(oAuth2UserService)
-                    .and()
-                    .successHandler(oAuth2LoginSuccessHandler);
+                .successHandler(oAuth2LoginSuccessHandler);
+
+        http.formLogin()
+                .successHandler(successUserHandler)
+                .authenticationDetailsSource(authenticationDetailsSource);
+
 
         http.logout().permitAll()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
