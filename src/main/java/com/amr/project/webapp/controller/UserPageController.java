@@ -23,8 +23,9 @@ public class UserPageController {
     public UserPageController(UserService userService) {
         this.userService = userService;
     }
-    @GetMapping
-    public String getUserPageView(Model model) {
+
+    @GetMapping("/{id}")
+    public String getUserPageView(Model model, @PathVariable("id") Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> userOp = userService.findByUsername(authentication.getName());
         if(userOp.isPresent() && authentication.isAuthenticated()) {

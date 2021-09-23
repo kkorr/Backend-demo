@@ -270,6 +270,7 @@
                     <p>Дата рождения: <b id="user_date"></b></p>
                     <input type="hidden" id="user_id">
                 </div>
+                <button type="button" class="btn btn-success" id="edit_profile_btn">Изменить профиль</button>
             </div>
         </div>
     </div>
@@ -289,7 +290,8 @@
                         <a class="nav-link" href="#2" id="orers_view_btn">Заказы</a>
                     </li>
                 </ul>
-                <button type="button" class="btn btn-success" id="edit_profile_btn">Изменить профиль</button>
+                <button type="button" class="btn btn-success" id="new_shop">Добавить магазин</button>
+
             </div>
         </div>
         <!--панель заказов и магазинов-->
@@ -394,7 +396,7 @@
                 insertItemsInModal(s);
                 oldShop = s;
             });
-            $('#item_view_modal').modal('show');
+            $('#item_view_modal').modal('toggle');
         })
         //кнопка удаления магазина на модальном окне
         $('#shop_delete_btn').on('click', function() {
@@ -416,6 +418,7 @@
 
         $(userUpdateBtn).on('click', function () {
             updateUser();
+            $('#edit_modal').modal('toggle');
         })
 
         $(editProfile).on('click', function () {
