@@ -76,34 +76,43 @@
         </div>
 
         <!-- Кнопки в избранное, добавить в корзину, перейти в корзину показываем авторизованным пользователям-->
-        <div sec:authorize="isAuthenticated()">
+        <div>
           <div class="form-group">
-            <button class="btn btn-info btn-block" th:attr="onclick=|addItemToFavorites('${item.id}')|">
+            <button sec:authorize="isAuthenticated()" class="btn btn-info btn-block"
+                    th:attr="onclick=|addItemToFavorites('${item.id}')|"
+                    style="margin-top: 10px">
               Добавить в избранное
             </button>
           </div>
+
           <div class="form-group">
             <button class="btn btn-primary btn-block"
-                    th:attr="onclick=|addCartItem('${item.id}','${shop.id}')|">Добавить
-              в корзину
+                    th:attr="onclick=|addCartItem('${item.id}','${shop.id}')|"
+                    style="margin-top: 10px">
+              Добавить в корзину
             </button>
           </div>
+
           <div class="form-group">
             <a th:href="@{/cart}">
-              <button class="btn btn-primary btn-block" id="toCart">Перейти в корзину</button>
+              <button class="btn btn-primary btn-block" id="toCart"
+                      style="margin-top: 10px">
+                Перейти в корзину
+              </button>
             </a>
           </div>
         </div>
         <!--        -------------------------------------------------------------------------------------->
         <div class="form-group">
           <a th:href="@{/}">
-            <button class="btn btn-secondary btn-block" id="toHome">На главную страницу</button>
+            <button class="btn btn-secondary btn-block" id="toHome"
+                    style="margin-top: 10px">На главную страницу</button>
           </a>
         </div>
         <div sec:authorize="!isAuthenticated()">
-          <form>
+          <form style="margin-top: 10px">
             <fieldset>
-              <a href="/login">Авторизуйтесь</a>, чтобы добавить товар в корзину или оставить отзыв
+              <a href="/login">Авторизуйтесь</a>, чтобы оставить отзыв.
             </fieldset>
           </form>
         </div>
