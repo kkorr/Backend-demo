@@ -85,9 +85,10 @@ public class CartRestController {
     @PostMapping(value = "/add")
     public ResponseEntity<Void> addItemToCart(@RequestBody CartItemDto cartItemDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication == null || authentication instanceof AnonymousAuthenticationToken) {
-            throw new AccessDeniedException("Вам нужно авторизоваться для доступа к корзине");
-        }
+//        if(authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+//            throw new AccessDeniedException("Вам нужно авторизоваться для доступа к корзине");
+//        }
+
         User user = userService.findByUsername(authentication.getName()).get();
         cartItemDto.setUser(userMapper.userToDto(user));
 
