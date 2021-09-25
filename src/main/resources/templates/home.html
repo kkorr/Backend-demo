@@ -312,7 +312,7 @@
                         <img th:src="${shop.getLogo()}" class="card-img-top" alt="popular_shop"
                              style="height: 180px;">
                         <div class="card-body">
-                           <h5 th:text="${shop.getName()}" class="card-title">Заголовок магазины</h5>
+                           <h5 th:text="${shop.getName()}" class="card-title">Заголовок магазина</h5>
                            <p th:text="${shop.getDescription()}" class="card-text">Описание магазина:</p>
                            <a th:href="@{/showcase/{id}(id = ${shop.getId})}" class="btn btn-danger">Перейти в
                               магазин</a>
