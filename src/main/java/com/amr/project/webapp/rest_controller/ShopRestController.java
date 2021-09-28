@@ -1,17 +1,23 @@
 package com.amr.project.webapp.rest_controller;
 
 
+import com.amr.project.converter.AddressMapper;
+import com.amr.project.converter.ImageMapper;
 import com.amr.project.converter.ShopMapper;
+import com.amr.project.model.dto.ImageDto;
 import com.amr.project.model.dto.ShopDto;
+import com.amr.project.model.entity.Country;
 import com.amr.project.model.entity.Image;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.service.abstracts.CountryService;
 import com.amr.project.service.abstracts.ImageService;
 import com.amr.project.service.abstracts.ShopService;
 import com.amr.project.service.abstracts.UserService;
+import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -23,15 +29,17 @@ public class ShopRestController {
     private final CountryService countryService;
     private final UserService userService;
     private final ImageService imageService;
+    private final ImageMapper imageMapper;
 
     @Autowired
     public ShopRestController(ShopService shopService, ShopMapper shopMapper, CountryService countryService, UserService userService,
-                              ImageService imageService) {
+                              ImageService imageService, ImageMapper imageMapper) {
         this.shopService = shopService;
         this.shopMapper = shopMapper;
         this.countryService = countryService;
         this.userService = userService;
         this.imageService = imageService;
+        this.imageMapper = imageMapper;
     }
 
     @GetMapping("/{id}")
@@ -40,7 +48,7 @@ public class ShopRestController {
     }
 
     @PutMapping("/save")
-    public ResponseEntity<Shop> saveItem(@RequestBody ShopDto shopDto) {
+    public ResponseEntity<ShopDto> saveItem(@RequestBody ShopDto shopDto) {
 
         Shop shop = shopMapper.shopDtoToShop(shopDto);
 
@@ -62,22 +70,28 @@ public class ShopRestController {
         shop.setLogo(image);
         shopService.update(shop);
 
-        return new ResponseEntity<>(shop, HttpStatus.OK);
+        return new ResponseEntity<ShopDto>(shopMapper.shopToShopDto(shop), HttpStatus.OK);
     }
 
 
     @PostMapping("/add")
-    public ResponseEntity<Shop> addItem(@RequestBody ShopDto shopDto) {
+    public ResponseEntity<Shop> addItem(@RequestBody ShopDto shopDto, Authentication authentication) {
         Image image = Image.builder()
-                .url(shopDto.getLogo())
-                .picture(shopDto.getLogoarray().getBytes())
+                .url(shopDto.getLogo().getUrl())
+                .picture(shopDto.getLogo().getPicture())
                 .isMain(true)
                 .build();
 
 
         Shop shop = shopMapper.shopDtoToShop(shopDto);
-        shop.setLocation(countryService.getByName(shopDto.getLocation()));
-        shop.setUser(userService.findByUsername(shopDto.getUsername()).get());
+
+        if (countryService.getByName(shopDto.getLocation()) != null) {
+            shop.setLocation(countryService.getByName(shopDto.getLocation()));
+        } else {
+            countryService.persist(new Country(shopDto.getLocation()));
+        }
+
+        shop.setUser(userService.findByUsername(authentication.getName()).get());
         shop.setLogo(image);
         shopService.persist(shop);
 

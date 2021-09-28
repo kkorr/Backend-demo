@@ -164,7 +164,7 @@
             <form id="add_shop_form">
                 <div class="row justify-content-center">
                     <div class="form-group col-11">
-                        <label class="form-label" for="imageShopSave">Лого магазина</label>
+                        <label class="form-label" for="imageAddShopSave">Лого магазина</label>
                         <input class="form-control" type="file" value="" id="imageAddShopSave"  placeholder="Фотография магазина">
                         <input type="hidden" id="logoarrayAddShopSave">
                         <input type="hidden" id="logoAddShopSave">
@@ -202,7 +202,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                    <button type="button" id="shop_add_btn" class="btn btn-primary">Сохранить</button>
+                    <button type="button" id="shop_add_btn" class="btn btn-primary"
+                            onclick="{event.preventDefault(); saveShop()}">Сохранить</button>
                 </div>
             </form>
         </div>
@@ -393,6 +394,8 @@
     const user_form = $('#update_user_form');
     const userUpdateBtn = $('#user_update_btn');
 
+    let addShop;
+
     //кнопка добавления магазина открывает модальное окно
     $('#add_shop_btn').on('click', function (e) {
         e.preventDefault();
@@ -506,6 +509,7 @@
             let image = $('#imageItemSave').prop('files')[0];
             $('#logoItemSave').val(URL.createObjectURL(image).toString());
         })
+
         //изменяет данные картинки магазина
         $('#imageShopSave').change(function () {
             let image = $('#imageShopSave').prop('files')[0];
@@ -881,5 +885,6 @@
         }
     })
 </script>
+<script type="text/javascript" th:src="@{/js/addNewShop.js}" src="../static/js/addNewShop.js"></script>
 </body>
 </html>

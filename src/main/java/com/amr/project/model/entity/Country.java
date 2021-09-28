@@ -33,4 +33,8 @@ public class Country {
             inverseJoinColumns = {@JoinColumn(name = "city_id")})
     private Collection<City> cities;
 
+    public Country (String name) {
+        this.name = name;
+    }
+
 }

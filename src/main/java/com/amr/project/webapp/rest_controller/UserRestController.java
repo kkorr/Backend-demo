@@ -1,6 +1,8 @@
 package com.amr.project.webapp.rest_controller;
 
+import com.amr.project.converter.ShopMapper;
 import com.amr.project.converter.UserMapper;
+import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.dto.UserDto;
 import com.amr.project.model.entity.*;
 import com.amr.project.service.abstracts.*;
@@ -24,19 +26,22 @@ public class UserRestController {
     private final CountryService countryService;
     private final CityService cityService;
     private final UserMapper userMapper;
+    private final ShopMapper shopMapper;
     private final EmailService emailService;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     public UserRestController(UserService userService, RoleService roleService,
-                              UserMapper userMapper, CountryService countryService, CityService cityService, EmailService emailService) {
+                              UserMapper userMapper, CountryService countryService, CityService cityService,
+                              EmailService emailService, ShopMapper shopMapper) {
         this.userService = userService;
         this.roleService = roleService;
         this.countryService = countryService;
         this.cityService = cityService;
         this.userMapper = userMapper;
         this.emailService = emailService;
+        this.shopMapper = shopMapper;
     }
 
     @GetMapping("/{id}")

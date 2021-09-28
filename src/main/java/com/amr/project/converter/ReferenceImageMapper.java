@@ -16,8 +16,8 @@ public abstract class ReferenceImageMapper {
     @Autowired
     protected ImageService imageService;
 
-    public Image map(String name) {
-        return imageService.getByName(name);
+    public Image map(Long id) {
+        return imageService.getByKey(id);
     }
 
     public Collection<Image> map(String[] images) {

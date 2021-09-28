@@ -1,8 +1,10 @@
 package com.amr.project.converter;
 
+import com.amr.project.model.dto.ImageDto;
 import com.amr.project.model.entity.Image;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,11 +14,16 @@ import java.util.Collection;
  * @project platform
  */
 
-@Mapper(componentModel = "spring")
+@Component
+@Mapper(unmappedTargetPolicy = org.mapstruct.ReportingPolicy.IGNORE,
+        componentModel = "spring")
 public interface ImageMapper {
 
     ImageMapper INSTANCE = Mappers.getMapper(ImageMapper.class);
 
+    ImageDto imageToDto(Image image);
+
+    Image dtoToImage(ImageDto imageDto);
 
     default String[] map(Collection<Image> images) {
         if (images == null) {
@@ -31,4 +38,6 @@ public interface ImageMapper {
         }
         return strings;
     }
+
 }
+
