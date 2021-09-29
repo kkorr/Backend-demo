@@ -49,7 +49,7 @@ public class CartRestController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CartItemDto>> getAllCartItemsByUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
+        if (!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
             throw new AccessDeniedException("Вам нужно авторизоваться для доступа к корзине");
         }
         User user = userService.findByUsername(authentication.getName()).get();
@@ -63,7 +63,7 @@ public class CartRestController {
     @PatchMapping("/update/{id}")
     public ResponseEntity<Void> updateCartItemQuantity(@PathVariable("id") Long id, @RequestBody CartItemDto cartItem) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
+        if (!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
             throw new AccessDeniedException("Вам нужно авторизоваться для доступа к корзине");
         }
         cartItemService.getByKey(id).setQuantity(cartItem.getQuantity());
@@ -74,7 +74,7 @@ public class CartRestController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteCartItem(@PathVariable Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
+        if (!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
             throw new AccessDeniedException("Вам нужно авторизоваться для доступа к корзине");
         }
         cartItemService.deleteByKeyCascadeIgnore(id);
@@ -84,16 +84,17 @@ public class CartRestController {
     @Transactional
     @PostMapping(value = "/add")
     public ResponseEntity<Void> addItemToCart(@RequestBody CartItemDto cartItemDto) {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if(authentication == null || authentication instanceof AnonymousAuthenticationToken) {
-//            throw new AccessDeniedException("Вам нужно авторизоваться для доступа к корзине");
-//        }
+        if(authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            throw new AccessDeniedException("Вам нужно авторизоваться для доступа к корзине");
+        }
 
         User user = userService.findByUsername(authentication.getName()).get();
         cartItemDto.setUser(userMapper.userToDto(user));
 
         CartItem cartItem;
-        if(cartItemService.findByItemAndShopAndUser(cartItemDto.getItem().getId(), cartItemDto.getUser().getId(),
+        if (cartItemService.findByItemAndShopAndUser(cartItemDto.getItem().getId(), cartItemDto.getUser().getId(),
                 cartItemDto.getShop().getId()).isPresent()) {
             cartItem = cartItemService.findByItemAndShopAndUser(cartItemDto.getItem().getId(), cartItemDto.getUser().getId(),
                     cartItemDto.getShop().getId()).get();
@@ -105,6 +106,6 @@ public class CartRestController {
             LOGGER.info(String.format("Пользователь с id %d успешно добавил товар с id %d в корзину", cartItem.getUser().getId(),
                     cartItem.getId()));
         }
-        return ResponseEntity.ok().body(null);
+        return ResponseEntity.ok().build();
     }
 }

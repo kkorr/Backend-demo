@@ -22,5 +22,4 @@ public class CartItemDto {
     private UserDto user;
     private int quantity;
     private BigDecimal getSubTotal;
-
 }
