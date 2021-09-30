@@ -270,6 +270,9 @@
             <div class="mt-3" sec:authorize="isAuthenticated()">
                <th:block th:if="${qr}">
                   <img th:src="${qr}" alt="qr">
+                  <div class="mt-2">
+                     <button class="btn btn-primary" type="button" onclick="updateTwoFactorAuth(true)">Включить 2FA</button>
+                  </div>
                </th:block>
             </div>
 
@@ -566,5 +569,6 @@
    <script type="text/javascript" th:src="@{/js/favoriteHome.js}" src="../static/js/favoriteHome.js"></script>
    <script type="text/javascript" th:src="@{js/registration.js}" src="../static/js/registration.js"></script>
    <script type="text/javascript" th:src="@{js/signin.js}" src="../static/js/signin.js"></script>
+   <script type="text/javascript" th:src="@{js/twoFactorAuth.js}" src="../static/js/twoFactorAuth.js"></script>
 </body>
 </html>
