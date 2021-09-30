@@ -113,6 +113,14 @@ public class UserRestController {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
+    @PostMapping("/update2FA")
+    public ResponseEntity<Boolean> updateUser2FA(@RequestBody Boolean use2FA, Authentication currentAuth) {
+        User user = (User) currentAuth.getPrincipal();
+        user.setUsingTwoFactorAuth(use2FA);
+        userService.update(user);
+        return new ResponseEntity<>(user.isUsingTwoFactorAuth(), HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         userService.deleteByKeyCascadeEnable(id);
