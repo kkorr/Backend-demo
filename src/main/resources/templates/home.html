@@ -41,6 +41,13 @@
                             placeholder="Password">
                      <div id="password_checker" class="form-text" style="color:#a40000;"></div>
                   </div>
+                  <div class="mb-3">
+                     <label for="verification_code_input" class="form-label">
+                        Введите код с телефона (если используете 2FA):
+                     </label>
+                     <input id="verification_code_input" type="text" name="code" class="form-control"
+                            placeholder="Verification code">
+                  </div>
                   <div class="form-check">
                      <input class="form-check-input" type="checkbox" name="remember-me" id="flexCheckChecked"
                             checked>
@@ -76,7 +83,10 @@
 
                <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                  <button type="submit" id="user_signin_btn" class="btn btn-primary">Войти</button>
+                  <button type="button" id="user_signin_btn" class="btn btn-primary"
+                          onclick="{event.preventDefault(); signin()}">
+                     Войти
+                  </button>
                </div>
             </form>
          </div>
@@ -548,5 +558,6 @@
    </script>
    <script type="text/javascript" th:src="@{/js/favoriteHome.js}" src="../static/js/favoriteHome.js"></script>
    <script type="text/javascript" th:src="@{js/registration.js}" src="../static/js/registration.js"></script>
+   <script  type="text/javascript" th:src="@{js/signin.js}" src="../static/js/signin.js"></script>
 </body>
 </html>
