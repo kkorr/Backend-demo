@@ -3,6 +3,7 @@ package com.amr.project.converter;
 import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.model.entity.User;
+import org.jetbrains.annotations.NotNull;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -48,12 +49,15 @@ public interface ShopMapper {
     }
 
     default byte[] map(String logoarray) {
-        String[] stringBytesArray = logoarray.split(",");
-        byte[] picture = new byte[stringBytesArray.length];
-        for(int i = 0; i < picture.length; i++) {
-            picture[i] = Byte.parseByte(stringBytesArray[i].trim());
-        }
-        return picture;
+        if (logoarray != null) {
+            String[] stringBytesArray = logoarray.split(",");
+            byte[] picture = new byte[stringBytesArray.length];
+            for (int i = 0; i < picture.length; i++) {
+                picture[i] = Byte.parseByte(stringBytesArray[i].trim());
+            }
+            return picture;
+        } else
+            return null;
     }
 
     default Long map(Shop shop) {
