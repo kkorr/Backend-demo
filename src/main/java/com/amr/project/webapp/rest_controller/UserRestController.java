@@ -4,11 +4,13 @@ import com.amr.project.converter.UserMapper;
 import com.amr.project.model.dto.UserDto;
 import com.amr.project.model.entity.*;
 import com.amr.project.service.abstracts.*;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -105,6 +107,7 @@ public class UserRestController {
 
         User user = userMapper.dtoToUser(userDto);
         user.setAge(user.calculateAge());
+        user.setSecret(RandomStringUtils.random(16));
         userService.persist(user);
 
         return new ResponseEntity<>(user, HttpStatus.CREATED);
