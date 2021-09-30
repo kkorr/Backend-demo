@@ -266,6 +266,13 @@
                </form>
             </div>
 
+            <!-- QR and enable 2FA -->
+            <div class="mt-3" sec:authorize="isAuthenticated()">
+               <th:block th:if="${qr}">
+                  <img th:src="${qr}" alt="qr">
+               </th:block>
+            </div>
+
             <!--Контейнер для динамического контента (js)-->
             <div class="collapse" id="dinamic_content">
                <div class="col-12" style="margin-top: 30px;">
@@ -558,6 +565,6 @@
    </script>
    <script type="text/javascript" th:src="@{/js/favoriteHome.js}" src="../static/js/favoriteHome.js"></script>
    <script type="text/javascript" th:src="@{js/registration.js}" src="../static/js/registration.js"></script>
-   <script  type="text/javascript" th:src="@{js/signin.js}" src="../static/js/signin.js"></script>
+   <script type="text/javascript" th:src="@{js/signin.js}" src="../static/js/signin.js"></script>
 </body>
 </html>
