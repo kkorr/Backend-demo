@@ -76,20 +76,18 @@ public class ShopRestController {
 
     @PostMapping("/add")
     public ResponseEntity<Shop> addItem(@RequestBody ShopDto shopDto, Authentication authentication) {
+        Shop shop = shopMapper.shopDtoToShop(shopDto);
+
         Image image = Image.builder()
-                .url(shopDto.getLogo().getUrl())
-                .picture(shopDto.getLogo().getPicture())
+                .url(shop.getLogo().getUrl())
+                .picture(shop.getLogo().getPicture())
                 .isMain(true)
                 .build();
 
-
-        Shop shop = shopMapper.shopDtoToShop(shopDto);
-
-        if (countryService.getByName(shopDto.getLocation()) != null) {
-            shop.setLocation(countryService.getByName(shopDto.getLocation()));
-        } else {
+        if (countryService.getByName(shopDto.getLocation()) == null) {
             countryService.persist(new Country(shopDto.getLocation()));
         }
+        shop.setLocation(countryService.getByName(shopDto.getLocation()));
 
         shop.setUser(userService.findByUsername(authentication.getName()).get());
         shop.setLogo(image);

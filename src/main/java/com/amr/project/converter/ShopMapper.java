@@ -26,15 +26,18 @@ public interface ShopMapper {
 
     @Mappings({
             @Mapping(source = "user.username", target = "username"),
-            @Mapping(source = "logo", target = "logo"),
+            @Mapping(source = "logo.url", target = "logo"),
             @Mapping(source = "location.name", target = "location"),
+            @Mapping(source = "logo.picture", target = "logoarray")
+
     })
     ShopDto shopToShopDto(Shop shop);
 
     @Mappings({
             @Mapping(source = "username", target = "user.username"),
             @Mapping(source = "location", target = "location.name"),
-            @Mapping(source = "logo", target = "logo"),
+            @Mapping(source = "logo", target = "logo.url"),
+            @Mapping(source = "logoarray", target = "logo.picture")
     })
     Shop shopDtoToShop(ShopDto shopDto);
 

@@ -18,7 +18,7 @@ public class ShopDto {
     private String email;
     private String phone;
     private String description;
-    private Image logo;
+    private String logo;
     private String location;
     private List<Item> items;
     private List<Review> reviews;
@@ -30,5 +30,5 @@ public class ShopDto {
     private boolean isModerateAccept;
     private String moderatedRejectReason;
     private boolean isPretendentToBeDeleted;
-    //private String logoarray;
+    private String logoarray;
 }
