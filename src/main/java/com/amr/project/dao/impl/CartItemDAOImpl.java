@@ -46,4 +46,14 @@ public class CartItemDAOImpl extends ReadWriteDAOImpl<CartItem, Long> implements
                 .getResultStream().findAny();
     }
 
+    @Override
+    public Optional<CartItem> findByItemAndShopAndCookie(Long itemId, Long shopId, String cookie) {
+        return entityManager.createQuery("select c from CartItem c where c.cookie = :cookie and c.item.id = :itemid " +
+                        "and c.shop.id= :shopid", CartItem.class)
+                .setParameter("cookie", cookie)
+                .setParameter("itemid", itemId)
+                .setParameter("shopid", shopId)
+                .getResultStream().findAny();
+    }
+
 }

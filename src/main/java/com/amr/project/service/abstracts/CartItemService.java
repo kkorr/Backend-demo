@@ -16,4 +16,7 @@ public interface CartItemService extends ReadWriteService<CartItem, Long> {
     void updateQuantity(int quantity, Long userId, Long itemId);
 
     Optional<CartItem> findByItemAndShopAndUser(Long itemId, Long userId, Long shopId);
+
+    Optional<CartItem> findByItemAndShopAndCookie(Long itemId, Long shopId, String cookie);
+
 }

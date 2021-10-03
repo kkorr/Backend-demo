@@ -125,34 +125,52 @@ public class CartRestController {
     public ResponseEntity<Void> addItemToCart(@RequestBody CartItemDto cartItemDto, HttpServletRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        // Делаем проверку прошел ли пользователь авторизацию, если нет то ...
-        if(authentication == null || authentication instanceof AnonymousAuthenticationToken) {
-            Cookie[] cookie = request.getCookies(); // получаем куки
-
-//           throw new AccessDeniedException("Вам нужно авторизоваться для доступа к корзине");
-        }
-
-        User user = userService.findByUsername(authentication.getName()).get();
-        cartItemDto.setUser(userMapper.userToDto(user));
-
-        Optional<CartItem> cartItem1 = cartItemService.findByItemAndShopAndUser(
-                cartItemDto.getItem().getId(),
-                cartItemDto.getUser().getId(),
-                cartItemDto.getShop().getId());
-
         CartItem cartItem;
 
-        if (cartItem1.isPresent()) {
-            cartItem = cartItem1.get(); // Если в корзине уже есть товар, значит Optional будет не null и вернет cartItem
-            cartItemDto.setQuantity(cartItem.getQuantity() + cartItemDto.getQuantity());
-            updateCartItemQuantity(cartItem.getId(), cartItemDto);
-        } else {
-            cartItem = cartItemMapper.dtoToCartItem(cartItemDto);
-            cartItemService.persist(cartItem);
+        // Делаем проверку прошел ли пользователь авторизацию, если нет то ...
+        if(authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            String cookie = Arrays.toString(request.getCookies()); // получаем куки
 
-            LOGGER.info(String.format("Пользователь с id %d успешно добавил товар с id %d в корзину", cartItem.getUser().getId(),
-                    cartItem.getId()));
+            //Надо првоерить есть ли уже в БД корзина с таким куки.
+            Optional<CartItem> cartItem1 = cartItemService.findByItemAndShopAndCookie(
+                    cartItemDto.getItem().getId(),
+                    cartItemDto.getShop().getId(),
+                    cookie);
+
+            if (cartItem1.isPresent()) {
+                cartItem = cartItem1.get(); // Если в корзине уже есть товар, значит Optional будет не null и вернет cartItem
+                cartItemDto.setQuantity(cartItem.getQuantity() + cartItemDto.getQuantity());
+                updateCartItemQuantity(cartItem.getId(), cartItemDto);
+            } else {
+                cartItem = cartItemMapper.dtoToCartItem(cartItemDto);
+                cartItemService.persist(cartItem);
+
+                LOGGER.info(String.format("Анонимный пользователь успешно добавил товар с id %d в корзину", cartItem.getId(),
+                        cartItem.getId()));
+            }
+        } else {    // если пользователь зарегистрирован
+            User user = userService.findByUsername(authentication.getName()).get();
+            cartItemDto.setUser(userMapper.userToDto(user));
+
+            Optional<CartItem> cartItem1 = cartItemService.findByItemAndShopAndUser(
+                    cartItemDto.getItem().getId(),
+                    cartItemDto.getUser().getId(),
+                    cartItemDto.getShop().getId());
+
+            if (cartItem1.isPresent()) {
+                cartItem = cartItem1.get(); // Если в корзине уже есть товар, значит Optional будет не null и вернет cartItem
+                cartItemDto.setQuantity(cartItem.getQuantity() + cartItemDto.getQuantity());
+                updateCartItemQuantity(cartItem.getId(), cartItemDto);
+            } else {
+                cartItem = cartItemMapper.dtoToCartItem(cartItemDto);
+                cartItemService.persist(cartItem);
+
+                LOGGER.info(String.format("Пользователь с id %d успешно добавил товар с id %d в корзину", cartItem.getUser().getId(),
+                        cartItem.getId()));
+            }
         }
+
+
         return ResponseEntity.ok().build();
     }
 }

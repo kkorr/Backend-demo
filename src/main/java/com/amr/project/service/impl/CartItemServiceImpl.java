@@ -45,4 +45,10 @@ public class CartItemServiceImpl extends ReadWriteServiceImpl<CartItem, Long> im
         return cartItemDao.findByItemAndShopAndUser(itemId, userId, shopId);
     }
 
+    @Override
+    public Optional<CartItem> findByItemAndShopAndCookie(Long itemId, Long shopId, String cookie) {
+        return cartItemDao.findByItemAndShopAndCookie(itemId, shopId, cookie);
+    }
+
+
 }
