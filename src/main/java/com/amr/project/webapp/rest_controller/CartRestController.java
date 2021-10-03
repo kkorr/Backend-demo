@@ -8,6 +8,7 @@ import com.amr.project.model.entity.Favorite;
 import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.*;
+import org.apache.http.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -70,6 +71,7 @@ public class CartRestController {
     @PatchMapping("/update/{id}")
     public ResponseEntity<Void> updateCartItemQuantity(@PathVariable("id") Long id, @RequestBody CartItemDto cartItem) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         if(!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
             throw new AccessDeniedException("Вам нужно авторизоваться для доступа к корзине");
         }
@@ -120,27 +122,34 @@ public class CartRestController {
 
     @Transactional
     @PostMapping(value = "/add")
-    public ResponseEntity<Void> addItemToCart(@RequestBody CartItemDto cartItemDto) {
+    public ResponseEntity<Void> addItemToCart(@RequestBody CartItemDto cartItemDto, HttpServletRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // Делаем проверку прошел ли пользователь авторизацию, если нет то ...
         if(authentication == null || authentication instanceof AnonymousAuthenticationToken) {
-            throw new AccessDeniedException("Вам нужно авторизоваться для доступа к корзине");
+            Cookie[] cookie = request.getCookies(); // получаем куки
+
+//           throw new AccessDeniedException("Вам нужно авторизоваться для доступа к корзине");
         }
+
         User user = userService.findByUsername(authentication.getName()).get();
         cartItemDto.setUser(userMapper.userToDto(user));
 
-        CartItem cartItem;
         Optional<CartItem> cartItem1 = cartItemService.findByItemAndShopAndUser(
                 cartItemDto.getItem().getId(),
                 cartItemDto.getUser().getId(),
                 cartItemDto.getShop().getId());
 
-        if(cartItem1.isPresent()) {
-            cartItem = cartItem1.get();
+        CartItem cartItem;
+
+        if (cartItem1.isPresent()) {
+            cartItem = cartItem1.get(); // Если в корзине уже есть товар, значит Optional будет не null и вернет cartItem
             cartItemDto.setQuantity(cartItem.getQuantity() + cartItemDto.getQuantity());
             updateCartItemQuantity(cartItem.getId(), cartItemDto);
         } else {
             cartItem = cartItemMapper.dtoToCartItem(cartItemDto);
             cartItemService.persist(cartItem);
+
             LOGGER.info(String.format("Пользователь с id %d успешно добавил товар с id %d в корзину", cartItem.getUser().getId(),
                     cartItem.getId()));
         }
