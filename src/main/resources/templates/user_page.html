@@ -219,6 +219,14 @@
             </div>
             <form id="update_user_form">
                 <div class="row justify-content-center">
+                    <div class = "form-group col-11">
+                    <label class="form-label" for="imageUserSave">Фото</label>
+                    <input class="form-control" type="file" value="" id="imageUserSave"  placeholder="Фотография пользователя">
+                    <input type="hidden" id="logoarrayUserSave">
+                    <input type="hidden" id="logoUserSave">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
                     <div class="form-group col-11">
                         <label class="form-label" for="emailSave">Адрес электронной почты</label>
                         <input class="form-control" type="email" value="" id="emailSave" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" title="в формате user@example.com" required placeholder="Введите адрес электронной почты">
@@ -304,7 +312,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 d-flex align-items-center">
-                    <img src="https://img.etimg.com/thumb/msid-79733946,width-300,imgsize-300305,,resizemode-4,quality-100/cyber.jpg" alt="user_image" width="100px" height="100px">
+                    <img th:src="${user.getImages()?.getPictureForPage()}" alt="" width="100px" height="100px">
                 </div>
                 <div class="col-12 d-flex align-items-center">
                     <h2 id="user_fullName" th:text="${user.getFirstName() + ' ' + user.getLastName()}">Alexandr Alexandrov</h2>
@@ -506,6 +514,7 @@
             getShops().then(shops => addShopsOnPage(shops));
         })
 
+        //кнопка изменения пользователя на модальном окне
         $(userUpdateBtn).on('click', function () {
             updateUser();
             $('#edit_modal').modal('toggle');
@@ -555,6 +564,30 @@
                 }
                 $('#logoarrayShopSave').val(fileByteArray.toString());
                 $('#logoShopSave').val(URL.createObjectURL(image).toString());
+            }
+        })
+
+        /*изменяет данные картинки пользователя*/
+        $('#imageUserSave').change(function () {
+            let image = $('#imageUserSave').prop('files')[0];
+            const reader = new FileReader();
+            let fileByteArray = [];
+            reader.readAsArrayBuffer(image);
+            reader.onloadend = (evt) => {
+                if (evt.target.readyState == FileReader.DONE) {
+                    var arrayBuffer = evt.target.result,
+                        array = new Uint8Array(arrayBuffer);
+                    for (var i = 0; i < array.length; i++) {
+                        if (array[i] <= 127) {
+                            fileByteArray.push(array[i]);
+                        } else {
+                            fileByteArray.push(array[i] - 256);
+                        }
+
+                    }
+                }
+                $('#logoarrayUserSave').val(fileByteArray.toString());
+                $('#logoUserSave').val(URL.createObjectURL(image).toString());
             }
         })
 
@@ -757,6 +790,8 @@
         //получаем данные юзера с формы в модальном окне обновления юзера
         function getJsonFromFormUpdate() {
             const userJson = {
+                logo: $('#logoUserSave').val(),
+                logoarray: $('#logoarrayUserSave').val(),
                 username: $('#usernameSave').val(),
                 firstName: $('#first_nameSave').val(),
                 lastName: $('#last_nameSave').val(),

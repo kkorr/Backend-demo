@@ -6,6 +6,8 @@ import com.amr.project.model.dto.AddressDto;
 import com.amr.project.model.dto.OrderDto;
 import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.dto.UserDto;
+import com.amr.project.model.entity.Image;
+import com.amr.project.model.entity.Shop;
 import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.ItemService;
 import com.amr.project.service.abstracts.UserPageOrderService;
@@ -27,12 +29,12 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/userPage")
 public class UserPageRestController {
-    private UserPageShopService userPageShopService;
-    private UserPageOrderService userPageOrderService;
-    private UserService userService;
-    private UserMapper userMapper;
-    private AddressMapper addressMapper;
-    private ItemService itemService;
+    private final UserPageShopService userPageShopService;
+    private final UserPageOrderService userPageOrderService;
+    private final UserService userService;
+    private final UserMapper userMapper;
+    private final AddressMapper addressMapper;
+    private final ItemService itemService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -59,9 +61,9 @@ public class UserPageRestController {
         }
         return new ResponseEntity<>(new UserDto(), HttpStatus.NOT_FOUND);
     }
+
     @PutMapping("/user")
     public ResponseEntity<?> updateUser(@RequestBody UserDto userDto) {
-
         if(userDto != null) {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             Optional<User> userOp = userService.findByUsername(authentication.getName());
@@ -74,6 +76,7 @@ public class UserPageRestController {
         }
         return ResponseEntity.badRequest().build();
     }
+
     @GetMapping("/orders")
     public ResponseEntity<List<OrderDto>> getOrdersByUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

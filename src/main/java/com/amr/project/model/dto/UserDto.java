@@ -48,7 +48,9 @@ public class UserDto {
     @JsonFormat(pattern="yyyy-MM-dd")
     private Calendar birthday;
 
-    private Image images;
+    //private Image images;
+    private String logo;
+    private String logoarray;
 
     private Collection<Coupon> coupons;
 

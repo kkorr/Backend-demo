@@ -1,15 +1,13 @@
 package com.amr.project.service.impl;
 
+import com.amr.project.converter.UserMapper;
 import com.amr.project.dao.abstracts.AddressDao;
 import com.amr.project.dao.abstracts.CityDao;
 import com.amr.project.dao.abstracts.CountryDao;
 import com.amr.project.dao.abstracts.UserDao;
 import com.amr.project.model.dto.AddressDto;
 import com.amr.project.model.dto.UserDto;
-import com.amr.project.model.entity.Address;
-import com.amr.project.model.entity.City;
-import com.amr.project.model.entity.Country;
-import com.amr.project.model.entity.User;
+import com.amr.project.model.entity.*;
 import com.amr.project.service.abstracts.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,17 +23,19 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
     private AddressDao addressDao;
     private CountryDao countryDao;
     private CityDao cityDao;
+    private final UserMapper userMapper;
 
     @Autowired
     public UserServiceImpl(UserDao userDao,
                            AddressDao addressDao,
                            CountryDao countryDao,
-                           CityDao cityDao) {
+                           CityDao cityDao, UserMapper userMapper) {
         super(userDao);
         this.userDao = userDao;
         this.addressDao = addressDao;
         this.countryDao = countryDao;
         this.cityDao = cityDao;
+        this.userMapper = userMapper;
     }
 
     public Optional<User> findByUsername(String username)  {
@@ -48,6 +48,16 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
 
     @Override
     public void updateUserOnUserPage(User user, UserDto userDto) {
+
+        User oldUser = userMapper.dtoToUser(userDto);
+
+        Image image = Image.builder()
+                .url(oldUser.getImages().getUrl())
+                .picture(oldUser.getImages().getPicture())
+                .isMain(true)
+                .build();
+
+        user.setImages(image);
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setAge(userDto.getAge());
