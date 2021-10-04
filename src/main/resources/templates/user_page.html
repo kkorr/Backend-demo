@@ -209,6 +209,66 @@
         </div>
     </div>
 </div>
+<!--Модалка изменения пароля -->
+<div class="modal fade" id="changePassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 700px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Изменение данных пользователя</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="changePasswordForm">
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="oldPassword">Введите старый пароль:</label>
+                        <input class="form-control" type="password" value="" id="oldPassword" placeholder="Введите старый пароль:">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="newPassword1">Введите новый пароль:</label>
+                        <input class="form-control" type="password" value="" id="newPassword1" placeholder="Введите новый пароль:">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="newPassword2">Введите старый пароль:</label>
+                        <input class="form-control" type="password" value="" id="newPassword2" placeholder="Повторите новый пароль:">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="button" id="passwordChangeBtn" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Модалка проверки пароля -->
+<div class="modal fade" id="checkPasswordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 700px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Подтвердите пароль</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="checkPasswordForm">
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="oldPassword">Введите пароль:</label>
+                        <input class="form-control" type="password" value="" id="checkPassword" placeholder="Введите пароль">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="button" id="checkPasswordBtn" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!--Модалка изменения информации юзера-->
 <div class="modal fade" id="edit_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="max-width: 700px !important;">
@@ -296,6 +356,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="userPasswordChange">Сменить пароль</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
                     <button type="button" id="user_update_btn" class="btn btn-primary">Сохранить</button>
                 </div>
@@ -516,10 +577,59 @@
 
         //кнопка изменения пользователя на модальном окне
         $(userUpdateBtn).on('click', function () {
-            updateUser();
             $('#edit_modal').modal('toggle');
+            $('#checkPasswordModal').modal('show');
         })
 
+        //кнопка на модалке подтверждения пароля
+        $('#checkPasswordBtn').on('click', function () {
+            getUser().then(u => {
+                if (u.password === $('#checkPassword').val()) {
+                    updateUser();
+                    $('#checkPasswordModal').modal('toggle');
+                } else {
+                    alert("Пароль введен неверно!")
+                }
+            })
+        })
+
+        //кнопка смены пароля на окне изменения информации открывает модалку для пароля
+        $('#userPasswordChange').on('click', function () {
+            $('#edit_modal').modal('toggle');
+            $('#changePassword').modal('show');
+        })
+
+        //кнопка смены пароля на модальном окне смены пароля
+        $('#passwordChangeBtn').on('click', function () {
+            getUser().then(u => {
+                //проверяем корректность введенных паролей
+                if (u.password === $('#oldPassword').val() &&
+                    $('#newPassword1').val() == $('#newPassword2').val()) {
+                    //отправляем запрос на сервер
+                    updatePassword($('#newPassword2').val(), u.id);
+
+                    $('#changePassword').modal('toggle');
+                    $('#edit_modal').modal("show");
+                    addUserInfoOnModal(u);
+                } else {
+                    //выводим сообщение об ошибке
+                    alert("Пароли не совпадают.. Попробуйте еще раз.")
+                }
+            });
+        })
+
+        //отправка данных о смене пароля на сервер
+        async function updatePassword(newPassword, id) {
+            await fetch("/api/userPage/updatePassword/" + id, {
+                headers: {"Content-Type": "application/json; charset=utf-8"},
+                method: "PATCH",
+                body: JSON.stringify({
+                    password: newPassword
+                }),
+            });
+        }
+
+        //кнопка редактирования профиля
         $(editProfile).on('click', function () {
             $('#edit_modal').modal("show");
             getUser().then(u => addUserInfoOnModal(u));

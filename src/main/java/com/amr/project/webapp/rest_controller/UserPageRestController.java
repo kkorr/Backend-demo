@@ -62,6 +62,15 @@ public class UserPageRestController {
         return new ResponseEntity<>(new UserDto(), HttpStatus.NOT_FOUND);
     }
 
+    @PatchMapping("/updatePassword/{id}")
+    public ResponseEntity<?> updatePassword(@PathVariable("id") Long id, @RequestBody UserDto userDto) {
+        User user = userService.getByKey(id);
+        user.setPassword(userDto.getPassword());
+        userService.update(user);
+
+        return ResponseEntity.noContent().build();
+    }
+
     @PutMapping("/user")
     public ResponseEntity<?> updateUser(@RequestBody UserDto userDto) {
         if(userDto != null) {
