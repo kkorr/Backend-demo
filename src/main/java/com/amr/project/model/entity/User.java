@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
+import org.jboss.aerogear.security.otp.api.Base32;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import springfox.documentation.annotations.ApiIgnore;
@@ -15,7 +16,6 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "user")
-@NoArgsConstructor
 @AllArgsConstructor
 @ApiIgnore
 @Getter
@@ -122,6 +122,10 @@ public class User implements UserDetails {
             inverseJoinColumns = {@JoinColumn(name = "discount_id")})
     private Collection<Discount> discounts;
 
+    private boolean isUsingTwoFactorAuth;
+
+    private String secret;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
@@ -147,12 +151,15 @@ public class User implements UserDetails {
         return true;
     }
 
+    public User() {
+        secret = Base32.random();
+    }
+
     public User(Long id, String email, String username) {
         this.id = id;
         this.email = email;
         this.username = username;
     }
-
 
     public int calculateAge() {
 

@@ -4,6 +4,7 @@ import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.model.entity.User;
 import com.github.scribejava.core.base64.Base64;
+import org.jetbrains.annotations.NotNull;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -30,7 +31,6 @@ public interface ShopMapper {
             @Mapping(source = "logo.url", target = "logo"),
             @Mapping(source = "location.name", target = "location"),
             @Mapping(source = "logo.picture", target = "logoarray")
-
     })
     ShopDto shopToShopDto(Shop shop);
 
