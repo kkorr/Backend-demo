@@ -75,6 +75,6 @@ public abstract class ReadWriteDAOImpl<T, K> implements ReadWriteDAO<T, K> {
     @Override
     public T getByName(String name) {
         return (T) entityManager.createQuery("SELECT c from "+ clazz.getName()+" c where c.name = :name")
-                .setParameter("name", name).getSingleResult();
+                .setParameter("name", name).getResultList().stream().findAny().orElse(null);
     }
 }

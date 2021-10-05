@@ -3,6 +3,7 @@ package com.amr.project.converter;
 import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.model.entity.User;
+import com.github.scribejava.core.base64.Base64;
 import org.jetbrains.annotations.NotNull;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -42,22 +43,21 @@ public interface ShopMapper {
     Shop shopDtoToShop(ShopDto shopDto);
 
     default String map(byte[] picture) {
-        String str = Arrays.toString(picture);
+        String str_ = "data:jpg;base64,";
+        /*String str = Arrays.toString(picture);
         str.replace("[", "");
-        str.replace("[", "");
-        return str;
+        str.replace("[", "");*/
+        str_ += Base64.encode(picture);
+        return str_;
     }
 
     default byte[] map(String logoarray) {
-        if (logoarray != null) {
-            String[] stringBytesArray = logoarray.split(",");
-            byte[] picture = new byte[stringBytesArray.length];
-            for (int i = 0; i < picture.length; i++) {
-                picture[i] = Byte.parseByte(stringBytesArray[i].trim());
-            }
-            return picture;
-        } else
-            return null;
+        String[] stringBytesArray = logoarray.split(",");
+        byte[] picture = new byte[stringBytesArray.length];
+        for(int i = 0; i < picture.length; i++) {
+            picture[i] = Byte.parseByte(stringBytesArray[i].trim());
+        }
+        return picture;
     }
 
     default Long map(Shop shop) {

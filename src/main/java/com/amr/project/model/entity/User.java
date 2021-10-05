@@ -43,7 +43,7 @@ public class User implements UserDetails {
 
     @Column
     @NotBlank(message = "Введите пароль")
-    @Length(min = 6, message = "пароль должен быть не менее 6 символов")
+    @Length(min = 4, message = "пароль должен быть не менее 6 символов")
     private String password;
 
     private boolean activate;
