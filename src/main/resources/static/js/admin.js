@@ -652,7 +652,7 @@ function getRole(address) {
     let data = [];
     $(address).find("option:selected").each(function () {
         data.push({id: $(this).val(),name: $(this).attr("name")
-                /* , authority: $(this).attr("name")*/
+            /* , authority: $(this).attr("name")*/
         })
     });
     return data;
@@ -668,7 +668,7 @@ function getCountry(address) {
 function getCategory(address) {
     let data = [];
     $(address).find("option:selected").each(function () {
-         data.push($(this).attr("name"))
+        data.push($(this).attr("name"))
     });
     return data;
 }
@@ -939,7 +939,7 @@ function getImagesArray(num) {
         for (let i = 0; i < 6; i++) {
             var str = "#edit-item-logo-array" + i.toString();
             console.log(str);
-                data.push($(str).val())
+            data.push($(str).val())
         }
     }
     console.log(data);
@@ -1076,7 +1076,7 @@ document.addEventListener('click', function (event) {
                     response.json().then(data => data.forEach(function (item, i, data) {
                         if (item.username == shop.username) {
                             $("#edit_shop_username")
-                            .append("<option name=\"" + item.username + "\" value=\"" + item.username + "\" "
+                                .append("<option name=\"" + item.username + "\" value=\"" + item.username + "\" "
                                     + " label=\"" + item.username + "\" "
                                     + " selected=true "
                                     + ">" + item.username + "</option>");
@@ -1456,18 +1456,18 @@ document.addEventListener('click', function (event) {
             gender[2] = "UNKNOWN";
 
             for (let i = 0; i < 3; i++) {
-                    if (user.gender == gender[i]) {
-                        $("#edit_user_gender")
-                    .append("<option name=\""+gender[i]+"\" value=\""+gender[i]+"\" "
+                if (user.gender == gender[i]) {
+                    $("#edit_user_gender")
+                        .append("<option name=\""+gender[i]+"\" value=\""+gender[i]+"\" "
                             + " selected=true"+
                             +" label=\""+gender[i]+"\" "
                             +">"+gender[i]+"</option>");
-                    } else {
-                        $("#edit_user_gender")
-                    .append("<option name=\""+gender[i]+"\" value=\""+gender[i]+"\" "
-                           +" label=\""+gender[i]+"\" "
+                } else {
+                    $("#edit_user_gender")
+                        .append("<option name=\""+gender[i]+"\" value=\""+gender[i]+"\" "
+                            +" label=\""+gender[i]+"\" "
                             +">"+gender[i]+"</option>");
-                    }
+                }
             }
 
             $('.userEditModal #birthday').val(user.birthday);
@@ -1504,108 +1504,106 @@ document.addEventListener('click', function (event) {
 
     //delete address
     if ($(event.target).hasClass('addressDeleteButton')) {
-            let href = $(event.target).attr("href");
+        let href = $(event.target).attr("href");
 
-            fetch(href, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json;charset=utf-8"
-                }
-            }).then((response) => { if (response.ok)
-            {updateAddresses(""); updateUsers("");} else {alert('Невозможно удалить адрес')}
-            });
+        fetch(href, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            }
+        }).then((response) => { if (response.ok)
+        {updateAddresses(""); updateUsers("");} else {alert('Невозможно удалить адрес')}
+        });
 
     }
 
     //delete city
     if ($(event.target).hasClass('cityDeleteButton')) {
-            let href = $(event.target).attr("href");
+        let href = $(event.target).attr("href");
 
-            fetch(href, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json;charset=utf-8"
-                }
-            }).then((response) => {if (response.ok)
-            {updateCities(""); updateAddresses("");} else {alert('Невозможно удалить город')}
-            });
+        fetch(href, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            }
+        }).then((response) => {if (response.ok)
+        {updateCities(""); updateAddresses("");} else {alert('Невозможно удалить город')}
+        });
 
     }
 
     //delete country
     if ($(event.target).hasClass('countryDeleteButton')) {
-            let href = $(event.target).attr("href");
+        let href = $(event.target).attr("href");
 
-            fetch(href, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json;charset=utf-8"
-                }
-            }).then((response) => {if (response.ok)
-            {updateCountries(""); updateCities("");} else {alert('Невозможно удалить страну')}
-            });
+        fetch(href, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            }
+        }).then((response) => {if (response.ok)
+        {updateCountries(""); updateCities("");} else {alert('Невозможно удалить страну')}
+        });
 
     }
 
     //delete item
     if ($(event.target).hasClass('itemDeleteButton')) {
-            let href = $(event.target).attr("href");
+        let href = $(event.target).attr("href");
 
-            fetch(href, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json;charset=utf-8"
-                }
-            }).then((response) => {if (response.ok)
-            {updateItems("")} else {alert('Невозможно удалить товар')}
-            });
+        fetch(href, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            }
+        }).then((response) => {if (response.ok)
+        {updateItems("")} else {alert('Невозможно удалить товар')}
+        });
 
     }
 
     //delete category
     if ($(event.target).hasClass('categoryDeleteButton')) {
-            let href = $(event.target).attr("href");
+        let href = $(event.target).attr("href");
 
-            fetch(href, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json;charset=utf-8"
-                }
-            }).then((response) => {if (response.ok)
-            {updateCategories(""); updateItems("")} else {alert('Невозможно удалить товарную категорию')}
-            });
+        fetch(href, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            }
+        }).then((response) => {if (response.ok)
+        {updateCategories(""); updateItems("")} else {alert('Невозможно удалить товарную категорию')}
+        });
 
     }
 
     //delete shop
     if ($(event.target).hasClass('shopDeleteButton')) {
-            let href = $(event.target).attr("href");
+        let href = $(event.target).attr("href");
 
-            fetch(href, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json;charset=utf-8"
-                }
-            }).then((response) => {if (response.ok)
-            {updateShops(""); updateItems("")} else {alert('Невозможно удалить магазин')}
-            });
+        fetch(href, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            }
+        }).then((response) => {if (response.ok)
+        {updateShops(""); updateItems("")} else {alert('Невозможно удалить магазин')}
+        });
     }
 
     //delete user
     if ($(event.target).hasClass('userDeleteButton')) {
-            let href = $(event.target).attr("href");
+        let href = $(event.target).attr("href");
 
-            fetch(href, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json;charset=utf-8"
-                }
-            }).then((response) => {if (response.ok)
-            {updateUsers(""); updateShops(""); updateAddresses("");updateItems("")}  else {alert('Невозможно удалить пользователя')}
-            });
+        fetch(href, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            }
+        }).then((response) => {if (response.ok)
+        {updateUsers(""); updateShops(""); updateAddresses("");updateItems("")}  else {alert('Невозможно удалить пользователя')}
+        });
 
     }
 
 });
-
-

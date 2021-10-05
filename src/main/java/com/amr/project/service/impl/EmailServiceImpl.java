@@ -108,7 +108,8 @@ public class EmailServiceImpl extends ReadWriteServiceImpl<User, Long> implement
 
         userService.persist(user);
 
-        notifyAboutUserRegistration(user);
+//        Отвалилась функция внезапно (в ней ничего не менял), скорее всего владелец почты поменял учетку.
+//        notifyAboutUserRegistration(user);
         return true;
     }
 

@@ -1,24 +1,22 @@
-
-$(document).ready(function() {
-
-    getItems();
-
-    $('#order_btn').on('click', function (e) {
-        e.preventDefault();
-        addItemsToOrder().then((id) => location.replace("/order/" + id));
-    })
-})
 let checkFetch = 0;
+
 async function getItems() {
     const response = await fetch("/api/cart")
-    const data = await response.json();
-    if(data.length > 0) {
+    const cartItems = await response.json();
+
+    if (cartItems.length > 0) {
         checkPaymentButton()
+        for (let i = 0; i < cartItems.length; i++) {
+            let desc = await fetch("/api/discounts/" + cartItems[i].shop.id);
+            cartItems[i].desc = await desc.json();
+        }
+        console.log(cartItems);
     }
-    if(document.getElementById("cartItems")) {
-        data.forEach(cartItem=> insertCartItemRow(cartItem))
+    if (document.getElementById("cartItems")) {
+        cartItems.forEach(cartItem => insertCartItemRow(cartItem))
     }
 }
+
 getItems()
 
 function checkPaymentButton() {
@@ -31,6 +29,7 @@ function checkPaymentButton() {
 
 
 let i = 0;
+
 function insertCartItemRow(cartItem) {
     let ci = {
         id: cartItem.id,
@@ -73,7 +72,7 @@ function insertCartItemRow(cartItem) {
             <h5><span id="itemTotalPrice${ci.id}" name="itemTotalPrice"></span></h5>
           </div>
         </div>
-    </div> 
+    </div>
     <div class="row m-1">&nbsp;</div>
     `)
     sumForCartItem(ci.id, ci.item.price);
@@ -81,26 +80,26 @@ function insertCartItemRow(cartItem) {
 }
 
 async function deleteCartItem(id) {
-    let url = new URL("http://localhost:8888/api/cart/delete/"+id)
+    let url = new URL("http://localhost:8888/api/cart/delete/" + id)
 
     const response = await fetch(url, {
-        headers: { "Content-Type": "application/json; charset=utf-8" },
+        headers: {"Content-Type": "application/json; charset=utf-8"},
         method: 'DELETE'
     })
 }
 
 function collapseRow(id) {
-    let idHTML = "cartItem"+id;
+    let idHTML = "cartItem" + id;
     document.getElementById(idHTML).remove();
 }
 
 async function updateQuantity(id) {
 
-    let quantHTML = "cartItemQuantity"+id;
+    let quantHTML = "cartItemQuantity" + id;
     let newQuant = document.getElementById(quantHTML).value;
 
-    const response = await fetch("http://localhost:8888/api/cart/update/"+id, {
-        headers: { "Content-Type": "application/json; charset=utf-8" },
+    const response = await fetch("http://localhost:8888/api/cart/update/" + id, {
+        headers: {"Content-Type": "application/json; charset=utf-8"},
         method: 'PATCH',
         body: JSON.stringify({
             id: id,
@@ -110,8 +109,8 @@ async function updateQuantity(id) {
 }
 
 function sumForCartItem(id, price) {
-    let idHTML = "itemTotalPrice"+id;
-    let quantHTML = "cartItemQuantity"+id;
+    let idHTML = "itemTotalPrice" + id;
+    let quantHTML = "cartItemQuantity" + id;
     let newQuant = document.getElementById(quantHTML).value;
     let sum = newQuant * price;
     document.getElementById(idHTML).innerHTML = `<span>${sum}</span>`;

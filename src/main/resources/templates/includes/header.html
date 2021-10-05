@@ -20,15 +20,30 @@
                </a>
                <!--NavBar(HEADER)-->
                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ms-5">
-                  <li><a href="#" class="nav-link px-2 text-white"><font style="vertical-align: inherit;"><font
+                  <li><a href="/shops" class="nav-link px-2 text-white"><font style="vertical-align: inherit;"><font
                         style="vertical-align: inherit;">Магазины</font></font></a></li>
                   <li><a href="#" class="nav-link px-2 text-white"><font style="vertical-align: inherit;"><font
                         style="vertical-align: inherit;">Товары</font></font></a></li>
-                  <li><a href="#" class="nav-link px-2 text-white"><font style="vertical-align: inherit;"><font
+                  <li><a href="/favorites" sec:authorize="isAuthenticated()" class="nav-link px-2 text-white" id="linkFavorites" ><font style="vertical-align: inherit;"><font
                         style="vertical-align: inherit;">Избранное</font></font></a></li>
                   <li><a href="#" class="nav-link px-2 text-white"><font style="vertical-align: inherit;"><font
                         style="vertical-align: inherit;">Ещё...</font></font></a></li>
+                  <div sec:authorize="hasAuthority('ADMIN')">
+                     <form>
+                        <input type="button" class="btn btn-info" value="Панель Администратора" onClick='location.href="/admin"'>
+                     </form>
+                  </div>
+                  <div sec:authorize="hasAuthority('MODERATOR')">
+                     <form>
+                        <input type="button" class="btn btn-info" value="Панель Модератора" onClick='location.href="/moderator"'>
+                     </form>
+                  </div>
                </ul>
+
+<!--               <button  sec:authorize="hasRole('ROLE_ADMIN')"-->
+<!--                        type="button" class="btn btn-info" value="Панель Администратора" onClick='location.href="/admin"'>-->
+<!--               </button>-->
+
 
                <div class="text-end">
 
@@ -39,6 +54,7 @@
                   <button sec:authorize="isAnonymous()" type="button" id="user_open_modal_reg" class="btn btn-warning">
                      Зарегистрироваться
                   </button>
+
                   <script>
                      $(document).ready(function () {
                         if (window.location.href !== 'http://localhost:8888/') {
@@ -51,6 +67,7 @@
                         }
                      })
                   </script>
+
                   <!--ссылка и информация пользователя при аутентификации-->
                   <div class="dropdown" sec:authorize="isAuthenticated()" style="position: relative; ">
                      <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle show text-white"
