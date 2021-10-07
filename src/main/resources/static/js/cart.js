@@ -65,7 +65,7 @@ function insertCartItemRow(cartItem) {
             <span>X</span>
             <span id="itemPrice">${ci.item.price}</span>
             <p>Стоимость со скидкой: </p>
-            <p>${ci.item.price - ci.desc.fixedDiscount}</p>
+            <p>${ci.item.price - 0}</p>
           </div>
           <div>
             <span>= </span>

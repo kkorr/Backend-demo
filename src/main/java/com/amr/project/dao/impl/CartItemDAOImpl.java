@@ -20,6 +20,13 @@ public class CartItemDAOImpl extends ReadWriteDAOImpl<CartItem, Long> implements
     }
 
     @Override
+    public List<CartItem> findByAnon(String anonID) {
+        return entityManager.createQuery("SELECT c from CartItem c where c.anonID = :anonID", CartItem.class)
+                .setParameter("anonID", anonID).getResultList();
+    }
+
+
+    @Override
     public void deleteByUserAndItem(Long userId, Long itemId) {
         entityManager.createQuery("delete from CartItem c where c.user.id = :userid and c.item.id = :itemid")
                 .setParameter("userid", userId)
@@ -47,10 +54,10 @@ public class CartItemDAOImpl extends ReadWriteDAOImpl<CartItem, Long> implements
     }
 
     @Override
-    public Optional<CartItem> findByItemAndShopAndCookie(Long itemId, Long shopId, String cookie) {
-        return entityManager.createQuery("select c from CartItem c where c.cookie = :cookie and c.item.id = :itemid " +
+    public Optional<CartItem> findByItemAndShopAndAnonID(Long itemId, Long shopId, String anonID) {
+        return entityManager.createQuery("select c from CartItem c where c.anonID = :anonID and c.item.id = :itemid " +
                         "and c.shop.id= :shopid", CartItem.class)
-                .setParameter("cookie", cookie)
+                .setParameter("anonID", anonID)
                 .setParameter("itemid", itemId)
                 .setParameter("shopid", shopId)
                 .getResultStream().findAny();

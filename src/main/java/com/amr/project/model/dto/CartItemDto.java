@@ -20,6 +20,7 @@ public class CartItemDto {
     private ItemDto item;
     private ShopDto shop;
     private UserDto user;
+    private String cookie;
     private int quantity;
     private BigDecimal getSubTotal;
 }

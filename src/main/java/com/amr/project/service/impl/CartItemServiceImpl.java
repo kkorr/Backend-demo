@@ -31,6 +31,12 @@ public class CartItemServiceImpl extends ReadWriteServiceImpl<CartItem, Long> im
     }
 
     @Override
+    public List<CartItem> findByAnon(String anonID) {
+        return cartItemDao.findByAnon(anonID);
+    }
+
+
+    @Override
     public void deleteByUserAndItem(Long userId, Long itemId) {
         cartItemDao.deleteByUserAndItem(userId, itemId);
     }
@@ -46,8 +52,8 @@ public class CartItemServiceImpl extends ReadWriteServiceImpl<CartItem, Long> im
     }
 
     @Override
-    public Optional<CartItem> findByItemAndShopAndCookie(Long itemId, Long shopId, String cookie) {
-        return cartItemDao.findByItemAndShopAndCookie(itemId, shopId, cookie);
+    public Optional<CartItem> findByItemAndShopAndAnonID(Long itemId, Long shopId, String cookie) {
+        return cartItemDao.findByItemAndShopAndAnonID(itemId, shopId, cookie);
     }
 
 

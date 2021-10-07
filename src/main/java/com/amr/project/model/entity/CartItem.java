@@ -34,8 +34,8 @@ public class CartItem {
     private User user;
 
     @JsonIgnore
-    @Column(name = "cookie")
-    private String cookie;
+    @Column(name = "anon_id")
+    private String anonID;
 
     private int quantity;
 

@@ -10,11 +10,13 @@ public interface CartItemDao extends ReadWriteDAO<CartItem, Long> {
 
     List<CartItem> findByUser(User user);
 
+    List<CartItem> findByAnon(String anonID);
+
     void deleteByUserAndItem(Long userId, Long itemId);
 
     void updateQuantity(int quantity, Long userId, Long itemId);
 
     Optional<CartItem> findByItemAndShopAndUser(Long itemId, Long userId, Long shopId);
 
-    Optional<CartItem> findByItemAndShopAndCookie(Long itemId, Long shopId, String cookie);
+    Optional<CartItem> findByItemAndShopAndAnonID(Long itemId, Long shopId, String anonID);
 }
