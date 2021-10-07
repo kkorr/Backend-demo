@@ -4,6 +4,7 @@ async function getItems() {
     const response = await fetch("/api/cart")
     const cartItems = await response.json();
 
+    console.log("Статус ответа: " + response.status);
     if (cartItems.length > 0) {
         checkPaymentButton()
         for (let i = 0; i < cartItems.length; i++) {
@@ -65,7 +66,7 @@ function insertCartItemRow(cartItem) {
             <span>X</span>
             <span id="itemPrice">${ci.item.price}</span>
             <p>Стоимость со скидкой: </p>
-            <p>${ci.item.price - 0}</p>
+            <p>${ci.item.price - ci.desc.fixedDiscount}</p>  
           </div>
           <div>
             <span>= </span>
