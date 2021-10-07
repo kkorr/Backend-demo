@@ -7,9 +7,11 @@ async function getItems() {
     console.log("Статус ответа: " + response.status);
     if (cartItems.length > 0) {
         checkPaymentButton()
+
         for (let i = 0; i < cartItems.length; i++) {
-            let desc = await fetch("/api/discounts/" + cartItems[i].shop.id);
-            cartItems[i].desc = await desc.json();
+            // раскомментировать при добавлении функции подсчета скидки
+            // let desc = await fetch("/api/discounts/" + cartItems[i].shop.id);
+            // cartItems[i].desc = await desc.json();
         }
         console.log(cartItems);
     }
@@ -66,7 +68,8 @@ function insertCartItemRow(cartItem) {
             <span>X</span>
             <span id="itemPrice">${ci.item.price}</span>
             <p>Стоимость со скидкой: </p>
-            <p>${ci.item.price - ci.desc.fixedDiscount}</p>  
+            <p>${ci.item.price - 0}</p>   <!-- удалить при добавлении функции подсчета скидки -->
+            <!-- <p>${"ci.item.price - ci.desc.fixedDiscount"}</p> --> <!-- раскоментировать при добавлении функции подсчета скидки, убрать ковычки -->
           </div>
           <div>
             <span>= </span>
