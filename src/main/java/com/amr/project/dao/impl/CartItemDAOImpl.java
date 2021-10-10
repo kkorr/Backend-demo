@@ -63,4 +63,11 @@ public class CartItemDAOImpl extends ReadWriteDAOImpl<CartItem, Long> implements
                 .getResultStream().findAny();
     }
 
+    @Override
+    public void updateUserToAnonCartItem(User user, String anonID) {
+        entityManager.createQuery("update CartItem c set c.user.id=:userID where c.anonID = :anonID")
+                .setParameter("userID", user.getId())
+                .setParameter("anonID", anonID)
+                .executeUpdate();
+    }
 }

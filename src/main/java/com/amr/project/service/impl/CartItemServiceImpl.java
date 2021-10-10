@@ -56,5 +56,10 @@ public class CartItemServiceImpl extends ReadWriteServiceImpl<CartItem, Long> im
         return cartItemDao.findByItemAndShopAndAnonID(itemId, shopId, cookie);
     }
 
+    @Override
+    public void updateUserToAnonCartItem(User user, String anonID) {
+        cartItemDao.updateUserToAnonCartItem(user, anonID);
+    }
+
 
 }

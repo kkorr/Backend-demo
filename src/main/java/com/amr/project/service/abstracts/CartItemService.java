@@ -21,4 +21,6 @@ public interface CartItemService extends ReadWriteService<CartItem, Long> {
 
     Optional<CartItem> findByItemAndShopAndAnonID(Long itemId, Long shopId, String cookie);
 
+    void updateUserToAnonCartItem(User user, String anonID);
+
 }

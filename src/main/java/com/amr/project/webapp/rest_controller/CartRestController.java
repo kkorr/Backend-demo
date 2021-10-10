@@ -76,11 +76,11 @@ public class CartRestController {
                }
            }
         }
-
         User user = userService.findByUsername(authentication.getName()).get();
         List<CartItem> cartItems = cartItemService.findByUser(user);
         List<CartItemDto> cartItemsDto = cartItems.stream().map(c -> cartItemMapper.cartItemToDto(c)).collect(Collectors.toList());
         LOGGER.info(String.format("Пользователь с id %d успешно получил список товаров в корзине", user.getId()));
+
         return ResponseEntity.ok(cartItemsDto);
     }
 
@@ -118,7 +118,6 @@ public class CartRestController {
         if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
             //Надо првоерить есть ли уже в БД корзина с таким anonID.
             String anonID = request.getSession().getId();
-
             response.addCookie(new Cookie("anonItemCartID", anonID)); //добавляем anonID в куки
 
             Optional<CartItem> cartItem1 = cartItemService.findByItemAndShopAndAnonID(
@@ -132,7 +131,6 @@ public class CartRestController {
                 updateCartItemQuantity(cartItem.getId(), cartItemDto);
             } else {
                 cartItem = cartItemMapper.dtoToCartItem(cartItemDto);
-
                 cartItem.setAnonID(anonID);
                 cartItemService.persist(cartItem);
 
@@ -153,8 +151,31 @@ public class CartRestController {
                 cartItemDto.setQuantity(cartItem.getQuantity() + cartItemDto.getQuantity());
                 updateCartItemQuantity(cartItem.getId(), cartItemDto);
             } else {
+                //надо проверить null или нет anonID если да то значт юзер перед тем как войти в профиль товар в корзину не добавлял.
+                Cookie[] cookie = request.getCookies();
 
-                //надо проверить null или нет sessionID если да то значт юзер перед тем как войти в профиль товар в корзину не добавлял.
+                if (cookie != null) {
+                    for (Cookie c : cookie) {
+                        if (c.getName().equals("anonItemCartID")) {
+                            // Значит есть товары от анонима.
+                            // и поле userId надо добавить id пользователя
+                            cartItemService.updateUserToAnonCartItem(user, c.getValue());//переименовать
+
+                            Optional<CartItem> cartItem2 = cartItemService.findByItemAndShopAndUser(
+                                    cartItemDto.getItem().getId(),
+                                    cartItemDto.getUser().getId(),
+                                    cartItemDto.getShop().getId());
+                            cartItem = cartItem2.get();
+                            cartItemDto.setQuantity(cartItem.getQuantity() + cartItemDto.getQuantity());
+                            updateCartItemQuantity(cartItem.getId(), cartItemDto);
+
+                            c.setMaxAge(0);
+                            response.addCookie(c);
+
+                            return ResponseEntity.ok().build();
+                        }
+                    }
+                }
                 cartItem = cartItemMapper.dtoToCartItem(cartItemDto);
                 cartItemService.persist(cartItem);
 
@@ -162,7 +183,6 @@ public class CartRestController {
                         cartItem.getId()));
             }
         }
-
         return ResponseEntity.ok().build();
     }
 }

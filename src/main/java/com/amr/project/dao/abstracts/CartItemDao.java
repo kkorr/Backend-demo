@@ -19,4 +19,6 @@ public interface CartItemDao extends ReadWriteDAO<CartItem, Long> {
     Optional<CartItem> findByItemAndShopAndUser(Long itemId, Long userId, Long shopId);
 
     Optional<CartItem> findByItemAndShopAndAnonID(Long itemId, Long shopId, String anonID);
+
+    void updateUserToAnonCartItem(User user, String anonID);
 }
