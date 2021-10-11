@@ -23,8 +23,15 @@
       <h2>
         <div id="itemSubtotal"></div>
       </h2>
+      <div sec:authorize="!isAuthenticated()">
+        <form style="margin-top: 10px">
+          <fieldset>
+            <a href="/login">Авторизуйтесь</a>, чтобы оформить заказ.
+          </fieldset>
+        </form>
+      </div>
       <div>
-        <a href="/order/{id}" id="order_btn" class="btn btn-primary">Перейти к оформлению заказа</a>
+        <a href="/order/{id}" sec:authorize="isAuthenticated()" id="order_btn" class="btn btn-primary">Перейти к оформлению заказа</a>
       </div>
       <div id="paymentButton"  >
       </div>

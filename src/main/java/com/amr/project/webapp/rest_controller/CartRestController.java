@@ -168,20 +168,14 @@ public class CartRestController {
                                 cartItemDto.setQuantity(cartItem.getQuantity() + cartItemDto.getQuantity());
                                 updateCartItemQuantity(cartItem.getId(), cartItemDto);
 
-                                c.setMaxAge(0);
-                                response.addCookie(c);
-
-                                return ResponseEntity.ok().build();
                             } else { // если зарегистрированный первый раз добавил новый товар
                                 cartItem = cartItemMapper.dtoToCartItem(cartItemDto);
-//                                cartItem.setAnonID(anonID);
                                 cartItemService.persist(cartItem);
 
-                                c.setMaxAge(0);
-                                response.addCookie(c);
-
-                                return ResponseEntity.ok().build();
                             }
+                            c.setMaxAge(0);
+                            response.addCookie(c);
+                            return ResponseEntity.ok().build();
                         }
                     }
                 }
