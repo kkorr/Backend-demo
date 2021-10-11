@@ -61,7 +61,7 @@ public class CartRestController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if(!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
+//        if(!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
            Cookie[] cookie = request.getCookies();
            
            if (cookie != null) {
@@ -75,7 +75,7 @@ public class CartRestController {
                    }
                }
            }
-        }
+//        }
         User user = userService.findByUsername(authentication.getName()).get();
         List<CartItem> cartItems = cartItemService.findByUser(user);
         List<CartItemDto> cartItemsDto = cartItems.stream().map(c -> cartItemMapper.cartItemToDto(c)).collect(Collectors.toList());
@@ -157,22 +157,31 @@ public class CartRestController {
                 if (cookie != null) {
                     for (Cookie c : cookie) {
                         if (c.getName().equals("anonItemCartID")) {
-                            // Значит есть товары от анонима.
-                            // и поле userId надо добавить id пользователя
                             cartItemService.updateUserToAnonCartItem(user, c.getValue());//переименовать
 
                             Optional<CartItem> cartItem2 = cartItemService.findByItemAndShopAndUser(
                                     cartItemDto.getItem().getId(),
                                     cartItemDto.getUser().getId(),
                                     cartItemDto.getShop().getId());
-                            cartItem = cartItem2.get();
-                            cartItemDto.setQuantity(cartItem.getQuantity() + cartItemDto.getQuantity());
-                            updateCartItemQuantity(cartItem.getId(), cartItemDto);
+                            if (cartItem2.isPresent()) {
+                                cartItem = cartItem2.get();
+                                cartItemDto.setQuantity(cartItem.getQuantity() + cartItemDto.getQuantity());
+                                updateCartItemQuantity(cartItem.getId(), cartItemDto);
 
-                            c.setMaxAge(0);
-                            response.addCookie(c);
+                                c.setMaxAge(0);
+                                response.addCookie(c);
 
-                            return ResponseEntity.ok().build();
+                                return ResponseEntity.ok().build();
+                            } else { // если зарегистрированный первый раз добавил новый товар
+                                cartItem = cartItemMapper.dtoToCartItem(cartItemDto);
+//                                cartItem.setAnonID(anonID);
+                                cartItemService.persist(cartItem);
+
+                                c.setMaxAge(0);
+                                response.addCookie(c);
+
+                                return ResponseEntity.ok().build();
+                            }
                         }
                     }
                 }
