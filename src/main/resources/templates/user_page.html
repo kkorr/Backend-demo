@@ -96,6 +96,7 @@
         </div>
     </div>
 </div>
+
 <!--Модалка изменения информации магазина-->
 <div class="modal fade" id="edit_shop_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="max-width: 700px !important;">
@@ -151,6 +152,123 @@
         </div>
     </div>
 </div>
+
+<!--Модалка добавления магазина-->
+<div class="modal fade" id="add_shop_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 700px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Добавление магазина</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="add_shop_form">
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="imageAddShopSave">Лого магазина</label>
+                        <input class="form-control" type="file" value="" id="imageAddShopSave"  placeholder="Фотография магазина">
+                        <input type="hidden" id="logoarrayAddShopSave">
+                        <input type="hidden" id="logoAddShopSave">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="nameShopSave">Название магазина</label>
+                        <input class="form-control" type="email" value="" id="nameAddShopSave"  placeholder="Введите название магазина">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="emailShopSave">Адрес электронной почты</label>
+                        <input class="form-control" type="email" value="" id="emailAddShopSave" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" title="в формате user@example.com" required placeholder="Введите адрес электронной почты">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="phoneShopSave">Номер телефона</label>
+                        <input class="form-control" type="text" value="" id="phoneAddShopSave"  placeholder="Введите номер телефона">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="descriptionShopSave">Описание</label>
+                        <input class="form-control" type="text" value="" id="descriptionAddShopSave" placeholder="Введите описание">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="locationShopSave">Страна</label>
+                        <input class="form-control" type="text" value="" id="locationAddShopSave" placeholder="Введите страну">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="button" id="shop_add_btn" class="btn btn-primary"
+                            onclick="{event.preventDefault(); saveShop()}">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--Модалка изменения пароля -->
+<div class="modal fade" id="changePassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 700px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Изменение данных пользователя</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="changePasswordForm">
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="oldPassword">Введите старый пароль:</label>
+                        <input class="form-control" type="password" value="" id="oldPassword" placeholder="Введите старый пароль:">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="newPassword1">Введите новый пароль:</label>
+                        <input class="form-control" type="password" value="" id="newPassword1" placeholder="Введите новый пароль:">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="newPassword2">Введите старый пароль:</label>
+                        <input class="form-control" type="password" value="" id="newPassword2" placeholder="Повторите новый пароль:">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="button" id="passwordChangeBtn" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Модалка проверки пароля -->
+<div class="modal fade" id="checkPasswordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 700px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Подтвердите пароль</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="checkPasswordForm">
+                <div class="row justify-content-center">
+                    <div class="form-group col-11">
+                        <label class="form-label" for="oldPassword">Введите пароль:</label>
+                        <input class="form-control" type="password" value="" id="checkPassword" placeholder="Введите пароль">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="button" id="checkPasswordBtn" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!--Модалка изменения информации юзера-->
 <div class="modal fade" id="edit_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="max-width: 700px !important;">
@@ -160,6 +278,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="update_user_form">
+                <div class="row justify-content-center">
+                    <div class = "form-group col-11">
+                    <label class="form-label" for="imageUserSave">Фото</label>
+                    <input class="form-control" type="file" value="" id="imageUserSave"  placeholder="Фотография пользователя">
+                    <input type="hidden" id="logoarrayUserSave">
+                    <input type="hidden" id="logoUserSave">
+                    </div>
+                </div>
                 <div class="row justify-content-center">
                     <div class="form-group col-11">
                         <label class="form-label" for="emailSave">Адрес электронной почты</label>
@@ -230,6 +356,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="userPasswordChange">Сменить пароль</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
                     <button type="button" id="user_update_btn" class="btn btn-primary">Сохранить</button>
                 </div>
@@ -246,7 +373,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 d-flex align-items-center">
-                    <img src="https://img.etimg.com/thumb/msid-79733946,width-300,imgsize-300305,,resizemode-4,quality-100/cyber.jpg" alt="user_image" width="100px" height="100px">
+                    <img th:src="${user.getImages()?.getPictureForPage()}" alt="" width="100px" height="100px">
                 </div>
                 <div class="col-12 d-flex align-items-center">
                     <h2 id="user_fullName" th:text="${user.getFirstName() + ' ' + user.getLastName()}">Alexandr Alexandrov</h2>
@@ -287,11 +414,10 @@
                         <a class="nav-link active" id="shop_view_btn" aria-current="page"  href="#1">Магазины</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#2" id="orers_view_btn">Заказы</a>
+                        <a class="nav-link" href="#2" id="orders_view_btn">Заказы</a>
                     </li>
                 </ul>
-                <button type="button" class="btn btn-success" id="new_shop">Добавить магазин</button>
-
+                <button type="button" class="btn btn-success" id="add_shop_btn">Добавить магазин</button>
             </div>
         </div>
         <!--панель заказов и магазинов-->
@@ -327,7 +453,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script>
     const shopViewBtn = $('#shop_view_btn');
-    const orderViewBtn = $('#orers_view_btn');
+    const orderViewBtn = $('#orders_view_btn');
     const shopViewPanel = $('#shop_view_panel');
     const orderViewPanel = $('#order_view_panel');
     const userPanelHead = $('#user_panel_head');
@@ -337,13 +463,45 @@
     const user_form = $('#update_user_form');
     const userUpdateBtn = $('#user_update_btn');
 
+    let addShop;
+
+    //кнопка добавления магазина открывает модальное окно
+    $('#add_shop_btn').on('click', function (e) {
+        e.preventDefault();
+        $('#add_shop_modal').modal('show');
+    })
+
+    //изменяет данные картинки магазина
+    $('#imageAddShopSave').change(function () {
+        let image = $('#imageAddShopSave').prop('files')[0];
+        const reader = new FileReader();
+        let fileByteArray = [];
+        reader.readAsArrayBuffer(image);
+        reader.onloadend = (evt) => {
+            if (evt.target.readyState == FileReader.DONE) {
+                var arrayBuffer = evt.target.result,
+                    array = new Uint8Array(arrayBuffer);
+                for (var i = 0; i < array.length; i++) {
+                    if (array[i] <= 127) {
+                        fileByteArray.push(array[i]);
+                    } else {
+                        fileByteArray.push(array[i] - 256);
+                    }
+
+                }
+            }
+            $('#logoarrayAddShopSave').val(fileByteArray.toString());
+            $('#logoAddShopSave').val(URL.createObjectURL(image).toString());
+        }
+    })
+
     $(document).ready(function() {
         let editShop;
         let oldItem;
         getUser().then(u => addUserInformationOnPage(u));
         getShops().then(shops => addShopsOnPage(shops));
 
-        $('#edit_modal').on('hide.bs.modal', function() {
+        $('#edit_modal').on('hide.bs.modal', function () {
             getUser().then(u => addUserInformationOnPage(u));
         })
         $('#delete_shop_modal').on('hide.bs.modal'), function () {
@@ -357,7 +515,7 @@
         $('#item_view_insert').on('click', '#item_edit_open_btn', function () {
             $('#item_view_modal').modal('hide');
             $('#edit_item_modal').modal('show');
-            getItemById($(this).attr('href')).then(i =>  {
+            getItemById($(this).attr('href')).then(i => {
                 insertItemInModal(i);
                 oldItem = i;
             });
@@ -377,11 +535,12 @@
         $(shopContentConteiner).on('click', '#edit_shop_btn', function () {
             $('#edit_shop_modal').modal('show');
             getShopById($(this).attr('href')).then(s => {
-                    getShopInEditModal(s);
-                    editShop = s;
+                getShopInEditModal(s);
+                editShop = s;
             });
 
         })
+
         //кнопка удаления магазина открывает модальное окно
         $(shopContentConteiner).on('click', '#delete_shop_btn', function () {
             getShopById($(this).attr('href')).then(s => {
@@ -399,12 +558,12 @@
             $('#item_view_modal').modal('toggle');
         })
         //кнопка удаления магазина на модальном окне
-        $('#shop_delete_btn').on('click', function() {
+        $('#shop_delete_btn').on('click', function () {
             deleteShopById($(this).attr('href'));
             $('#delete_shop_modal').modal('hide');
         })
         //кнопка изменения магазина на модальном окне
-        $('#shop_edit_btn').on('click',function() {
+        $('#shop_edit_btn').on('click', function () {
             let updatedShop = editOldShop(editShop);
             console.log(updatedShop);
             saveUpdateShop(updatedShop);
@@ -416,11 +575,61 @@
             getShops().then(shops => addShopsOnPage(shops));
         })
 
+        //кнопка изменения пользователя на модальном окне
         $(userUpdateBtn).on('click', function () {
-            updateUser();
             $('#edit_modal').modal('toggle');
+            $('#checkPasswordModal').modal('show');
         })
 
+        //кнопка на модалке подтверждения пароля
+        $('#checkPasswordBtn').on('click', function () {
+            getUser().then(u => {
+                if (u.password === $('#checkPassword').val()) {
+                    updateUser();
+                    $('#checkPasswordModal').modal('toggle');
+                } else {
+                    alert("Пароль введен неверно!")
+                }
+            })
+        })
+
+        //кнопка смены пароля на окне изменения информации открывает модалку для пароля
+        $('#userPasswordChange').on('click', function () {
+            $('#edit_modal').modal('toggle');
+            $('#changePassword').modal('show');
+        })
+
+        //кнопка смены пароля на модальном окне смены пароля
+        $('#passwordChangeBtn').on('click', function () {
+            getUser().then(u => {
+                //проверяем корректность введенных паролей
+                if (u.password === $('#oldPassword').val() &&
+                    $('#newPassword1').val() == $('#newPassword2').val()) {
+                    //отправляем запрос на сервер
+                    updatePassword($('#newPassword2').val(), u.id);
+
+                    $('#changePassword').modal('toggle');
+                    $('#edit_modal').modal("show");
+                    addUserInfoOnModal(u);
+                } else {
+                    //выводим сообщение об ошибке
+                    alert("Пароли не совпадают.. Попробуйте еще раз.")
+                }
+            });
+        })
+
+        //отправка данных о смене пароля на сервер
+        async function updatePassword(newPassword, id) {
+            await fetch("/api/userPage/updatePassword/" + id, {
+                headers: {"Content-Type": "application/json; charset=utf-8"},
+                method: "PATCH",
+                body: JSON.stringify({
+                    password: newPassword
+                }),
+            });
+        }
+
+        //кнопка редактирования профиля
         $(editProfile).on('click', function () {
             $('#edit_modal').modal("show");
             getUser().then(u => addUserInfoOnModal(u));
@@ -429,20 +638,21 @@
         $(shopViewBtn).on('click', function (e) {
             e.preventDefault();
             /*переключаем классы для отображения панели магазинов и скрытия панели заказов*/
-            toggleUserPanel($(this),orderViewBtn,shopViewPanel,orderViewPanel);
+            toggleUserPanel($(this), orderViewBtn, shopViewPanel, orderViewPanel);
             $(userPanelHead).html('Ваши магазины:');
         })
         $(orderViewBtn).on('click', function (e) {
             e.preventDefault();
             getOrders().then(orders => addOrdersOnPage(orders));
             /*переключаем классы для отображения панели заказов и скрытия панели магазинов*/
-            toggleUserPanel($(this),shopViewBtn,orderViewPanel,shopViewPanel);
+            toggleUserPanel($(this), shopViewBtn, orderViewPanel, shopViewPanel);
             $(userPanelHead).html('Ваши заказы:');
         })
         $('#imageItemSave').change(function () {
             let image = $('#imageItemSave').prop('files')[0];
             $('#logoItemSave').val(URL.createObjectURL(image).toString());
         })
+
         //изменяет данные картинки магазина
         $('#imageShopSave').change(function () {
             let image = $('#imageShopSave').prop('files')[0];
@@ -454,7 +664,7 @@
                     var arrayBuffer = evt.target.result,
                         array = new Uint8Array(arrayBuffer);
                     for (var i = 0; i < array.length; i++) {
-                        if(array[i] <= 127) {
+                        if (array[i] <= 127) {
                             fileByteArray.push(array[i]);
                         } else {
                             fileByteArray.push(array[i] - 256);
@@ -465,340 +675,385 @@
                 $('#logoarrayShopSave').val(fileByteArray.toString());
                 $('#logoShopSave').val(URL.createObjectURL(image).toString());
             }
-
         })
 
-    })
-    //удаление итема
-    async function deleteItemById(id) {
-        const response = await fetch("/api/userPage/deleteItem/" + id, {
-            method:'put'
+        /*изменяет данные картинки пользователя*/
+        $('#imageUserSave').change(function () {
+            let image = $('#imageUserSave').prop('files')[0];
+            const reader = new FileReader();
+            let fileByteArray = [];
+            reader.readAsArrayBuffer(image);
+            reader.onloadend = (evt) => {
+                if (evt.target.readyState == FileReader.DONE) {
+                    var arrayBuffer = evt.target.result,
+                        array = new Uint8Array(arrayBuffer);
+                    for (var i = 0; i < array.length; i++) {
+                        if (array[i] <= 127) {
+                            fileByteArray.push(array[i]);
+                        } else {
+                            fileByteArray.push(array[i] - 256);
+                        }
+
+                    }
+                }
+                $('#logoarrayUserSave').val(fileByteArray.toString());
+                $('#logoUserSave').val(URL.createObjectURL(image).toString());
+            }
         })
-    }
-    //изменяем старый итем
-    function editOldItem(oldItem) {
-        oldItem.name = $('#nameItemSave').val();
-        oldItem.price = $('#priceItemSave').val();
-        oldItem.description = $('#descriptionItemSave').val();
-        oldItem.images.push($('#logoItemSave').val());
-        return oldItem;
-    }
-    //update item
-    async function updateItem(item) {
-        console.log("Сохраняемый итем: ");
-        console.log(item);
-        const response = await fetch("/api/item/save" , {
-            headers: { "Content-Type": "application/json; charset=utf-8" },
-            method: "put",
-            body: JSON.stringify(item)
-        })
-    }
-    //вставляем данные итема в форму
-    function insertItemInModal(item) {
-        $('#nameItemSave').val(item.name);
-        $('#priceItemSave').val(item.price);
-        $('#descriptionItemSave').val(item.description);
-        $('#logoItemSave').val(item.images[0]);
-    }
-    //получаем итем по id
-    async function getItemById(id) {
-        const response = await fetch("/api/item/" + id);
-        if(response.ok) {
-            const item = await response.json();
+
+
+        //удаление итема
+        async function deleteItemById(id) {
+            const response = await fetch("/api/userPage/deleteItem/" + id, {
+                method: 'put'
+            })
+        }
+
+        //изменяем старый итем
+        function editOldItem(oldItem) {
+            oldItem.name = $('#nameItemSave').val();
+            oldItem.price = $('#priceItemSave').val();
+            oldItem.description = $('#descriptionItemSave').val();
+            oldItem.images.push($('#logoItemSave').val());
+            return oldItem;
+        }
+
+        //update item
+        async function updateItem(item) {
+            console.log("Сохраняемый итем: ");
             console.log(item);
-            return item;
+            const response = await fetch("/api/item/save", {
+                headers: {"Content-Type": "application/json; charset=utf-8"},
+                method: "put",
+                body: JSON.stringify(item)
+            })
         }
-    }
-    //вставляем данные итемов магазина в модальное окно
-    function insertItemsInModal(shop) {
-        $('#item_view_name').html('');
-        $('#item_view_name').html(shop.name);
-        const items = shop.items;
-        let insert_html = '';
-        for(let i = 0; i < items.length; i++) {
-            if(items[i].pretendentToBeDeleted) {
-                continue;
-            }
-            insert_html += '<tr>\n' +
-                '                        <th><img src="' + items[i].images[0].url + '" alt="" width="80px" height="80px"></th>\n' +
-                '                        <td class="text-center">' + items[i].name + '</td>\n' +
-                '                        <td class="text-center">' + items[i].description + '</td>\n' +
-                '                        <td class="text-center">' + items[i].price + '</td>\n' +
-                '                        <td class="text-center">' + items[i].rating + '</td>\n' +
-                '                        <td class="text-center"><button class="btn btn-outline-primary" style="height: 38px;" id="item_edit_open_btn" href="' + items[i].id + '" type="button">Изменить</button></td>\n' +
-                '                        <td class="text-center"><button class="btn btn-outline-danger" style="height: 38px;" id="item_delete_btn" href="' + items[i].id + '" type="button">Удалить</button></td>\n' +
-                '                    </tr>';
-        }
-        $('#item_view_insert').html('');
-        $('#item_view_insert').html(insert_html);
-    }
-    //удаляем магазин по id
-    async function deleteShopById(shopId) {
-        fetch("/api/userPage/deleteShop/" + shopId, {
-            method: "put"
-        });
-    }
-    //получаем магазин по id
-    async function getShopById(shopId) {
-        const response = await fetch("/api/shop/" + shopId);
-        if(response.ok) {
-            const shop = await response.json();
-            return shop;
-        }
-        return null;
-    }
-    //заполняем инфо в модальном окне
-    function getShopInEditModal(shop) {
-        if(shop === null) {
-            alert("Ошибка при получении магазина");
-        } else {
-            $('#nameShopSave').val(shop.name);
-            $('#emailShopSave').val(shop.email);
-            $('#descriptionShopSave').val(shop.description);
-            $('#phoneShopSave').val(shop.phone);
-            $('#locationShopSave').val(shop.location);
-            $('#logoarrayShopSave').val(shop.logoarray);
-            $('#logoShopSave').val(shop.logo);
-        }
-    }
-    //изменение магазина
-    function editOldShop(oldShop) {
-        if(oldShop === null) {
-            alert("Ошибка изменения магазина");
-        } else {
-            oldShop.logoarray = $('#logoarrayShopSave').val();
-            oldShop.logo = $('#logoShopSave').val();
-            oldShop.name = $('#nameShopSave').val();
-            oldShop.email = $('#emailShopSave').val();
-            oldShop.description = $('#descriptionShopSave').val();
-            oldShop.location = $('#locationShopSave').val();
-            oldShop.phone = $('#phoneShopSave').val();
 
-            return oldShop;
+        //вставляем данные итема в форму
+        function insertItemInModal(item) {
+            $('#nameItemSave').val(item.name);
+            $('#priceItemSave').val(item.price);
+            $('#descriptionItemSave').val(item.description);
+            $('#logoItemSave').val(item.images[0]);
         }
-    }
 
-    //отправка изменений на сервер
-    async function saveUpdateShop(updateShop) {
-        await fetch("/api/shop/save", {
-            headers: { "Content-Type": "application/json; charset=utf-8" },
-            method: "put",
-            body: JSON.stringify(updateShop)
-        });
-    }
-    //получаем авторизованого юзера
-    async function getUser() {
-        const response = await fetch("/api/userPage/user");
-        if(response.ok) {
-            const user = await response.json();
-            return user;
-        }
-    }
-    //Добавляет информацию юзера на страницу
-    function addUserInformationOnPage(e) {
-        $('#user_fullName').html('');
-        $('#user_fullName').html(e.firstName + ' ' + e.lastName);
-        $('#user_username').html('');
-        $('#user_username').html(e.username);
-        $('#user_email').html('');
-        $('#user_email').html(e.email);
-        $('#user_phone').html('');
-        $('#user_phone').html(e.phone);
-        $('#user_country').html('');
-        $('#user_country').html(e.address.country);
-        $('#user_city').html('');
-        $('#user_city').html(e.address.city);
-        $('#user_street').html('');
-        $('#user_street').html(e.address.street);
-        $('#user_house').html('');
-        $('#user_house').html(e.address.house);
-        $('#user_cityIndex').html('');
-        $('#user_cityIndex').html(e.address.cityIndex);
-        $('#user_gender').html('');
-        $('#user_gender').html(e.gender);
-        $('#user_age').html('');
-        $('#user_age').html(e.age);
-        $('#user_date').html('');
-        $('#user_date').html(e.birthday);
-    }
-    //добавляет информацию юзера в модальное окно
-    function addUserInfoOnModal(e) {
-        $('#first_nameSave').val(e.firstName);
-        $('#last_nameSave').val(e.lastName);
-        $('#emailSave').val(e.email);
-        $('#phoneSave').val(e.phone);
-        $('#ageSave').val(e.age);
-        $('#countrySave').val(e.address.country);
-        $('#citySave').val(e.address.city);
-        $('#cityIndexSave').val(e.address.cityIndex);
-        $('#streetSave').val(e.address.street);
-        $('#houseSave').val(e.address.house);
-        $('#birthdaySave').val(e.birthday);
-        $('#genderSave option').each(function () {
-            if($(this).val() === e.gender) {
-                $(this).prop("selected", true);
-            }
-        })
-
-
-    }
-    //обновляем юзера
-    async function updateUser() {
-        let response = await fetch("/api/userPage/user", {
-            headers: { "Content-Type": "application/json; charset=utf-8" },
-            method: 'put',
-            body: JSON.stringify(getJsonFromFormUpdate())
-        })
-    }
-    //получаем данные юзера с формы в модальном окне обновления юзера
-    function getJsonFromFormUpdate() {
-        const userJson = {
-            username: $('#usernameSave').val(),
-            firstName: $('#first_nameSave').val(),
-            lastName: $('#last_nameSave').val(),
-            email: $('#emailSave').val(),
-            phone: $('#phoneSave').val(),
-            age: $('#ageSave').val(),
-            birthday: $('#birthdaySave').val(),
-            gender: $('#genderSave').val(),
-            address: {
-                country: $('#countrySave').val(),
-                street: $('#streetSave').val(),
-                city: $('#citySave').val(),
-                cityIndex: $('#cityIndexSave').val(),
-                house: $('#houseSave').val()
+        //получаем итем по id
+        async function getItemById(id) {
+            const response = await fetch("/api/item/" + id);
+            if (response.ok) {
+                const item = await response.json();
+                console.log(item);
+                return item;
             }
         }
-        return userJson;
-    }
-    //получаем заказы по id юзера
-    async function getOrders() {
-        const response = await fetch("/api/userPage/orders");
-        if(response.ok) {
-            const orders = await response.json();
-            return orders;
-        }
-    }
-    //получаем магазины по id пользователя
-    async function getShops() {
-        const response = await fetch("/api/userPage/shops");
-        if(response.ok) {
-            const shops = await response.json();
-            return shops;
-        }
-    }
-    //добавляем информацию по магазинам пользователя
-    function addShopsOnPage(shops) {
-        let insert_html = '';
-        if(shops.length === 0) {
-            shopContentConteiner.html('');
-            shopContentConteiner.html('<h2>У вас пока нет магазинов</h2>');
-        }
-        console.log(shops);
-        let activity = '';
-        for(let i = 0; i < shops.length; i++) {
-            if(shops[i].pretendentToBeDeleted) {
-                activity = "<i style='color:red;'>Удалён</i>";
-            } else if(shops[i].moderated && shops[i].moderateAccept) {
-                activity = "<i style='color:green;'>Активен</i>";
-            } else if(shops[i].moderated && !shops[i].moderateAccept) {
-                activity = "<i style='color:red;'>Не прошёл проверку</i>";
-            } else {
-                activity = "<i style='color:blue;'>На проверке</i>";
-            }
-            insert_html += '<div class="col-12 shadow-sm px-2 py-3" style="margin-bottom: 20px;">\n' +
-                '                            <div class="row">\n' +
-                '                                <div class="col-12">\n' +
-                '                                    <img src="' + shops[i].logo + '" alt="" width="300px" height="150px">\n' +
-                '                                </div>\n' +
-                '                                <div class="col-12 d-flex justify-content-between">\n' +
-                '                                    <a href="/showcase/' + shops[i].id + '" style="color:#000;"><b>' + shops[i].name + '</b></a>\n' +
-                '                                    <b>' + activity + '</b>\n' +
-                '                                </div>\n' +
-                '                                <div class="col-12 mt-3">\n' +
-                '                                    <p>Email: <b>' + shops[i].email + '</b></p>\n' +
-                '                                </div>\n' +
-                '                                <div class="col-12">\n' +
-                '                                    <p>Номер телеона: <b>' + shops[i].phone + '</b></p>\n' +
-                '                                </div>\n' +
-                '                                <div class="col-12">\n' +
-                '                                    <p>Описание: <b>' + shops[i].description + '</b></p>\n' +
-                '                                </div>\n' +
-                '                                <div class="col-12">\n' +
-                '                                    <p>Страна: <b>' + shops[i].location + '</b></p>\n' +
-                '                                </div>\n' +
-                '                                <div class="col-12">\n' +
-                '                                    <p>Рейтинг: <b>' + shops[i].rating + '</b></p>\n' +
-                '                                </div>\n' +
-                '                                <div class="col-12">\n' +
-                '                                    <button type="button" id="view_product_brn" href="' + shops[i].id + '" class="btn btn-outline-success">Смотреть товары</button>\n' +
-                '                                    <button type="button" id="edit_shop_btn" href="' + shops[i].id + '" class="btn btn-outline-primary">Изменить</button>\n' +
-                '                                    <button type="button" id="delete_shop_btn" href="' + shops[i].id + '" class="btn btn-outline-danger">Удалить</button>\n' +
-                '                                </div>\n' +
-                '                            </div>\n' +
-                '                        </div>';
 
-        }
-        shopContentConteiner.html('');
-        shopContentConteiner.html(insert_html);
-    }
-    //добавляем информацию по заказам пользователя
-    function addOrdersOnPage(orders) {
-        let insert_html = '';
-        if(orders.length === 0) {
-            orderContentConteiner.html('');
-            orderContentConteiner.html('<h2>У вас пока нет заказов</h2>');
-        }
-        for(let i = 0; i < orders.length; i++) {
-            insert_html += '<div class="row my-2">\n' +
-                '                            <div class="col-12 d-flex justify-content-between px-4">\n' +
-                '                                <div>Дата заказа: <b>' + orders[i].date + '</b></div>\n' +
-                '                                <b>' + orders[i].status + '</b>\n' +
-                '                            </div>\n' +
-                '                            <div class="col-12 d-flex justify-content-between px-4">\n' +
-                '                                <div>Адрес доставки: <b>' + orders[i].country + ', г.' + orders[i].city + ', ул.' + orders[i].street + ', д.' + orders[i].house + '</b></div>\n' +
-                '                            </div>\n' +
-                '                            <div class="col-12 d-flex justify-content-between px-4">\n' +
-                '                                <div>Сумма заказа: <b>' + orders[i].total + '</b></div>\n' +
-                '                            </div>\n' +
-                '                            <div class="col-12 px-4">\n' +
-                '                                <table class="table table-striped" id="items_by_orders_table">\n' +
-                '                                    <thead>\n' +
-                '                                    <tr>\n' +
-                '                                        <th scope="col"></th>\n' +
-                '                                        <th scope="col"></th>\n' +
-                '                                        <th scope="col"></th>\n' +
-                '                                        <th scope="col"></th>\n' +
-                '                                        <th scope="col"></th>\n' +
-                '                                    </tr>\n' +
-                '                                    </thead>\n' +
-                '                                       <tbody id="insert_items_by_order">\n';
-            for(let t = 0; t < orders[i].items.length; t++) {
+        //вставляем данные итемов магазина в модальное окно
+        function insertItemsInModal(shop) {
+            $('#item_view_name').html('');
+            $('#item_view_name').html(shop.name);
+            const items = shop.items;
+            let insert_html = '';
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].pretendentToBeDeleted) {
+                    continue;
+                }
                 insert_html += '<tr>\n' +
-                    '              <td><img src="' + orders[i].items[t].images[0].url + '" alt="item_img" width="80px" height="45px"></td>\n' +
-                    '              <td>' + orders[i].items[t].name + '</td>\n' +
-                    '              <td>' + orders[i].items[t].categories[0].name + '</td>\n' +
-                    '              <td>' + orders[i].items[t].price + '</td>\n' +
-                    '              <td>\n' +
-                    '                 <a href="/product/' + orders[i].items[t].id + '">Страница товара</a>\n' +
-                    '              </td>\n' +
-                    '           </tr>'
+                    '                        <th><img src="' + items[i].images[0].url + '" alt="" width="80px" height="80px"></th>\n' +
+                    '                        <td class="text-center">' + items[i].name + '</td>\n' +
+                    '                        <td class="text-center">' + items[i].description + '</td>\n' +
+                    '                        <td class="text-center">' + items[i].price + '</td>\n' +
+                    '                        <td class="text-center">' + items[i].rating + '</td>\n' +
+                    '                        <td class="text-center"><button class="btn btn-outline-primary" style="height: 38px;" id="item_edit_open_btn" href="' + items[i].id + '" type="button">Изменить</button></td>\n' +
+                    '                        <td class="text-center"><button class="btn btn-outline-danger" style="height: 38px;" id="item_delete_btn" href="' + items[i].id + '" type="button">Удалить</button></td>\n' +
+                    '                    </tr>';
             }
-            insert_html += '                               </tbody>\n' +
-                '                                </table>\n' +
-                '                            </div>\n' +
-                '                        </div>';
+            $('#item_view_insert').html('');
+            $('#item_view_insert').html(insert_html);
         }
-        orderContentConteiner.html('');
-        orderContentConteiner.html(insert_html);
-    }
 
-    function toggleUserPanel(e1,e2,p1,p2) {
-        $(e1).addClass('active');
-        $(e2).removeClass('active');
-        $(p1).addClass('show');
-        $(p2).removeClass('show');
-    }
+        //удаляем магазин по id
+        async function deleteShopById(shopId) {
+            fetch("/api/userPage/deleteShop/" + shopId, {
+                method: "put"
+            });
+        }
+
+        //получаем магазин по id
+        async function getShopById(shopId) {
+            const response = await fetch("/api/shop/" + shopId);
+            if (response.ok) {
+                const shop = await response.json();
+                return shop;
+            }
+            return null;
+        }
+
+        //заполняем инфо в модальном окне
+        function getShopInEditModal(shop) {
+            if (shop === null) {
+                alert("Ошибка при получении магазина");
+            } else {
+                $('#nameShopSave').val(shop.name);
+                $('#emailShopSave').val(shop.email);
+                $('#descriptionShopSave').val(shop.description);
+                $('#phoneShopSave').val(shop.phone);
+                $('#locationShopSave').val(shop.location);
+                $('#logoarrayShopSave').val(shop.logoarray);
+                $('#logoShopSave').val(shop.logo);
+            }
+        }
+
+        //изменение магазина
+        function editOldShop(oldShop) {
+            if (oldShop === null) {
+                alert("Ошибка изменения магазина");
+            } else {
+                oldShop.logoarray = $('#logoarrayShopSave').val();
+                oldShop.logo = $('#logoShopSave').val();
+                oldShop.name = $('#nameShopSave').val();
+                oldShop.email = $('#emailShopSave').val();
+                oldShop.description = $('#descriptionShopSave').val();
+                oldShop.location = $('#locationShopSave').val();
+                oldShop.phone = $('#phoneShopSave').val();
+
+                return oldShop;
+            }
+        }
+
+        //отправка изменений на сервер
+        async function saveUpdateShop(updateShop) {
+            await fetch("/api/shop/save", {
+                headers: {"Content-Type": "application/json; charset=utf-8"},
+                method: "put",
+                body: JSON.stringify(updateShop)
+            });
+        }
+
+        //получаем авторизованого юзера
+        async function getUser() {
+            const response = await fetch("/api/userPage/user");
+            if (response.ok) {
+                const user = await response.json();
+                return user;
+            }
+        }
+
+        //Добавляет информацию юзера на страницу
+        function addUserInformationOnPage(e) {
+            $('#user_fullName').html('');
+            $('#user_fullName').html(e.firstName + ' ' + e.lastName);
+            $('#user_username').html('');
+            $('#user_username').html(e.username);
+            $('#user_email').html('');
+            $('#user_email').html(e.email);
+            $('#user_phone').html('');
+            $('#user_phone').html(e.phone);
+            $('#user_country').html('');
+            $('#user_country').html(e.address.country);
+            $('#user_city').html('');
+            $('#user_city').html(e.address.city);
+            $('#user_street').html('');
+            $('#user_street').html(e.address.street);
+            $('#user_house').html('');
+            $('#user_house').html(e.address.house);
+            $('#user_cityIndex').html('');
+            $('#user_cityIndex').html(e.address.cityIndex);
+            $('#user_gender').html('');
+            $('#user_gender').html(e.gender);
+            $('#user_age').html('');
+            $('#user_age').html(e.age);
+            $('#user_date').html('');
+            $('#user_date').html(e.birthday);
+        }
+
+        //добавляет информацию юзера в модальное окно
+        function addUserInfoOnModal(e) {
+            $('#first_nameSave').val(e.firstName);
+            $('#last_nameSave').val(e.lastName);
+            $('#emailSave').val(e.email);
+            $('#phoneSave').val(e.phone);
+            $('#ageSave').val(e.age);
+            $('#countrySave').val(e.address.country);
+            $('#citySave').val(e.address.city);
+            $('#cityIndexSave').val(e.address.cityIndex);
+            $('#streetSave').val(e.address.street);
+            $('#houseSave').val(e.address.house);
+            $('#birthdaySave').val(e.birthday);
+            $('#genderSave option').each(function () {
+                if ($(this).val() === e.gender) {
+                    $(this).prop("selected", true);
+                }
+            })
+
+
+        }
+
+        //обновляем юзера
+        async function updateUser() {
+            let response = await fetch("/api/userPage/user", {
+                headers: {"Content-Type": "application/json; charset=utf-8"},
+                method: 'put',
+                body: JSON.stringify(getJsonFromFormUpdate())
+            })
+        }
+
+        //получаем данные юзера с формы в модальном окне обновления юзера
+        function getJsonFromFormUpdate() {
+            const userJson = {
+                logo: $('#logoUserSave').val(),
+                logoarray: $('#logoarrayUserSave').val(),
+                username: $('#usernameSave').val(),
+                firstName: $('#first_nameSave').val(),
+                lastName: $('#last_nameSave').val(),
+                email: $('#emailSave').val(),
+                phone: $('#phoneSave').val(),
+                age: $('#ageSave').val(),
+                birthday: $('#birthdaySave').val(),
+                gender: $('#genderSave').val(),
+                address: {
+                    country: $('#countrySave').val(),
+                    street: $('#streetSave').val(),
+                    city: $('#citySave').val(),
+                    cityIndex: $('#cityIndexSave').val(),
+                    house: $('#houseSave').val()
+                }
+            }
+            return userJson;
+        }
+
+        //получаем заказы по id юзера
+        async function getOrders() {
+            const response = await fetch("/api/userPage/orders");
+            if (response.ok) {
+                const orders = await response.json();
+                return orders;
+            }
+        }
+
+        //получаем магазины по id пользователя
+        async function getShops() {
+            const response = await fetch("/api/userPage/shops");
+            if (response.ok) {
+                const shops = await response.json();
+                return shops;
+            }
+        }
+
+        //добавляем информацию по магазинам пользователя
+        function addShopsOnPage(shops) {
+            let insert_html = '';
+            if (shops.length === 0) {
+                shopContentConteiner.html('');
+                shopContentConteiner.html('<h2>У вас пока нет магазинов</h2>');
+            }
+            console.log(shops);
+            let activity = '';
+            for (let i = 0; i < shops.length; i++) {
+                if (shops[i].pretendentToBeDeleted) {
+                    activity = "<i style='color:red;'>Удалён</i>";
+                } else if (shops[i].moderated && shops[i].moderateAccept) {
+                    activity = "<i style='color:green;'>Активен</i>";
+                } else if (shops[i].moderated && !shops[i].moderateAccept) {
+                    activity = "<i style='color:red;'>Не прошёл проверку</i>";
+                } else {
+                    activity = "<i style='color:blue;'>На проверке</i>";
+                }
+                insert_html += '<div class="col-12 shadow-sm px-2 py-3" style="margin-bottom: 20px;">\n' +
+                    '                            <div class="row">\n' +
+                    '                                <div class="col-12">\n' +
+                    '                                    <img src="' + shops[i].logoarray + '" alt="" width="300px" height="150px">\n' +
+                    '                                </div>\n' +
+                    '                                <div class="col-12 d-flex justify-content-between">\n' +
+                    '                                    <a href="/showcase/' + shops[i].id + '" style="color:#000;"><b>' + shops[i].name + '</b></a>\n' +
+                    '                                    <b>' + activity + '</b>\n' +
+                    '                                </div>\n' +
+                    '                                <div class="col-12 mt-3">\n' +
+                    '                                    <p>Email: <b>' + shops[i].email + '</b></p>\n' +
+                    '                                </div>\n' +
+                    '                                <div class="col-12">\n' +
+                    '                                    <p>Номер телеона: <b>' + shops[i].phone + '</b></p>\n' +
+                    '                                </div>\n' +
+                    '                                <div class="col-12">\n' +
+                    '                                    <p>Описание: <b>' + shops[i].description + '</b></p>\n' +
+                    '                                </div>\n' +
+                    '                                <div class="col-12">\n' +
+                    '                                    <p>Страна: <b>' + shops[i].location + '</b></p>\n' +
+                    '                                </div>\n' +
+                    '                                <div class="col-12">\n' +
+                    '                                    <p>Рейтинг: <b>' + shops[i].rating + '</b></p>\n' +
+                    '                                </div>\n' +
+                    '                                <div class="col-12">\n' +
+                    '                                    <button type="button" id="view_product_brn" href="' + shops[i].id + '" class="btn btn-outline-success">Смотреть товары</button>\n' +
+                    '                                    <button type="button" id="edit_shop_btn" href="' + shops[i].id + '" class="btn btn-outline-primary">Изменить</button>\n' +
+                    '                                    <button type="button" id="delete_shop_btn" href="' + shops[i].id + '" class="btn btn-outline-danger">Удалить</button>\n' +
+                    '                                </div>\n' +
+                    '                            </div>\n' +
+                    '                        </div>';
+
+            }
+            shopContentConteiner.html('');
+            shopContentConteiner.html(insert_html);
+        }
+
+        //добавляем информацию по заказам пользователя
+        function addOrdersOnPage(orders) {
+            let insert_html = '';
+            if (orders.length === 0) {
+                orderContentConteiner.html('');
+                orderContentConteiner.html('<h2>У вас пока нет заказов</h2>');
+            }
+            for (let i = 0; i < orders.length; i++) {
+                insert_html += '<div class="row my-2">\n' +
+                    '                            <div class="col-12 d-flex justify-content-between px-4">\n' +
+                    '                                <div>Дата заказа: <b>' + orders[i].date + '</b></div>\n' +
+                    '                                <b>' + orders[i].status + '</b>\n' +
+                    '                            </div>\n' +
+                    '                            <div class="col-12 d-flex justify-content-between px-4">\n' +
+                    '                                <div>Адрес доставки: <b>' + orders[i].country + ', г.' + orders[i].city + ', ул.' + orders[i].street + ', д.' + orders[i].house + '</b></div>\n' +
+                    '                            </div>\n' +
+                    '                            <div class="col-12 d-flex justify-content-between px-4">\n' +
+                    '                                <div>Сумма заказа: <b>' + orders[i].total + '</b></div>\n' +
+                    '                            </div>\n' +
+                    '                            <div class="col-12 px-4">\n' +
+                    '                                <table class="table table-striped" id="items_by_orders_table">\n' +
+                    '                                    <thead>\n' +
+                    '                                    <tr>\n' +
+                    '                                        <th scope="col"></th>\n' +
+                    '                                        <th scope="col"></th>\n' +
+                    '                                        <th scope="col"></th>\n' +
+                    '                                        <th scope="col"></th>\n' +
+                    '                                        <th scope="col"></th>\n' +
+                    '                                    </tr>\n' +
+                    '                                    </thead>\n' +
+                    '                                       <tbody id="insert_items_by_order">\n';
+                for (let t = 0; t < orders[i].items.length; t++) {
+                    insert_html += '<tr>\n' +
+                        '              <td><img src="' + orders[i].items[t].images[0].url + '" alt="item_img" width="80px" height="45px"></td>\n' +
+                        '              <td>' + orders[i].items[t].name + '</td>\n' +
+                        '              <td>' + orders[i].items[t].categories[0].name + '</td>\n' +
+                        '              <td>' + orders[i].items[t].price + '</td>\n' +
+                        '              <td>\n' +
+                        '                 <a href="/product/' + orders[i].items[t].id + '">Страница товара</a>\n' +
+                        '              </td>\n' +
+                        '           </tr>'
+                }
+                insert_html += '                               </tbody>\n' +
+                    '                                </table>\n' +
+                    '                            </div>\n' +
+                    '                        </div>';
+            }
+            orderContentConteiner.html('');
+            orderContentConteiner.html(insert_html);
+        }
+
+        function toggleUserPanel(e1, e2, p1, p2) {
+            $(e1).addClass('active');
+            $(e2).removeClass('active');
+            $(p1).addClass('show');
+            $(p2).removeClass('show');
+        }
+    })
 </script>
+<script type="text/javascript" th:src="@{/js/addNewShop.js}" src="../static/js/addNewShop.js"></script>
 </body>
 </html>

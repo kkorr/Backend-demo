@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.math.BigDecimal;
+
 @ApiIgnore
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,7 +16,7 @@ import springfox.documentation.annotations.ApiIgnore;
 public class MainPageItemDto {
     private Long id;
     private String name;
-    private double price;
+    private BigDecimal price;
     private int discount;
     private float rating;
     private String imageUrl;
