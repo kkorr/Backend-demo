@@ -6,7 +6,7 @@ async function getItems() {
 
     console.log("Статус ответа: " + response.status);
     if (cartItems.length > 0) {
-        checkPaymentButton()
+        //checkPaymentButton()
 
         for (let i = 0; i < cartItems.length; i++) {
             // раскомментировать при добавлении функции подсчета скидки

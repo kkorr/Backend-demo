@@ -33,7 +33,7 @@
       <div>
         <a href="/order/{id}" sec:authorize="isAuthenticated()" id="order_btn" class="btn btn-primary">Перейти к оформлению заказа</a>
       </div>
-      <div id="paymentButton" >
+      <div id="paymentButton" sec:authorize="isAuthenticated()">
       </div>
       <div class="form-group mt-2">
         <a href="/">
