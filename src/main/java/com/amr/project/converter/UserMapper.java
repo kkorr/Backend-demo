@@ -38,6 +38,10 @@ public interface UserMapper {
             return new byte[0];
         }
 
+        if (logoarray == null) {
+            return null;
+        }
+
         String[] stringBytesArray = logoarray.split(",");
         byte[] picture = new byte[stringBytesArray.length];
         for(int i = 0; i < picture.length; i++) {

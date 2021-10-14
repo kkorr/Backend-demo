@@ -43,10 +43,6 @@ public interface ShopMapper {
     Shop shopDtoToShop(ShopDto shopDto);
 
     default String map(byte[] picture) {
-        if (picture == null) {
-            return null;
-        }
-
         String str_ = "data:jpg;base64,";
         /*String str = Arrays.toString(picture);
         str.replace("[", "");
@@ -56,7 +52,11 @@ public interface ShopMapper {
     }
 
     default byte[] map(String logoarray) {
-        if (logoarray == null || logoarray.length() == 0) {
+        if (logoarray == "") {
+            return new byte[0];
+        }
+
+        if (logoarray == null) {
             return null;
         }
 
