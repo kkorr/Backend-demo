@@ -87,8 +87,8 @@ public class CartRestController {
     @Transactional
     @PatchMapping("/update/{id}")
     public ResponseEntity<Void> updateCartItemQuantity(@PathVariable("id") Long id, @RequestBody CartItemDto cartItem) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//
 //        if(!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
 //            throw new AccessDeniedException("Вам нужно авторизоваться для доступа к корзине");
 //        }
