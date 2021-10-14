@@ -44,7 +44,7 @@ public class ShopRestController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ShopDto> getShop(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(ShopMapper.INSTANCE.shopToShopDto(shopService.getByKey(id)), HttpStatus.OK);
+        return new ResponseEntity<>(shopMapper.shopToShopDto(shopService.getByKey(id)), HttpStatus.OK);
     }
 
     @PutMapping("/save")
@@ -76,23 +76,7 @@ public class ShopRestController {
 
     @PostMapping("/add")
     public ResponseEntity<Shop> addItem(@RequestBody ShopDto shopDto, Authentication authentication) {
-        Shop shop = shopMapper.shopDtoToShop(shopDto);
-
-        Image image = Image.builder()
-                .url(shop.getLogo().getUrl())
-                .picture(shop.getLogo().getPicture())
-                .isMain(true)
-                .build();
-
-        if (countryService.getByName(shopDto.getLocation()) == null) {
-            countryService.persist(new Country(shopDto.getLocation()));
-        }
-        shop.setLocation(countryService.getByName(shopDto.getLocation()));
-
-        shop.setUser(userService.findByUsername(authentication.getName()).get());
-        shop.setLogo(image);
-        shopService.persist(shop);
-
+        Shop shop = shopService.addShop(shopDto, userService.findByUsername(authentication.getName()).get());
         return new ResponseEntity<>(shop, HttpStatus.CREATED);
     }
 
