@@ -24,6 +24,7 @@ INSERT INTO platform.user (id, activate, activation_code, age, birthday, email, 
 INSERT INTO platform.item (id) VALUES (1);
 INSERT INTO platform.shop (id) VALUES (1);
 
+
 INSERT INTO role
 VALUES ('3', 'USER');
 
