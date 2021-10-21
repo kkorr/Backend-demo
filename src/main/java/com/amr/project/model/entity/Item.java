@@ -27,6 +27,9 @@ public class Item {
     private String name;
 
     @Column
+    private BigDecimal basePrice;
+
+    @Column
     private BigDecimal price;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
