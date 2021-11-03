@@ -47,18 +47,19 @@
                      Зарегистрироваться
                   </button>
 
-                  <script>
-                     $(document).ready(function () {
-                        if (window.location.href !== 'http://localhost:8888/') {
-                           $('#user_open_modal_btn').hide();
-                        }
-                     })
-                     $(document).ready(function () {
-                        if (window.location.href !== 'http://localhost:8888/') {
-                           $('#user_open_modal_reg').hide();
-                        }
-                     })
-                  </script>
+                  <!--          непонятно кто и c какой целью написал заккоментированный код ниже        <script>-->
+<!--                  <script>-->
+<!--                     $(document).ready(function () {-->
+<!--                        if (window.location.href !== 'http://localhost:8888/') {-->
+<!--                           $('#user_open_modal_btn').hide();-->
+<!--                        }-->
+<!--                     })-->
+<!--                     $(document).ready(function () {-->
+<!--                        if (window.location.href !== 'http://localhost:8888/') {-->
+<!--                           $('#user_open_modal_reg').hide();-->
+<!--                        }-->
+<!--                     })-->
+<!--                  </script>-->
 
                   <!--ссылка и информация пользователя при аутентификации-->
                   <div class="dropdown" sec:authorize="isAuthenticated()" style="position: relative; ">
