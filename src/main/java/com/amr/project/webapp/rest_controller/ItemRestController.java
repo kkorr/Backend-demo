@@ -1,12 +1,15 @@
 package com.amr.project.webapp.rest_controller;
 
 import com.amr.project.converter.ItemMapper;
+import com.amr.project.model.dto.CategoryDto;
 import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.entity.Image;
 import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.Review;
 import com.amr.project.service.abstracts.ImageService;
 import com.amr.project.service.abstracts.ItemService;
+import com.amr.project.service.abstracts.MainPageItemService;
+import com.amr.project.service.abstracts.MainPageShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,22 +17,32 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
 @RestController
 @RequestMapping("/api/item")
 public class ItemRestController {
-
+    private final MainPageItemService mainPageItemService;
+    private final MainPageShopService mainPageShopService;
     private final ItemService itemService;
     private final ItemMapper itemMapper;
     private final ImageService imageService;
 
     @Autowired
-    public ItemRestController(ItemService itemService, ItemMapper itemMapper, ImageService imageService) {
+    public ItemRestController(ItemService itemService, ItemMapper itemMapper, ImageService imageService,
+                              MainPageItemService mainPageItemService, MainPageShopService mainPageShopService) {
         this.itemService = itemService;
         this.itemMapper = itemMapper;
         this.imageService = imageService;
+        this.mainPageItemService = mainPageItemService;
+        this.mainPageShopService = mainPageShopService;
+    }
+
+    @GetMapping("/popular")
+    public ResponseEntity<List<ItemDto>> getItem() {
+        return new ResponseEntity<>(mainPageItemService.findPopularItems(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
