@@ -39,7 +39,6 @@ public class ItemRestController {
         this.mainPageItemService = mainPageItemService;
         this.mainPageShopService = mainPageShopService;
     }
-
     @GetMapping("/popular")
     public ResponseEntity<List<ItemDto>> getItem() {
         return new ResponseEntity<>(mainPageItemService.findPopularItems(), HttpStatus.OK);
