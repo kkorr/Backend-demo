@@ -40,10 +40,11 @@ public class FavoriteController {
 
     @PostMapping("/favorites")
     public FavoriteDto getProfilePost(@RequestBody String userName) {
+        System.out.println("Received: "+userName);
         //todo: контроль входного параметра userName. Вдруг там строка с хакерским кодом
         Optional<User> user = userService.findByUsername(userName);
         Favorite fav = user.map(User::getFavorite).orElse(new Favorite());
-
+        System.out.println("Sent: "+fav);
         return new FavoriteDto(fav);
     }
 
